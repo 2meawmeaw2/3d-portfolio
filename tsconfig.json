@@ -22,6 +22,15 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "public/Room.jsx",
+    "app/component/Text.jsx",
+    "public/Screen.jsx",
+    "public/monitor_vii_series_finale_gltf/screen.jsx"
+  ],
   "exclude": ["node_modules"]
 }

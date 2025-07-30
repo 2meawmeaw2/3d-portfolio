@@ -1,26 +1,34 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-outfit: var(--font-outfit);
+  --color-blue: #155cfb;
+  --color-neon: #03e7f1;
+  --color-neon-shadow: rgba(0, 255, 0, 0.3);
+  /* ... */
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit);
+  background-color: #111111;
+}
+
+/* your-custom.css */
+@layer utilities {
+  .work {
+    box-shadow: var(--color-blue) 0px 0px 32.7098px 0px;
+  }
+  .check-work {
+    box-shadow: var(--color-neon-shadow) 0px 0px 20px 0px;
+  }
+  .name-stroke {
+    -webkit-text-stroke: 2px var(--color-blue);
+    text-stroke: 2px var(--color-blue);
+  }
+  .name-shadow {
+    text-shadow: 0px 0px 32.7098px var(--color-blue);
+  }
+  .tag-shadow {
+    box-shadow: var(--color-blue) 0px 0px 5px 1px;
+  }
+  /* Add more variations for different stroke widths and colors */
 }
