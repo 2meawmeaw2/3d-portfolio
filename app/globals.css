@@ -7,11 +7,25 @@
   --color-neon-shadow: rgba(0, 255, 0, 0.3);
   /* ... */
 }
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-outfit);
   background-color: #111111;
 }
+#About {
+  contain: layout style paint; /* CSS containment for performance */
+  content-visibility: auto; /* Only render when visible */
+  will-change: transform;
+}
 
+/* Optimize the View component */
+#About canvas {
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
 /* your-custom.css */
 @layer utilities {
   .work {

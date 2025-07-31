@@ -15,6 +15,7 @@ const Text = (props: Props) => {
     : { floatIntensity: 0, speed: 0, rotationIntensity: 0 };
   return (
     <Float
+      scale={0.5}
       {...floatOptions}
       position={[props.position[0], props.position[1], props.position[2]]}
     >

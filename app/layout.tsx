@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${outfit.variable} relative antialiased  overflow-x-clip `}
       >
-        <nav className="sticky  top-0 z-50 ">
+        <nav className="sticky  top-0 z-100 ">
           <RealNavBar />
         </nav>
         <main className="relative">

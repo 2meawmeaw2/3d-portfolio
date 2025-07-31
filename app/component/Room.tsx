@@ -37,16 +37,21 @@ export const Roomw = () => {
       position={[4 * factors.xFactor, -2 * factors.yFactor, 0]}
       scale={0.8 * factors.scaleFactor}
     >
-      <ambientLight intensity={10} />
-      <OrbitControls
-        target={screen.current?.position ?? [0, 0, 0]}
-        // point camera looks at
-        maxPolarAngle={Math.PI / 2} // vertical limit (0 = top, π = bottom)
-        minPolarAngle={Math.PI / 3} // upward limit
-        maxAzimuthAngle={Math.PI / 6} // horizontal right limit
-        minAzimuthAngle={-Math.PI / 6}
-        enableZoom={false}
+      <ambientLight intensity={4} />
+      <ambientLight intensity={10} color={"#155cfb"} />
+      <directionalLight
+        castShadow
+        intensity={5}
+        color={"#155cfb"}
+        position={[0, 4, 0]}
       />
+      <directionalLight
+        intensity={5}
+        color={"#155cfb"}
+        position={[0, 4, 2]}
+        castShadow
+      />
+
       <color attach="background" args={["#000000"]} />
       <Screen ref={screen} />
     </group>

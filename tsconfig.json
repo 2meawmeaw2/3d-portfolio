@@ -30,7 +30,8 @@
     "public/Room.jsx",
     "app/component/Text.jsx",
     "public/Screen.jsx",
-    "public/monitor_vii_series_finale_gltf/screen.jsx"
+    "public/monitor_vii_series_finale_gltf/screen.jsx",
+    "app/component2D/card.jsx"
   ],
   "exclude": ["node_modules"]
 }
