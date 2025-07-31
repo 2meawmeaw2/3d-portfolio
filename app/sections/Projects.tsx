@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { CometCard } from "../component2D/cardt";
-import { Button } from "../component2D/Button";
 import LightRays from "../component2D/light";
 import { IconArrowRight } from "@tabler/icons-react";
 const projects = [

@@ -7,6 +7,7 @@ type Props = {
   position: Array<number>;
   scale: number;
   color: string;
+  rotation: Array<number>;
 };
 
 const Text = (props: Props) => {
@@ -18,6 +19,7 @@ const Text = (props: Props) => {
       scale={0.5}
       {...floatOptions}
       position={[props.position[0], props.position[1], props.position[2]]}
+      rotation={[props.rotation[0], props.rotation[1], props.rotation[2]]}
     >
       <group>
         {" "}

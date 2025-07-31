@@ -38,6 +38,7 @@ const About = () => {
           scale={1}
           word="I don't only Code"
           float={false}
+          rotation={[0, 0, 0]}
           color="#181929"
         />
         <Text
@@ -45,6 +46,7 @@ const About = () => {
           scale={0.9}
           word="I Create Experiences"
           float={false}
+          rotation={[0, 0, 0]}
           color="#181929"
         />
 

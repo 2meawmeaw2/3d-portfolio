@@ -2,7 +2,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Screen } from "@/public/Screen";
 import { gsap } from "gsap";
-import { OrbitControls } from "@react-three/drei";
 import { useGSAP } from "@gsap/react";
 import { useThree } from "@react-three/fiber";
 import { Mesh } from "three";

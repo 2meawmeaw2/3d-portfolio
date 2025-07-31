@@ -1,6 +1,6 @@
 "use client";
 import { animate, motion } from "motion/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
 import { IconArrowRight } from "@tabler/icons-react";
@@ -30,54 +30,60 @@ export function CardDemo(Props: CardProps) {
 }
 
 const Skeleton = () => {
-  const scale = [1, 1.1, 1];
-  const transform = ["translateY(0px)", "translateY(-4px)", "translateY(0px)"];
-  const sequence = [
-    [
-      ".circle-1",
-      {
-        scale,
-        transform,
-      },
-      { duration: 0.8 },
-    ],
-    [
-      ".circle-2",
-      {
-        scale,
-        transform,
-      },
-      { duration: 0.8 },
-    ],
-    [
-      ".circle-3",
-      {
-        scale,
-        transform,
-      },
-      { duration: 0.8 },
-    ],
-    [
-      ".circle-4",
-      {
-        scale,
-        transform,
-      },
-      { duration: 0.8 },
-    ],
-    [
-      ".circle-5",
-      {
-        scale,
-        transform,
-      },
-      { duration: 0.8 },
-    ],
-  ];
-
   useEffect(() => {
+    // Moved sequence definition inside useEffect
+    const scale = [1, 1.1, 1];
+    const transform = [
+      "translateY(0px)",
+      "translateY(-4px)",
+      "translateY(0px)",
+    ];
+    const sequence = [
+      [
+        ".circle-1",
+        {
+          scale,
+          transform,
+        },
+        { duration: 0.8 },
+      ],
+      [
+        ".circle-2",
+        {
+          scale,
+          transform,
+        },
+        { duration: 0.8 },
+      ],
+      [
+        ".circle-3",
+        {
+          scale,
+          transform,
+        },
+        { duration: 0.8 },
+      ],
+      [
+        ".circle-4",
+        {
+          scale,
+          transform,
+        },
+        { duration: 0.8 },
+      ],
+      [
+        ".circle-5",
+        {
+          scale,
+          transform,
+        },
+        { duration: 0.8 },
+      ],
+    ];
+
     animate(sequence, {
-      // @ts-ignore
+      // Fixed: Changed ts-ignore to ts-expect-error
+      // @ts-expect-error - framer-motion types issue
       repeat: Infinity,
       repeatDelay: 1,
     });
