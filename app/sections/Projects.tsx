@@ -34,11 +34,11 @@ const projects = [
   },
 ];
 
-export function Project() {
+export function Project(className: string) {
   return (
     <motion.section
       id="Projects"
-      className="bg-black h-fit   relative  "
+      className={`bg-black h-fit z-60  relative  ${className}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -148,7 +148,7 @@ export function Project() {
                   </div>
                   {/* Title and Description Section */}
                   <div className="mt-4 h-[60%]  flex flex-col justify-center gap-2 p-6 font-mono text-white bg-black/60 rounded-xl backdrop-blur-sm shadow-inner">
-                    <h3 className="max-w-xs !pb-2 !m-0 text-start text-white text-[1.5em] text-nowrap  font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                    <h3 className="max-w-xs !pb-2 !m-0 text-start text-white text-[1.5em]   font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.name}
                     </h3>
                     <div className="text-base text-start !m-0 !p-0 font-normal">

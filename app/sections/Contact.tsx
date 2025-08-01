@@ -1,16 +1,16 @@
+"use client";
 import Image from "next/image";
 import { easeInOut, motion } from "framer-motion";
 import { Mail, Instagram, Github, MapPin } from "lucide-react";
 import { FlipWords } from "../component2D/FlipWords";
 import { Input } from "@heroui/input";
 
-export function Contact() {
+export function Contact(className: string) {
   return (
     <section
       id="Contact"
-      className="relative min-h-screen w-full flex items-center justify-center px-4 py-16 bg-black/90 overflow-hidden"
+      className={`relative  z-30 min-h-screen w-full flex items-center justify-center px-4 py-16 overflow-hidden ${className}`}
     >
-      {/* Background noise texture */}
       <Image
         src="/noise.jpg"
         alt="Background texture"
@@ -18,6 +18,7 @@ export function Contact() {
         height={1117}
         className="w-full h-full opacity-100 absolute inset-0 -z-10 object-cover"
       />
+      <div className="w-full h-full opacity-100 bg-black/90 absolute inset-0  " />
       {/* Glassy card container */}
       <div className="relative z-10 w-full max-w-5xl flex flex-col md:flex-row gap-10 md:gap-16 items-center md:items-stretch  backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl p-6 md:p-12">
         {/* Sidebar: Contact Info & Socials */}

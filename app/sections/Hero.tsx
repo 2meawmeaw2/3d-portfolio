@@ -7,23 +7,12 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 export default function Hero() {
-  useGSAP(() => {
-    gsap.to(".view", { y: window.innerHeight, duration: 5, rotateX: 180 });
-    gsap.to("#Hero", {
-      scrollTrigger: {
-        trigger: "#Hero",
-        start: "top top",
-        end: "center start",
-        markers: true,
-        scrub: 1,
-      },
-      rotateZ: 10,
-      scale: 0.9,
-    });
-  });
   return (
     <>
-      <section id="Hero" className="h-[100vh]  relative w-full flex items-end ">
+      <section
+        id="Hero"
+        className={`h-[100vh] absolute z-20 bg-black/40 border-1 border-white rounded-2xl  w-full flex items-end`}
+      >
         <div className="w-[100vw] h-[100vh] absolute">
           <LightRays
             raysOrigin="top-center"
@@ -61,17 +50,8 @@ export default function Hero() {
               Check my work
             </button>
           </div>
-          <View className="absolute left-1/2 -translate-x-[50%]  w-[100vw]  h-[100vh]  ">
+          <View className="absolute left-1/2 -translate-x-[50%]   w-[100vw]  h-[100vh]  ">
             <Roomw />{" "}
-            <OrbitControls
-              target={[0, 0, 0]}
-              // point camera looks at
-              maxPolarAngle={Math.PI / 2} // vertical limit (0 = top, π = bottom)
-              minPolarAngle={Math.PI / 3} // upward limit
-              maxAzimuthAngle={Math.PI / 6} // horizontal right limit
-              minAzimuthAngle={-Math.PI / 6}
-              enableZoom={false}
-            />
           </View>
         </div>
       </section>

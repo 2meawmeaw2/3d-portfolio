@@ -7,8 +7,10 @@ const About = () => {
   return (
     <section
       id="About"
-      className="h-[100vh] relative z-10 w-full overflow-y-clip p-10 flex justify-center items-center"
+      className={`h-[100vh] fixed top-0 bg-black z-60 w-full overflow-y-clip p-10 flex justify-center items-center `}
     >
+      <div className="w-full h-full bg-black  absolute inset-0" />
+
       {/* Background elements remain unchanged */}
       <div className="w-full -z-10 h-[100%] bg-white/2 blur-[700px] absolute top-0 left-0" />
       <div className="w-full -z-10 h-[9%] rounded-[100%] bg-[#3741FF] blur-[746.1px] absolute top-0 left-0" />

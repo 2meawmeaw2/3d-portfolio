@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 import { CardDemo } from "../component2D/showCaseCard";
 import LightRays from "../component2D/light";
@@ -13,7 +14,7 @@ interface Skill {
   progress: number;
   time: string;
 }
-const Skillsp = () => {
+const Skillsp = (className: string) => {
   const skills: Skill[] = [
     {
       name: "HTML/CSS",
@@ -206,7 +207,7 @@ const Skillsp = () => {
   return (
     <section
       id="Skills"
-      className="h-[100vh] relative flex justify-center items-center overflow-y-clip"
+      className={`h-[100vh] z-60 bg-black relative flex justify-center items-center overflow-y-clip ${className}`}
     >
       <div className="absolute inset-0 z-40 pointer-events-none">
         <LightRays
@@ -254,7 +255,7 @@ const Skillsp = () => {
       </div>
       <CardDemo slideSet={slideSet} />
 
-      <div className="absolute inset-0 w-full h-full  z-40 skills-set ">
+      <div className="fixed inset-0 w-full h-full  z-40 skills-set ">
         <motion.div
           key="toolbox"
           initial={{ height: 0, opacity: 0 }}
@@ -276,8 +277,6 @@ const Skillsp = () => {
               distortion={0.05}
             />
           </div>{" "}
-          {/* White overlay background */}
-          {/* Content Grid */}
           <div className="relative z-10 w-full max-w-[1200px] px-6 grid gap-10 grid-cols-1 justify-items-center">
             <button
               onClick={() => slideSet(false)}

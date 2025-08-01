@@ -127,7 +127,19 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       {items.map((item, idx) => (
         <a
           onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
+          onClick={(e) => {
+            e.preventDefault();
+            if (item.name === "About") {
+              const mixSection = document.querySelector("#Mix");
+              mixSection?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+              });
+            } else {
+              onItemClick?.();
+              window.location.hash = item.link;
+            }
+          }}
           className="relative px-4 py-2 text-white"
           key={`link-${idx}`}
           href={item.link}
@@ -232,7 +244,7 @@ export const MobileNavToggle = ({
 export const NavbarLogo = () => {
   return (
     <a
-      href="#Hero"
+      href="#Mix"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-md font-normal text-black"
     >
       <Image
@@ -280,15 +292,15 @@ const RealNavBar = () => {
   const navItems = [
     {
       name: "About",
-      link: "#About",
-    },
-    {
-      name: "Skills",
-      link: "#Skills",
+      link: "#Mix",
     },
     {
       name: "Projects",
       link: "#Projects",
+    },
+    {
+      name: "Skills",
+      link: "#Skills",
     },
   ];
 
