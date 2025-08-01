@@ -14,7 +14,7 @@ interface Skill {
   progress: number;
   time: string;
 }
-const Skillsp = (className: string) => {
+const Skillsp = () => {
   const skills: Skill[] = [
     {
       name: "HTML/CSS",
@@ -207,7 +207,7 @@ const Skillsp = (className: string) => {
   return (
     <section
       id="Skills"
-      className={`h-[100vh] z-60 bg-black relative flex justify-center items-center overflow-y-clip ${className}`}
+      className={`h-[100vh] z-60 bg-black relative flex justify-center items-center overflow-y-clip `}
     >
       <div className="absolute inset-0 z-40 pointer-events-none">
         <LightRays

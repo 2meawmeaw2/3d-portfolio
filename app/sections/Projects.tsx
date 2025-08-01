@@ -34,11 +34,11 @@ const projects = [
   },
 ];
 
-export function Project(className: string) {
+export function Project() {
   return (
     <motion.section
       id="Projects"
-      className={`bg-black h-fit z-60  relative  ${className}`}
+      className={`bg-black h-fit z-60  relative `}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}

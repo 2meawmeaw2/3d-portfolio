@@ -14,9 +14,22 @@ const Mix = () => {
         end: "bottom start",
         scrub: 1,
       },
+
       y: -window.innerHeight / 1.5,
       scale: 0.1,
       xPercent: -50,
+    });
+    gsap.to("#Hero", {
+      scrollTrigger: {
+        trigger: ".holder",
+        start: "top top",
+        end: "20% top",
+        scrub: 1,
+      },
+
+      borderWidth: "4px",
+      borderColor: "#ffffff",
+      borderStyle: "solid",
     });
     gsap.from("#About", {
       scrollTrigger: {

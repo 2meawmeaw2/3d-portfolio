@@ -5,11 +5,11 @@ import { Mail, Instagram, Github, MapPin } from "lucide-react";
 import { FlipWords } from "../component2D/FlipWords";
 import { Input } from "@heroui/input";
 
-export function Contact(className: string) {
+export function Contact() {
   return (
     <section
       id="Contact"
-      className={`relative  z-30 min-h-screen w-full flex items-center justify-center px-4 py-16 overflow-hidden ${className}`}
+      className={`relative  z-30 min-h-screen w-full flex items-center justify-center px-4 py-16 overflow-hidden `}
     >
       <Image
         src="/noise.jpg"

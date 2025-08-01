@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <>
       <Mix />
-      <Project className="" />
-      <Skillsp className="" />
-      <Contact className="" />
+      <Project />
+      <Skillsp />
+      <Contact />
     </>
   );
 }
