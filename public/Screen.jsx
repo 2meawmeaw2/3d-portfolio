@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { forwardRef } from "react";
 
 import { useGLTF } from "@react-three/drei";
@@ -13,10 +13,7 @@ export const Screen = forwardRef((props, ref) => {
         floatIntensity={1}
         floatingRange={[-0.03, 0.1]}
       >
-        <group
-          position={[0.084, 0.843, -0.423]}
-          rotation={[-Math.PI / 2, 0, 0]}
-        >
+        <group rotation={[-Math.PI / 2, 0, 0]}>
           <Float
             floatSpeed={1.5}
             rotationIntensity={2}

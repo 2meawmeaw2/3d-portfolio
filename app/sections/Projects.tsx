@@ -72,7 +72,7 @@ export function Project() {
           viewport={{ once: true }}
         >
           <motion.h1
-            className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+            className="text-white text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
@@ -89,7 +89,7 @@ export function Project() {
           </motion.h3>
         </motion.div>
         <motion.div
-          className="flex flex-col justify-center items-center gap-20 xl:flex-row  w-full"
+          className="flex flex-col justify-center items-center gap-20 xl:flex-row w-full"
           initial="hidden"
           whileInView="visible"
           variants={{
@@ -115,9 +115,9 @@ export function Project() {
                 y: -8,
               }}
               transition={{ type: "spring", stiffness: 120, damping: 14 }}
-              className=" w-[90%] lg:w-full "
+              className=" w-[100%] max-w-[500px] lg:w-[90%]  "
             >
-              <CometCard className="w-[80%] mx-auto">
+              <CometCard className="w-[100%]  mx-auto">
                 <button
                   type="button"
                   className="flex w-full h-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 md:my-20 md:p-4"

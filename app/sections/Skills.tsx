@@ -7,13 +7,16 @@ import { MoveLeft } from "lucide-react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+
 gsap.registerPlugin(useGSAP);
+
 interface Skill {
   name: string;
   icon: ReactNode;
   progress: number;
   time: string;
 }
+
 const Skillsp = () => {
   const skills: Skill[] = [
     {
@@ -126,6 +129,7 @@ const Skillsp = () => {
       time: "3 months",
     },
   ];
+
   function Progress(
     name: string,
     icon: ReactNode,
@@ -184,18 +188,19 @@ const Skillsp = () => {
   useGSAP(() => {
     gsap.set(".skills-set", { yPercent: 100 });
   });
+
   const slideSet = (show: boolean) => {
     if (show) {
-      document.body.style.overflow = "hidden"; // Block scroll
-
+      const el = document.getElementById("Skills");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      document.body.style.overflow = "hidden"; // Block body scroll
       gsap.to(".skills-set", {
         yPercent: 0,
         duration: 2,
         ease: "power2.inOut",
       });
     } else {
-      document.body.style.overflow = ""; // Restore scroll
-
+      document.body.style.overflow = ""; // Restore body scroll
       gsap.to(".skills-set", {
         yPercent: 100,
         duration: 2,
@@ -255,16 +260,16 @@ const Skillsp = () => {
       </div>
       <CardDemo slideSet={slideSet} />
 
-      <div className="fixed inset-0 w-full h-full  z-40 skills-set ">
+      <div className="fixed inset-0 w-full h-full z-40 skills-set">
         <motion.div
           key="toolbox"
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "100vh", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ ease: easeInOut, duration: 1 }}
-          className="bg-black absolute z-40 inset-0 w-full h-[100vh] overflow-hidden grid place-items-center"
+          className="bg-black absolute z-40 inset-0 w-full h-[100vh] overflow-y-auto overflow-x-hidden"
         >
-          <div className="w-[100vw] h-[100vh] absolute inset-0 z-10">
+          <div className="w-[100vw] h-[100vh] absolute inset-0 z-10 pointer-events-none">
             <LightRays
               raysOrigin="top-center"
               raysColor="#155cfb"
@@ -276,36 +281,40 @@ const Skillsp = () => {
               noiseAmount={0.1}
               distortion={0.05}
             />
-          </div>{" "}
-          <div className="relative z-10 w-full max-w-[1200px] px-6 grid gap-10 grid-cols-1 justify-items-center">
-            <button
-              onClick={() => slideSet(false)}
-              className="px-6 py-3 rounded-xl justify-self-start  bg-white text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform"
-            >
-              <MoveLeft />
-            </button>
+          </div>
+
+          <div className="relative pt-30 z-20 w-full max-w-[1200px] mx-auto px-6 py-8 min-h-screen">
+            <div className="sticky top-4 z-30 mb-10">
+              <button
+                onClick={() => slideSet(false)}
+                className="px-6 py-3 rounded-xl bg-white text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform"
+              >
+                <MoveLeft />
+              </button>
+            </div>
+
             <motion.div
-              transition={{ staggerChildren: 10 }}
-              className="w-full grid grid-cols-1 md:grid-cols-2  gap-8"
+              transition={{ staggerChildren: 0.1 }}
+              className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 pb-20"
             >
-              {/* Example static skill card for Motion, keep as is */}
+              {/* Static Motion skill card */}
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ ease: easeInOut }}
-                className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em] work  text-blue border-1  font-bold font-outfit"
+                className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em] work text-blue border-1 font-bold font-outfit"
               >
-                <div className="flex items-center justify-center bg-black w-14 h-14  rounded-lg bg-none shadow-inner shadow-gray-600">
+                <div className="flex items-center justify-center bg-black w-14 h-14 rounded-lg bg-none shadow-inner shadow-gray-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 9"
-                    className=" fill-yellow-300 w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+                    className="fill-yellow-300 w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
                   >
                     <path d="M9.062 0 L4.32 8.992 L0 8.992 L3.703 1.971 C4.277 0.882 5.709 0 6.902 0 Z M19.656 2.248 C19.656 1.006 20.623 0 21.816 0 C23.009 0 23.976 1.006 23.976 2.248 C23.976 3.49 23.009 4.496 21.816 4.496 C20.623 4.496 19.656 3.49 19.656 2.248 Z M9.872 0 L14.192 0 L9.45 8.992 L5.13 8.992 Z M14.974 0 L19.294 0 L15.592 7.021 C15.018 8.11 13.585 8.992 12.392 8.992 L10.232 8.992 Z" />
                   </svg>
                 </div>
                 <div className="flex-1 flex flex-col">
-                  <div className="flex items-end gap-2 ">
+                  <div className="flex items-end gap-2">
                     <span className="text-2xl font-extrabold tracking-widest text-white">
                       Motion
                     </span>
@@ -313,9 +322,7 @@ const Skillsp = () => {
                       2 months
                     </span>
                     <div className="flex flex-col items-end ml-auto">
-                      <span
-                        className={`text-2xl font-extrabold text-black ${"text-pink-500"}`}
-                      >
+                      <span className="text-2xl font-extrabold text-pink-500">
                         80 <span className="text-xl">%</span>
                       </span>
                     </div>
@@ -339,9 +346,9 @@ const Skillsp = () => {
                     />
                   </div>
                 </div>
-                {/* Percentage */}
               </motion.div>
-              {/* Render skills with Lucide icons */}
+
+              {/* Render skills with icons */}
               {skills.map(({ name, icon, progress, time }, index) =>
                 Progress(name, icon, progress, index, time)
               )}
@@ -352,4 +359,5 @@ const Skillsp = () => {
     </section>
   );
 };
+
 export default Skillsp;

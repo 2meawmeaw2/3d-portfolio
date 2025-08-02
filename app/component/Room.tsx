@@ -9,8 +9,8 @@ gsap.registerPlugin(useGSAP);
 
 export const Roomw = () => {
   const viewport = useThree((state) => state.viewport);
-  const screen = useRef<Mesh>(null); // define ref at top level
-
+  const screen = useRef<Mesh>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const [factors, setFactors] = useState({
     scaleFactor: 1.5,
     xFactor: 1,
@@ -20,9 +20,14 @@ export const Roomw = () => {
   useEffect(() => {
     const computeFactors = () => {
       const width = window.innerWidth;
+      // Check if mobile (below 768px)
+      const mobile = width < 1280;
+      setIsMobile(mobile);
+
       const scaleFactor = Math.min(Math.max(width / 1490, 1.5), 2);
       const xFactor = Math.min(Math.max(viewport.width / 1490, 1.7), 0.8);
       const yFactor = Math.min(Math.max(viewport.width / 1490, 1.5), 1);
+
       setFactors({ scaleFactor, xFactor, yFactor });
     };
 
@@ -33,8 +38,13 @@ export const Roomw = () => {
 
   return (
     <group
-      position={[4 * factors.xFactor, -2 * factors.yFactor, 0]}
-      scale={0.8 * factors.scaleFactor}
+      position={[
+        isMobile ? 0 : 5 * factors.xFactor, // X position = 0 on mobile
+        isMobile ? -2 : -1, // X position = 0 on mobile
+
+        -2,
+      ]}
+      scale={1 * factors.scaleFactor}
     >
       <ambientLight intensity={4} />
       <ambientLight intensity={10} color={"#155cfb"} />
