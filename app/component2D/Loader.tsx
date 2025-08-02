@@ -12,6 +12,8 @@ export default function LoaderScreen() {
 
   // Animate progress bar
   useGSAP(() => {
+    document.body.style.overflowY = "hidden";
+
     if (!progressBarRef.current) return;
 
     const tl = gsap.timeline({
