@@ -2,6 +2,7 @@
 import { useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useProgress } from "@react-three/drei";
 
 export default function LoaderScreen() {
   const [isComplete, setIsComplete] = useState(false);
@@ -9,6 +10,7 @@ export default function LoaderScreen() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLSpanElement>(null);
   const buttonRef = useRef<HTMLParagraphElement>(null);
+  const { progress } = useProgress();
 
   // Animate progress bar
   useGSAP(() => {
@@ -97,7 +99,11 @@ export default function LoaderScreen() {
       ref={loaderRef}
       className="loader fixed z-[60] inset-0 bg-black flex flex-col w-screen h-screen justify-center items-center"
     >
-      <div className="w-full max-w-md px-10 h-20 flex justify-start items-center border-2 border-white/20 rounded-lg overflow-hidden">
+      <div
+        className={`w-full max-w-md px-10 h-20 flex justify-start items-center border-2 rounded-lg overflow-hidden transition-colors duration-500 ${
+          isComplete ? "border-white" : "border-white/20"
+        }`}
+      >
         <span
           ref={progressBarRef}
           className="block h-0.5 rounded-full bg-white origin-left"
