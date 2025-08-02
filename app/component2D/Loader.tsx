@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useProgress } from "@react-three/drei";
@@ -12,44 +12,27 @@ export default function LoaderScreen() {
   const buttonRef = useRef<HTMLParagraphElement>(null);
   const { progress } = useProgress();
 
-  // Animate progress bar
+  // Set body overflow hidden on mount
   useGSAP(() => {
     document.body.style.overflowY = "hidden";
-
-    if (!progressBarRef.current) return;
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        setIsComplete(true);
-        // Auto-focus button for accessibility
-        setTimeout(() => buttonRef.current?.focus(), 100);
-      },
-    });
-
-    // Simulate realistic loading progression
-    tl.to(progressBarRef.current, {
-      width: "33%",
-      duration: 0.7,
-      ease: "power1.out",
-    })
-      .to(progressBarRef.current, {
-        width: "67%",
-        duration: 0.9,
-        ease: "power1.inOut",
-      })
-      .to(progressBarRef.current, {
-        width: "98%",
-        duration: 1.2,
-        ease: "power1.in",
-      })
-      .to(progressBarRef.current, {
-        width: "100%",
-        duration: 0.3,
-        ease: "none",
-      });
   }, []);
 
-  // Handle exit animation
+  // ACTUAL FIX: Bind progress bar to real loading progress
+  useEffect(() => {
+    if (!progressBarRef.current) return;
+
+    gsap.to(progressBarRef.current, {
+      width: `${progress}%`,
+      duration: 0.3,
+      ease: "power1.out",
+      overwrite: true,
+    });
+
+    if (progress === 100) {
+      setIsComplete(true);
+      setTimeout(() => buttonRef.current?.focus(), 100);
+    }
+  }, [progress]);
   const handleExit = () => {
     const tl = gsap.timeline({
       onComplete: () => setIsVisible(false),
