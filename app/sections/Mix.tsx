@@ -36,7 +36,6 @@ const Mix = () => {
         trigger: ".holder",
         start: "top top",
         end: "bottom bottom",
-        markers: true,
         scrub: 1,
       },
       y: -window.innerHeight / 1.5,
