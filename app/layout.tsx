@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Poppins } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { ReactLenis } from "@/lib/ReactLenis";
 
 const outfit = Outfit({
@@ -8,12 +8,7 @@ const outfit = Outfit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-outfit",
 });
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins",
-});
+
 import ViewCanvas from "./component/ViewCanvas";
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
@@ -31,9 +26,9 @@ export default function RootLayout({
     <html lang="en">
       <ReactLenis root>
         <body
-          className={`${poppins.variable} ${outfit.variable} relative antialiased  overflow-x-clip `}
+          className={` ${outfit.variable} relative antialiased  overflow-x-clip `}
         >
-          <nav className="sticky  top-0 z-100 ">
+          <nav className="sticky  top-0 z-60 ">
             <RealNavBar />
           </nav>
           <main className="relative">

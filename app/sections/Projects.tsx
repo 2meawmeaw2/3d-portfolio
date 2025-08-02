@@ -38,7 +38,7 @@ export function Project() {
   return (
     <motion.section
       id="Projects"
-      className={`bg-black h-fit z-60  relative `}
+      className={`bg-black h-fit z-40  relative `}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -156,7 +156,7 @@ export function Project() {
                         {proj.desc}
                       </span>
                     </div>{" "}
-                    <span className="mt-2 tag-shadow px-7 py-2 rounded-full text-neon border-1 font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-250 ease-in-out">
+                    <span className="mt-2 flex items-center justify-center tag-shadow px-7 py-2 rounded-full text-neon border font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
                       Check it Out
                       <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>

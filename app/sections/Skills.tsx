@@ -154,7 +154,7 @@ const Skillsp = () => {
             </span>
             <div className="flex flex-col items-end ml-auto">
               <span
-                className={`text-2xl font-extrabold text-black ${
+                className={`text-2xl font-extrabold text-white ${
                   progress > 80 ? "text-pink-500" : null
                 }`}
               >
@@ -207,7 +207,7 @@ const Skillsp = () => {
   return (
     <section
       id="Skills"
-      className={`h-[100vh] z-60 bg-black relative flex justify-center items-center overflow-y-clip `}
+      className={`h-[100vh] z-40 bg-black relative flex justify-center items-center overflow-y-clip `}
     >
       <div className="absolute inset-0 z-40 pointer-events-none">
         <LightRays
