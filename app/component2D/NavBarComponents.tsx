@@ -140,7 +140,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
               window.location.hash = item.link;
             }
           }}
-          className="relative px-4 py-2 text-white"
+          className="relative px-4 py-2  nav-bar-glow"
           key={`link-${idx}`}
           href={item.link}
         >
@@ -235,9 +235,9 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
+    <IconX className="text-white" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+    <IconMenu2 className="text-white" onClick={onClick} />
   );
 };
 
@@ -254,7 +254,7 @@ export const NavbarLogo = () => {
         height={30}
         className="rounded-full"
       />
-      <span className="font-black tracking-wider text-black font-outfit dark:text-white">
+      <span className="font-black nav-bar-glow tracking-wider  font-outfit ">
         Taha
       </span>
     </a>
@@ -273,7 +273,7 @@ export const NavbarButton = ({}: {
   return (
     <a
       href="#Contact"
-      className="px-4 py-2 rounded-md  button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center"
+      className="px-4 py-2 rounded-md  button bg-white text-black contact-button text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center"
     >
       Contact
     </a>

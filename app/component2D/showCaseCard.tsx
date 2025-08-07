@@ -1,5 +1,7 @@
 "use client";
-import { animate, motion } from "motion/react";
+import { animate } from "motion";
+import { motion } from "motion/react";
+import { useState } from "react";
 import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
@@ -152,37 +154,59 @@ const Skeleton = () => {
     </div>
   );
 };
+
 const Sparkles = () => {
-  const randomMove = () => Math.random() * 2 - 1;
-  const randomOpacity = () => Math.random();
-  const random = () => Math.random();
+  const [sparkleData, setSparkleData] = useState<
+    {
+      top: string;
+      left: string;
+      opacity: number;
+      duration: number;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const randomMove = () => Math.random() * 2 - 1;
+    const randomOpacity = () => Math.random();
+    const random = () => Math.random();
+
+    const data = [...Array(12)].map(() => ({
+      top: `calc(${random() * 100}% + ${randomMove()}px)`,
+      left: `calc(${random() * 100}% + ${randomMove()}px)`,
+      opacity: randomOpacity(),
+      duration: random() * 2 + 4,
+    }));
+
+    setSparkleData(data);
+  }, []);
+
   return (
     <div className="absolute inset-0">
-      {[...Array(12)].map((_, i) => (
+      {sparkleData.map((s, i) => (
         <motion.span
           key={`star-${i}`}
           animate={{
-            top: `calc(${random() * 100}% + ${randomMove()}px)`,
-            left: `calc(${random() * 100}% + ${randomMove()}px)`,
-            opacity: randomOpacity(),
+            top: s.top,
+            left: s.left,
+            opacity: s.opacity,
             scale: [1, 1.2, 0],
           }}
           transition={{
-            duration: random() * 2 + 4,
+            duration: s.duration,
             repeat: Infinity,
             ease: "linear",
           }}
           style={{
             position: "absolute",
-            top: `${random() * 100}%`,
-            left: `${random() * 100}%`,
-            width: `2px`,
-            height: `2px`,
+            top: s.top,
+            left: s.left,
+            width: "2px",
+            height: "2px",
             borderRadius: "50%",
             zIndex: 1,
           }}
           className="inline-block bg-black dark:bg-white"
-        ></motion.span>
+        />
       ))}
     </div>
   );

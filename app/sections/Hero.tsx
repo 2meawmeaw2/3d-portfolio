@@ -13,7 +13,37 @@ export default function Hero() {
   useGSAP(
     () => {
       if (!isOpen) return;
+      gsap.fromTo(
+        ".nav-bar-glow",
+        {
+          textShadow: "0px -1px 10px #00000080",
+          color: "#000000",
+        },
+        {
+          textShadow: "0px -1px 10px #FFFFFF80",
+          color: "#ffffff",
+          delay: 1.5,
+          duration: 1.5,
+          ease: "power2.out",
+        }
+      );
+      gsap.fromTo(
+        ".contact-button",
+        {
+          textShadow: "0px -1px 10px #00000080",
+          color: "#000000",
+          backgroundColor: "#000000",
+        },
+        {
+          backgroundColor: "#ffffff",
 
+          textShadow: "0px -1px 10px #00000080",
+          color: "#000000",
+          delay: 1.5,
+          duration: 0.1,
+          ease: "power2.out",
+        }
+      );
       gsap.fromTo(
         ".container-hero-1",
         {
