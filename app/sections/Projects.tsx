@@ -15,6 +15,15 @@ const projects = [
     bg: "bg-[#f2eadf]",
   },
   {
+    title: "AI-course.com",
+    href: "https://ai-course-2025.vercel.app/",
+    name: "AI course landing page",
+    desc: "3d lading page with scroll animation",
+    img: "/3d.jpg",
+    imgClass: "object-contain",
+    bg: "bg-[#f2eadf]",
+  },
+  {
     title: "/steadycore.io",
     href: "https://calisthenics-zeta.vercel.app/",
     name: "Calisthenics Landing page",
