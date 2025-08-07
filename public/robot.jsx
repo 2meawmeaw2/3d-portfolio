@@ -1,10 +1,25 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
 export function Robot({ boxSize, ...rest }) {
   const { nodes, materials } = useGLTF("/Untitled.gltf");
+  const [scaleFactor, setScaleFactor] = useState(getScale());
+
+  function getScale() {
+    const rawScale = (window.innerWidth / 850) * 1.3;
+    return Math.min(2, Math.max(1, rawScale));
+  }
+
+  useEffect(() => {
+    function handleResize() {
+      setScaleFactor(getScale());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
-    <group scale={boxSize} {...rest} dispose={null}>
+    <group scale={scaleFactor} {...rest} dispose={null}>
       <mesh
         castShadow
         receiveShadow

@@ -7,7 +7,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import LoaderScreen from "../component2D/Loader";
-
 interface PositionProxy {
   opacity: number;
   xPercent: number;
@@ -25,71 +24,24 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export function Scene(): React.JSX.Element {
   const [rotation, setRotation] = useState<RotationTuple>([0, 0, 0]);
-  const [deviceType, setDeviceType] = useState<"mobile" | "tablet" | "desktop">(
-    "desktop"
-  );
+  const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number>(0);
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
   const gsapScope = useRef(null);
-
-  // Enhanced device detection with SSR support
-  useEffect(() => {
-    const handleResize = () => {
-      const newWidth = window.innerWidth;
-      setWidth(newWidth);
-
-      // Device classification with breakpoints
-      if (newWidth <= 768) setDeviceType("mobile");
-      else if (newWidth <= 1024) setDeviceType("tablet");
-      else setDeviceType("desktop");
-    };
-
-    // Initialize on client side
-    if (typeof window !== "undefined") {
-      handleResize();
-      window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
-
-  // Device flags for cleaner conditionals
-  const isMobile = deviceType === "mobile";
-  const isTablet = deviceType === "tablet";
-  const isDesktop = deviceType === "desktop";
-
-  // Responsive parameters
-  const canvasHeight = isDesktop ? "60dvh" : "50dvh";
-  const canvasBottom = isDesktop ? "0" : "-bottom-10";
-  const robotScale = isDesktop ? 0.04 : 0.03;
-
-  // Float configuration per device
-  const floatConfig = {
-    speed: isDesktop ? 1.2 : isMobile ? 2 : 1.5,
-    rotationIntensity: isDesktop ? 0.8 : isMobile ? 2 : 1.5,
-    floatIntensity: isDesktop ? 0.8 : isMobile ? 2 : 1.5,
-    floatingRange: (isDesktop
-      ? [-0.4, 0.4]
-      : isMobile
-      ? [-0.6, 0.6]
-      : [-0.5, 0.5]) as [number, number], // Add type assertion here
-  };
-
   const setWillChange = (
     element: HTMLElement | null,
     properties: string
   ): void => {
-    if (element && isMobile) element.style.willChange = properties;
+    if (element && isMobileDevice) element.style.willChange = properties;
   };
-
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   useGSAP(
     () => {
-      if (width === 0) return; // Skip on initial render
-
       requestAnimationFrame(() => {
         const rotationProxy: RotationProxy = { x: 0, y: 0, z: 0 };
         const positionProxy: PositionProxy = {
@@ -97,7 +49,6 @@ export function Scene(): React.JSX.Element {
           xPercent: 0,
           yPercent: 0,
         };
-
         const applyProps = (): void => {
           if (containerRef.current) {
             gsap.set(containerRef.current, {
@@ -126,12 +77,12 @@ export function Scene(): React.JSX.Element {
           },
           {
             trigger: "#Mix",
-            start: isDesktop ? "top center" : isTablet ? "30% top" : "40% top",
-            end: isDesktop ? "45% center" : isTablet ? "55% top" : "65% top",
+            start: width > 1024 ? "-10% center" : "40% top",
+            end: width > 1024 ? "43% center" : "65% top",
             steps: [
               {
-                xPercent: isDesktop ? -35 : -40,
-                yPercent: isDesktop ? 5 : 0,
+                xPercent: -40,
+                yPercent: 0,
                 x: 0,
                 y: Math.PI / 4,
                 z: 0,
@@ -141,9 +92,10 @@ export function Scene(): React.JSX.Element {
           {
             trigger: "#Projects",
             start: "15% center",
+            markers: true,
             end: "70% center",
             steps: [
-              isMobile
+              width < 1024
                 ? {
                     xPercent: 40,
                     yPercent: -40,
@@ -151,21 +103,36 @@ export function Scene(): React.JSX.Element {
                     y: Math.PI * 2 - Math.PI / 4,
                     z: Math.PI * 3,
                   }
-                : {},
+                : {
+                    xPercent: 40,
+                    yPercent: -40,
+                    x: 0,
+                    y: -Math.PI / 4,
+                    z: 0,
+                  },
             ],
           },
           {
             trigger: "#Skills",
-            start: "top bottom",
-            end: "30% center",
+            start: "20% bottom",
+            markers: true,
+            end: "50% center",
             steps: [
-              {
-                xPercent: isDesktop ? -25 : -20,
-                yPercent: isDesktop ? 5 : 0,
-                x: Math.PI * 2 - Math.PI / (isDesktop ? 5 : 4),
-                y: Math.PI * 4 + Math.PI / (isDesktop ? 6 : 4),
-                z: Math.PI * 4,
-              },
+              width < 1024
+                ? {
+                    xPercent: -20,
+                    yPercent: 0,
+                    x: Math.PI * 4 - Math.PI / 4,
+                    y: Math.PI * 2 + Math.PI / 4,
+                    z: Math.PI * 4,
+                  }
+                : {
+                    xPercent: -20,
+                    yPercent: 0,
+                    x: Math.PI / 2,
+                    y: Math.PI * 2 + Math.PI / 4,
+                    z: Math.PI * 2,
+                  },
             ],
           },
           {
@@ -173,15 +140,22 @@ export function Scene(): React.JSX.Element {
             start: "top bottom",
             end: "40% center",
             steps: [
-              {
-                // Desktop-specific animation
-                xPercent: -35,
-                yPercent: -110,
-                x: Math.PI * 2 + Math.PI / 6,
-                y: Math.PI * 4 + Math.PI / 6,
-                z: Math.PI * 4 - Math.PI / 16,
-                opacity: 1,
-              },
+              false
+                ? {
+                    xPercent: -10,
+                    yPercent: -25,
+                    x: Math.PI * 2 + Math.PI / 6,
+                    y: Math.PI * 4 + Math.PI / 4,
+                    z: Math.PI * 3,
+                  }
+                : {
+                    xPercent: -35, // smooth continuation
+                    yPercent: -110, // slight vertical motion
+                    x: Math.PI * 2 + Math.PI / 6, // head slightly down (30° forward)
+                    y: Math.PI * 4 + Math.PI / 6, // turned slightly right (from robot's POV)
+                    z: Math.PI * 4 - Math.PI / 16,
+                    opacity: 1,
+                  },
             ],
           },
         ];
@@ -190,6 +164,7 @@ export function Scene(): React.JSX.Element {
           const tl = gsap.timeline({
             scrollTrigger: {
               invalidateOnRefresh: true,
+              markers: section.markers,
               trigger: section.trigger,
               start: section.start,
               end: section.end,
@@ -201,73 +176,50 @@ export function Scene(): React.JSX.Element {
           });
 
           for (const step of section.steps) {
-            if (Object.keys(step).length > 0) {
-              // Skip empty steps
-              tl.to([positionProxy, rotationProxy], {
-                ...step,
-                onUpdate: applyProps,
-                duration: isDesktop ? 1.8 : 1,
-                ease: isDesktop ? "power2.inOut" : "none",
-              });
-            }
+            tl.to([positionProxy, rotationProxy], {
+              ...step,
+              onUpdate: applyProps,
+            });
           }
         }
       });
     },
-    { scope: gsapScope, dependencies: [width] }
+    { scope: gsapScope }
   );
 
   return (
     <>
+      {" "}
       <div
         ref={containerRef}
-        className={`fixed ${canvasBottom} z-50 w-full pointer-events-none`}
-        style={{
-          height: canvasHeight,
-          willChange: isMobile ? "transform, opacity" : "auto",
-        }}
+        className="fixed -bottom-10 z-50 h-[50dvh] w-full pointer-events-none"
+        style={{ willChange: isMobileDevice ? "transform, opacity" : "auto" }}
       >
         <Canvas
-          className="h-full w-full"
-          style={{ pointerEvents: "none" }}
-          camera={{
-            fov: isDesktop ? 60 : 75,
-            position: isDesktop ? [0, 0, 10] : [0, 0, 15],
-          }}
-          performance={{
-            min: isDesktop ? 0.5 : 0.1,
-            max: 1,
-            debounce: 200,
-          }}
-          dpr={
-            typeof window !== "undefined"
-              ? Math.min(window.devicePixelRatio, isDesktop ? 1.5 : 2)
-              : 1
-          }
-          gl={{
-            preserveDrawingBuffer: true,
-            powerPreference: isDesktop ? "high-performance" : "default",
-          }}
-          shadows={isDesktop}
+          className="fixed -bottom-10 z-60 h-[50dvh] w-full pointer-events-none"
+          style={{ willChange: "auto", pointerEvents: "none" }}
+          camera={{ fov: 75 }}
+          performance={{ min: 0.1, max: 1, debounce: 200 }}
+          dpr={1}
+          gl={{ preserveDrawingBuffer: true }}
+          shadows
         >
-          <group scale={robotScale} rotation={rotation}>
+          <group scale={0.03} rotation={rotation}>
             <ambientLight intensity={0.4} />
+
             <directionalLight position={[1, 0, 1]} intensity={2} />
             <directionalLight position={[-1, 0, 1]} intensity={2} />
             <directionalLight position={[-2, 0, -4]} intensity={2.5} />
-
-            <Float {...floatConfig}>
-              <Suspense fallback={null}>
-                <Robot
-                  boxSize={isDesktop ? 4 : isMobile ? 3 : 2}
-                  detailLevel={isDesktop ? 2 : 1}
-                />
+            <Float
+              speed={isMobileDevice ? 2 : 2}
+              rotationIntensity={isMobileDevice ? 2 : 1}
+              floatIntensity={isMobileDevice ? 2 : 1}
+              floatingRange={isMobileDevice ? [-0.6, 0.6] : [-2, 2]}
+            >
+              <Suspense>
+                <Robot boxSize={1 > 1024 ? 1.4 : 1} />
               </Suspense>
             </Float>
-
-            {isDesktop && (
-              <Environment preset="city" background={false} blur={0.5} />
-            )}
           </group>
         </Canvas>
       </div>
