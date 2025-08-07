@@ -38,58 +38,57 @@ export function Project() {
   return (
     <motion.section
       id="Projects"
-      className={`bg-black h-fit z-40  relative `}
+      className="bg-black relative z-40 overflow-clip"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
     >
-      <Image
-        src="/noise.jpg"
-        alt="dsad"
-        width={1728}
-        height={1117}
-        className="w-full h-full  opacity-14 absolute inset-0"
-      />
-      <div className="absolute inset-0  pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
         <LightRays
           raysOrigin="top-center"
-          raysColor="#155cfb"
+          raysColor="#ffffff"
           raysSpeed={1.2}
           lightSpread={0.7}
           rayLength={1}
-          followMouse={true}
+          followMouse
           mouseInfluence={0.05}
         />
       </div>
-      <div className="bg-[#002BB8]/40 rounded-full blur-[433.70px] z-10 w-full h-full absolute inset-0 " />
-      <div className="w-full h-full relative inset-0 z-20 gap-20 lg:gap-0  p-20 flex flex-col justify-between py-50 items-center">
+      <div className="absolute inset-0 w-full h-full bg-black opacity-25" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vh] rounded-full blur-[100vw] bg-white" />
+      <div className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] w-[80vw] h-[40vh] blur-[70vw] bg-white/50" />
+
+      <div className="relative z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
         <motion.div
-          className="flex justify-center items-center flex-col gap-10"
+          className="text-center space-y-4"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
           <motion.h1
-            className="text-white text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+            className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
           >
             My works
           </motion.h1>
           <motion.h3
-            className="text-white text-lg sm:text-xl md:text-2xl lg:text-4xl font-medium  [text-shadow:_0px_-13px_28px_rgb(0_106_255_/_0.56)]"
+            className="text-white text-sm sm:text-base md:text-xl lg:text-2xl font-medium"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
           >
             The tools I suppose you checked are utilized to build these
           </motion.h3>
         </motion.div>
+
         <motion.div
-          className="flex flex-col justify-center items-center gap-20 xl:flex-row w-full"
+          className="flex flex-col xl:flex-row items-center justify-center gap-12 w-full"
           initial="hidden"
           whileInView="visible"
           variants={{
@@ -110,53 +109,36 @@ export function Project() {
                 hidden: { opacity: 0, y: 40 },
                 visible: { opacity: 1, y: 0 },
               }}
-              whileHover={{
-                scale: 1.045,
-                y: -8,
-              }}
+              whileHover={{ scale: 1.045, y: -8 }}
               transition={{ type: "spring", stiffness: 120, damping: 14 }}
-              className=" w-[100%] max-w-[500px] lg:w-[90%]  "
+              className="w-full max-w-[450px]"
             >
-              <CometCard className="w-[100%]  mx-auto">
+              <CometCard className="w-full mx-auto">
                 <button
                   type="button"
-                  className="flex w-full h-full cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 md:my-20 md:p-4"
+                  className="flex w-full h-full flex-col items-stretch rounded-2xl bg-[#1F2121] p-4"
                   aria-label={`View project ${proj.name}`}
-                  style={{
-                    transformStyle: "preserve-3d",
-                    transform: "none",
-                    opacity: 1,
-                  }}
-                  onClick={() => {
-                    if (proj.href) {
-                      window.open(proj.href, "_blank");
-                    }
-                  }}
+                  onClick={() => window.open(proj.href, "_blank")}
                 >
-                  <div className="mx-2  ">
-                    <div className="relative mt-2  aspect-[4/4] w-full">
-                      <Image
-                        fill
-                        className="absolute inset-0 h-full w-full rounded-[16px] object-cover object-center"
-                        alt={proj.name}
-                        src={proj.img}
-                        style={{
-                          boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
-                        }}
-                      />
-                    </div>
+                  <div className="relative w-full aspect-[4/3] mt-2">
+                    <Image
+                      fill
+                      className="absolute inset-0 w-full h-full object-cover rounded-2xl"
+                      alt={proj.name}
+                      src={proj.img}
+                      style={{
+                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
+                      }}
+                    />
                   </div>
-                  {/* Title and Description Section */}
-                  <div className="mt-4 h-[60%]  flex flex-col justify-center gap-2 p-6 font-mono text-white bg-black/60 rounded-xl backdrop-blur-sm shadow-inner">
-                    <h3 className="max-w-xs !pb-2 !m-0 text-start text-white text-[1.5em]   font-extrabold  [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                  <div className="mt-4 bg-black/60 rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
+                    <h3 className="text-xl font-extrabold [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.name}
                     </h3>
-                    <div className="text-base text-start !m-0 !p-0 font-normal">
-                      <span className="text-slate-500 [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] ">
-                        {proj.desc}
-                      </span>
-                    </div>{" "}
-                    <span className="mt-2 flex items-center justify-center tag-shadow px-7 py-2 rounded-full text-neon border font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
+                    <p className="text-slate-500 text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                      {proj.desc}
+                    </p>
+                    <span className="mt-2 inline-flex items-center justify-center tag-shadow px-6 py-2 rounded-full text-neon border font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
                       Check it Out
                       <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>

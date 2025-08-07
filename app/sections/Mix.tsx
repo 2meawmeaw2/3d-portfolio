@@ -9,19 +9,18 @@ const Mix = () => {
   useGSAP(() => {
     gsap.to("#Hero", {
       scrollTrigger: {
-        trigger: ".holder",
+        trigger: "#Mix",
         start: "top top",
         end: "bottom start",
         scrub: 1,
       },
 
-      y: -window.innerHeight / 1.5,
+      yPercent: -100,
       scale: 0.1,
-      xPercent: -50,
     });
     gsap.to("#Hero", {
       scrollTrigger: {
-        trigger: ".holder",
+        trigger: "#Mix",
         start: "top top",
         end: "20% top",
         scrub: 1,
@@ -31,24 +30,24 @@ const Mix = () => {
       borderColor: "#ffffff",
       borderStyle: "solid",
     });
-    gsap.from("#About", {
+    gsap.to("#About", {
       scrollTrigger: {
-        trigger: ".holder",
+        trigger: "#Mix",
         start: "top top",
-        end: "bottom bottom",
+        end: "20% top",
         scrub: 1,
       },
-      y: -window.innerHeight / 1.5,
-      scale: 0.1,
-      xPercent: 50,
+
+      yPercent: -80,
     });
   });
 
   return (
-    <div id="Mix" className="relative holder h-[300vh]">
-      <div className="sticky top-0 h-[100vh] w-full">
-        <Hero />
-        <About />
+    <div id="Mix" className="relative holder ">
+      <Hero />
+      <About />
+      <div className="bg-black absolute bottom-0 h-[90vh] w-full z-10 opacity-85 ">
+        <div className="absolute -bottom-1/2 blur-[300px] rounded-full w-full  h-100 bg-white/40 left-1/2 -translate-x-[50%]" />
       </div>
     </div>
   );

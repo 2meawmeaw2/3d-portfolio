@@ -261,15 +261,7 @@ export const NavbarLogo = () => {
   );
 };
 
-export const NavbarButton = ({
-  href,
-  as: Tag = "a",
-  children,
-  className,
-  variant = "primary",
-  ...props
-}: {
-  href?: string;
+export const NavbarButton = ({}: {
   as?: React.ElementType;
   children: React.ReactNode;
   className?: string;

@@ -1,3 +1,4 @@
+"use client";
 import Skillsp from "./sections/Skills";
 import { Contact } from "./sections/Contact";
 import { Project } from "./sections/Projects";

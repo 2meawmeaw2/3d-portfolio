@@ -210,57 +210,59 @@ const Skillsp = () => {
   };
 
   return (
-    <section
-      id="Skills"
-      className={`h-[100vh] z-40 bg-black relative flex justify-center items-center overflow-y-clip `}
-    >
-      <div className="absolute inset-0 z-40 pointer-events-none">
-        <LightRays
-          raysOrigin="top-left"
-          raysColor="#155cfb"
-          raysSpeed={1.2}
-          lightSpread={7}
-          rayLength={2}
-          followMouse={true}
-          mouseInfluence={5}
-        />
-      </div>
-      <div className="absolute inset-0 z-40 pointer-events-none">
-        <LightRays
-          raysOrigin="top-right"
-          raysColor="#155cfb"
-          raysSpeed={1.2}
-          lightSpread={7}
-          rayLength={2}
-          followMouse={true}
-          mouseInfluence={5}
-        />
-      </div>
-      <div className="absolute inset-0 z-30 pointer-events-none">
-        <LightRays
-          raysOrigin="bottom-right"
-          raysColor="#155cfb"
-          raysSpeed={1.2}
-          lightSpread={7}
-          rayLength={2}
-          followMouse={true}
-          mouseInfluence={5}
-        />
-      </div>
-      <div className="absolute inset-0 z-30 pointer-events-none">
-        <LightRays
-          raysOrigin="bottom-left"
-          raysColor="#155cfb"
-          raysSpeed={1.2}
-          lightSpread={7}
-          rayLength={2}
-          followMouse={true}
-          mouseInfluence={5}
-        />
-      </div>
+    <div className="relative h-[100vh]">
       <CardDemo slideSet={slideSet} />
 
-      <div className="fixed inset-0 w-full h-full z-40 skills-set">
+      <section
+        id="Skills"
+        className={`h-[100vh] z-40  absolute inset-0 flex justify-center items-center overflow-y-clip `}
+      >
+        <div className="absolute inset-0  -z-10 pointer-events-none">
+          <LightRays
+            raysOrigin="top-left"
+            raysColor="#ffffff"
+            raysSpeed={1.2}
+            lightSpread={7}
+            rayLength={2}
+            followMouse={true}
+            mouseInfluence={0.05}
+          />
+        </div>
+        <div className="absolute inset-0 -z-10  pointer-events-none">
+          <LightRays
+            raysOrigin="top-right"
+            raysColor="#ffffff"
+            raysSpeed={1.2}
+            lightSpread={7}
+            rayLength={2}
+            followMouse={true}
+            mouseInfluence={5}
+          />
+        </div>
+        <div className="absolute inset-0 -z-10  pointer-events-none">
+          <LightRays
+            raysOrigin="bottom-right"
+            raysColor="#ffffff"
+            raysSpeed={1.2}
+            lightSpread={7}
+            rayLength={2}
+            followMouse={true}
+            mouseInfluence={5}
+          />
+        </div>
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <LightRays
+            raysOrigin="bottom-left"
+            raysColor="#ffffff"
+            raysSpeed={1.2}
+            lightSpread={7}
+            rayLength={2}
+            followMouse={true}
+            mouseInfluence={5}
+          />
+        </div>
+      </section>
+      <div className="fixed inset-0 w-full h-full z-60 skills-set">
         <motion.div
           key="toolbox"
           initial={{ height: 0, opacity: 0 }}
@@ -272,7 +274,7 @@ const Skillsp = () => {
           <div className="w-[100vw] h-[100vh] absolute inset-0 z-10 pointer-events-none">
             <LightRays
               raysOrigin="top-center"
-              raysColor="#155cfb"
+              raysColor="#ffffff"
               raysSpeed={1.5}
               lightSpread={2}
               rayLength={4}
@@ -356,7 +358,7 @@ const Skillsp = () => {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 
