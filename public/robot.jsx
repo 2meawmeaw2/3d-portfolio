@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export function Robot({ boxSize, ...rest }) {
+export function Robot({ ...rest }) {
   const { nodes, materials } = useGLTF("/Untitled.gltf");
   const [scaleFactor, setScaleFactor] = useState(getScale());
 

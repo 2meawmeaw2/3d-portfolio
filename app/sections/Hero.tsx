@@ -4,38 +4,39 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitText from "gsap/SplitText";
 import GSDevTools from "gsap/GSDevTools";
+import { useToggleStore } from "../zustand";
 gsap.registerPlugin(useGSAP, ScrollTrigger, GSDevTools, SplitText);
 
 export default function Hero() {
-  useGSAP(() => {
-    const split = SplitText.create(".texts", { type: "lines" });
-    gsap.from(split.lines, {
-      autoAlpha: 0,
-      yPercent: 50,
-      duration: 1.5,
-      delay: 3,
-      stagger: { each: 0.007 },
-    });
+  const { isOpen } = useToggleStore();
+  // close
+  useGSAP(
+    () => {
+      if (!isOpen) return;
+      const split = SplitText.create(".texts", { type: "lines" });
 
-    gsap.fromTo(
-      ".container-hero-1",
-      {
-        textShadow: "0px -1px 10px #00000080",
-        color: "#000000",
-        borderColor: "#000000",
-        boxShadow: "0 0 0px #000000",
-      },
-      {
-        textShadow: "0px -1px 10px #FFFFFF80",
-        color: "#ffffff",
-        delay: 3,
-        borderColor: "#ffffff",
-        boxShadow: "0 0 20px #ffffff",
-        duration: 2,
-        ease: "power2.out",
-      }
-    );
-  });
+      gsap.fromTo(
+        ".container-hero-1",
+        {
+          scrollTrigger: ".container-hero-1",
+          textShadow: "0px -1px 10px #00000080",
+          color: "#000000",
+          borderColor: "#000000",
+          boxShadow: "0 0 0px #000000",
+        },
+        {
+          textShadow: "0px -1px 10px #FFFFFF80",
+          color: "#ffffff",
+          delay: 1.5,
+          borderColor: "#ffffff",
+          boxShadow: "0 0 20px #ffffff",
+          duration: 2,
+          ease: "power2.out",
+        }
+      );
+    },
+    { dependencies: [isOpen] }
+  );
   return (
     <>
       <section
@@ -54,10 +55,10 @@ export default function Hero() {
           </div>
 
           <div className=" w-[100%] texts max-w-150 mx-auto  h-50 flex justify-center items-center flex-col">
-            <h1 className="font-medium text-4xl  pr-20 hero-text  leading-relaxed ">
+            <h1 className="font-medium text-4xl xl:text-6xl  pr-20 hero-text  leading-relaxed ">
               Turning Visions
             </h1>
-            <h1 className="text-4xl text-nowrap texts font-medium  pl-20  hero-text  leading-relaxed ">
+            <h1 className="text-4xl xl:text-6xl text-nowrap texts font-medium  pl-20  hero-text  leading-relaxed ">
               Into Web Reality
             </h1>
           </div>

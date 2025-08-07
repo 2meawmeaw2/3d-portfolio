@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useProgress } from "@react-three/drei";
-
+import { useToggleStore } from "../zustand";
 export default function LoaderScreen() {
   const [isComplete, setIsComplete] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -73,9 +73,12 @@ export default function LoaderScreen() {
         "<"
       );
   };
+  const { setIsOpen } = useToggleStore();
 
   // Remove loader from DOM when not visible
   if (!isVisible) return null;
+
+  // close
 
   return (
     <div
@@ -102,7 +105,10 @@ export default function LoaderScreen() {
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-[50%] pointer-events-none"
           }`}
-          onClick={handleExit}
+          onClick={() => {
+            handleExit();
+            setIsOpen(true);
+          }}
           tabIndex={isComplete ? 0 : -1}
           aria-hidden={!isComplete}
         >

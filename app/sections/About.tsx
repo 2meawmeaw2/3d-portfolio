@@ -96,7 +96,7 @@ const About = () => {
       autoAlpha: 1,
       yPercent: 0,
       color: "#ffffff",
-      stagger: { each: 0.01, from: "random" },
+      stagger: { each: 0.05, from: "random" },
       ease: "power2.out",
     });
   });
