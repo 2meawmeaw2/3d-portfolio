@@ -167,7 +167,6 @@ export function Scene(): React.JSX.Element {
           const tl = gsap.timeline({
             scrollTrigger: {
               invalidateOnRefresh: true,
-              markers: section.markers,
               trigger: section.trigger,
               start: section.start,
               end: section.end,
