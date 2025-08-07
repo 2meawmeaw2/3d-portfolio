@@ -26,11 +26,24 @@ const Skillsp = () => {
           src="/tools/html.svg"
           alt="HTML/CSS"
           fill
-          className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+          className="w-12 h-12 p-1 bg-white  hover:scale-105 transition-all duration-200 ease-in-out"
+        />
+      ),
+      progress: 90,
+      time: "2 years",
+    },
+    {
+      name: "R3F",
+      icon: (
+        <Image
+          src="/tools/r3f.png"
+          alt="r3f"
+          fill
+          className="w-10 h-10 p-[0.5rem] my-1 bg-white rounded-full  scale-99 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
       progress: 50,
-      time: "2 years",
+      time: "2 months",
     },
     {
       name: "GSAP",
@@ -60,8 +73,8 @@ const Skillsp = () => {
           />
         </svg>
       ),
-      progress: 50,
-      time: "2 years",
+      progress: 60,
+      time: "2 months",
     },
     {
       name: "Three js",
@@ -74,7 +87,7 @@ const Skillsp = () => {
         />
       ),
       progress: 50,
-      time: "2 years",
+      time: "2 months",
     },
     {
       name: "Typescript",
@@ -86,8 +99,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-2  hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 60,
-      time: "2 months",
+      progress: 80,
+      time: "1 year",
     },
     {
       name: "React",
@@ -99,8 +112,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 70,
-      time: "3 months",
+      progress: 80,
+      time: "1 year",
     },
     {
       name: "Next js",
@@ -112,8 +125,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 70,
-      time: "3 months",
+      progress: 80,
+      time: "1 year",
     },
     {
       name: "Tailwind Css",
@@ -125,8 +138,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 50,
-      time: "3 months",
+      progress: 60,
+      time: "6 months",
     },
   ];
 
@@ -142,6 +155,7 @@ const Skillsp = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ ease: easeInOut }}
+        style={{ boxShadow: "0 0 20px #ffffff" }}
         key={index}
         className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 bg-black/20 text-[1em] work  text-blue border-1  font-bold font-outfit "
       >
@@ -174,7 +188,7 @@ const Skillsp = () => {
               transition={{ delay: 0.8, ease: easeInOut, duration: 1 }}
               className="absolute left-0 top-0 h-4 rounded-full"
               style={{
-                background: "linear-gradient(90deg, #0f2239 0%, #00ffff 100%)",
+                background: "linear-gradient(90deg, #0f2239 0%, #155cfb 100%)",
                 boxShadow: "0 2px 8px 0 rgba(255,92,124,0.15)",
               }}
             />
@@ -302,7 +316,10 @@ const Skillsp = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ ease: easeInOut }}
-                className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em] work text-blue border-1 font-bold font-outfit"
+                style={{
+                  boxShadow: "0 0 20px #ffffff",
+                }}
+                className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em]  text-blue border-1 font-bold font-outfit"
               >
                 <div className="flex items-center justify-center bg-black w-14 h-14 rounded-lg bg-none shadow-inner shadow-gray-600">
                   <svg
@@ -340,7 +357,7 @@ const Skillsp = () => {
                       }}
                       style={{
                         background:
-                          "linear-gradient(90deg, #0f2239 0%, #00ffff 100%)",
+                          "linear-gradient(90deg, #0f2239 0%, #155cfb 100%)",
                         boxShadow: "0 2px 8px 0 rgba(255,92,124,0.15)",
                       }}
                     />
