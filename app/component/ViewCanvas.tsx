@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect, Suspense } from "react";
+import React, { useRef, useState, useLayoutEffect, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import { Robot } from "@/public/robot";
@@ -36,10 +36,10 @@ export function Scene(): React.JSX.Element {
     if (element && isMobileDevice) element.style.willChange = properties;
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
 
-    setWidth(window.innerWidth); // set initial width after mount
+    handleResize(); // set initial width immediately
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);

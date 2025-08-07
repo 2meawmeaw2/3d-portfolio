@@ -13,7 +13,6 @@ export default function Hero() {
   useGSAP(
     () => {
       if (!isOpen) return;
-      const split = SplitText.create(".texts", { type: "lines" });
 
       gsap.fromTo(
         ".container-hero-1",

@@ -114,10 +114,11 @@ const About = () => {
             Who I Am
           </h1>
           <p className="text-base md:text-lg animated-text overflow-clip leading-relaxed">
-            Developer focused on AI, cybersecurity, and full-stack systems. I
-            build interfaces that function with clarity and systems that operate
-            with precision. Passionate about learning, building, and breaking
-            things to understand them.
+            I'm a front-end developer focused on motion, clarity, and user
+            experience. <br /> I craft fluid interfaces with precise animation,
+            responsive layouts, and minimal design. <br /> My work bridges
+            aesthetics and usability to build interfaces that feel alive and
+            intuitive.
           </p>
         </div>
 
@@ -126,10 +127,11 @@ const About = () => {
             Core Skills
           </h2>
           <p className="text-base md:text-lg opacity-80 leading-relaxed animated-text2 overflow-clip">
-            • Frontend: React, Next.js, Tailwind, GSAP, Three.js • Backend:
-            Node.js, Firebase, Supabase, REST • Cybersecurity: Pentesting
-            fundamentals, network analysis • UI/UX: Motion, layout systems,
-            minimal design
+            UI/UX Design Principles <br /> Motion Design <br /> Responsive
+            Layouts <br />
+            Consistency Performance Optimization
+            <br /> State Management Logic <br /> Interactive Prototyping Clean,
+            Maintainable Code Structure
           </p>
         </div>
       </div>
