@@ -32,13 +32,13 @@ const Mix = () => {
     });
     gsap.to("#About", {
       scrollTrigger: {
-        trigger: "#Mix",
-        start: "top top",
-        end: "20% top",
+        trigger: "#About",
+        start: "-40% bottom",
+        end: "0% bottom",
         scrub: 1,
       },
 
-      yPercent: -80,
+      yPercent: -50,
     });
   });
 

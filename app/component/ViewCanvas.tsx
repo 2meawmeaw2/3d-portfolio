@@ -101,7 +101,6 @@ export function Scene(): React.JSX.Element {
           trigger: "#Projects",
           start: "20% center",
           end: "80% center",
-          markers: true,
           steps: [
             {
               xPercent: 40,
@@ -148,7 +147,6 @@ export function Scene(): React.JSX.Element {
           scrollTrigger: {
             invalidateOnRefresh: true,
             trigger: section.trigger,
-            markers: section.markers,
             start: section.start,
             end: section.end,
             scrub: 1,
