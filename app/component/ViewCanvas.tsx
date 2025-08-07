@@ -118,7 +118,6 @@ export function Scene(): React.JSX.Element {
           {
             trigger: "#Skills",
             start: "20% 80%",
-            markers: true,
             end: "60% center",
             steps: [
               width > 1280
@@ -141,7 +140,6 @@ export function Scene(): React.JSX.Element {
           {
             trigger: "#Contact",
             start: "20% 90%",
-            markers: true,
             end: "60% center",
             steps: [
               width > 1280
