@@ -9,7 +9,7 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-import ViewCanvas from "./component/ViewCanvas";
+import { Scene } from "./component/ViewCanvas";
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
           </nav>
           <main className="relative">
             {children}
-            <ViewCanvas />
+            <Scene />
           </main>
         </body>
       </ReactLenis>
