@@ -68,23 +68,14 @@ export function Project() {
           viewport={{ once: true }}
         >
           <motion.h1
-            className="text-white text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold"
+            className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
           >
-            My works
+            Featured Projects
           </motion.h1>
-          <motion.h3
-            className="text-white text-sm sm:text-base md:text-xl lg:text-2xl font-medium"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-            style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
-          >
-            The tools I suppose you checked are utilized to build these
-          </motion.h3>
         </motion.div>
 
         <motion.div
