@@ -38,7 +38,7 @@ export function Project() {
   return (
     <motion.section
       id="Projects"
-      className="bg-black relative z-40 overflow-clip"
+      className="bg-black lg:min-h-300 relative z-40 overflow-clip"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -61,7 +61,7 @@ export function Project() {
 
       <div className="relative z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
         <motion.div
-          className="text-center space-y-4"
+          className="text-center  space-y-4"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
@@ -79,7 +79,7 @@ export function Project() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col xl:flex-row items-center justify-center gap-12 w-full"
+          className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-8 sm:gap-10 w-full"
           initial="hidden"
           whileInView="visible"
           variants={{
@@ -102,16 +102,16 @@ export function Project() {
               }}
               whileHover={{ scale: 1.045, y: -8 }}
               transition={{ type: "spring", stiffness: 120, damping: 14 }}
-              className="w-full max-w-[450px]"
+              className="w-full max-w-[90%] sm:max-w-[400px] md:max-w-[450px]"
             >
-              <CometCard className="w-full mx-auto">
+              <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem]">
                 <button
                   type="button"
-                  className="flex w-full h-full flex-col items-stretch rounded-2xl bg-[#1F2121] p-4"
+                  className="flex w-full h-full  min-h-160 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4"
                   aria-label={`View project ${proj.name}`}
                   onClick={() => window.open(proj.href, "_blank")}
                 >
-                  <div className="relative w-full aspect-[4/3] mt-2">
+                  <div className="relative w-full h-full rounded-2xl bg-amber-50 aspect-[4/3] mt-2">
                     <Image
                       fill
                       className="absolute inset-0 w-full h-full object-cover rounded-2xl"
@@ -122,7 +122,7 @@ export function Project() {
                       }}
                     />
                   </div>
-                  <div className="mt-4 bg-black/60 rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
+                  <div className="mt-4 bg-black/60  rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
                     <h3 className="text-xl font-extrabold [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.name}
                     </h3>

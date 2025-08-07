@@ -210,58 +210,56 @@ const Skillsp = () => {
   };
 
   return (
-    <div className="relative h-[100vh]">
+    <div className="relative h-[100vh] lg:min-h-300 ">
       <CardDemo slideSet={slideSet} />
-
+      <div className="absolute inset-0  -z-10 pointer-events-none">
+        <LightRays
+          raysOrigin="top-left"
+          raysColor="#ffffff"
+          raysSpeed={1.2}
+          lightSpread={7}
+          rayLength={2}
+          followMouse={true}
+          mouseInfluence={0.05}
+        />
+      </div>
+      <div className="absolute inset-0 -z-10  pointer-events-none">
+        <LightRays
+          raysOrigin="top-right"
+          raysColor="#ffffff"
+          raysSpeed={1.2}
+          lightSpread={7}
+          rayLength={2}
+          followMouse={true}
+          mouseInfluence={5}
+        />
+      </div>
+      <div className="absolute inset-0 -z-10  pointer-events-none">
+        <LightRays
+          raysOrigin="bottom-right"
+          raysColor="#ffffff"
+          raysSpeed={1.2}
+          lightSpread={7}
+          rayLength={2}
+          followMouse={true}
+          mouseInfluence={5}
+        />
+      </div>
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <LightRays
+          raysOrigin="bottom-left"
+          raysColor="#ffffff"
+          raysSpeed={1.2}
+          lightSpread={7}
+          rayLength={2}
+          followMouse={true}
+          mouseInfluence={5}
+        />
+      </div>
       <section
         id="Skills"
-        className={`h-[100vh] z-40  absolute inset-0 flex justify-center items-center overflow-y-clip `}
-      >
-        <div className="absolute inset-0  -z-10 pointer-events-none">
-          <LightRays
-            raysOrigin="top-left"
-            raysColor="#ffffff"
-            raysSpeed={1.2}
-            lightSpread={7}
-            rayLength={2}
-            followMouse={true}
-            mouseInfluence={0.05}
-          />
-        </div>
-        <div className="absolute inset-0 -z-10  pointer-events-none">
-          <LightRays
-            raysOrigin="top-right"
-            raysColor="#ffffff"
-            raysSpeed={1.2}
-            lightSpread={7}
-            rayLength={2}
-            followMouse={true}
-            mouseInfluence={5}
-          />
-        </div>
-        <div className="absolute inset-0 -z-10  pointer-events-none">
-          <LightRays
-            raysOrigin="bottom-right"
-            raysColor="#ffffff"
-            raysSpeed={1.2}
-            lightSpread={7}
-            rayLength={2}
-            followMouse={true}
-            mouseInfluence={5}
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 pointer-events-none">
-          <LightRays
-            raysOrigin="bottom-left"
-            raysColor="#ffffff"
-            raysSpeed={1.2}
-            lightSpread={7}
-            rayLength={2}
-            followMouse={true}
-            mouseInfluence={5}
-          />
-        </div>
-      </section>
+        className={`h-[100vh]  lg:min-h-300 z-40  absolute inset-0 flex justify-center items-center overflow-y-clip `}
+      ></section>
       <div className="fixed inset-0 w-full h-full z-60 skills-set">
         <motion.div
           key="toolbox"
