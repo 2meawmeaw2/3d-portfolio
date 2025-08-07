@@ -114,7 +114,7 @@ const About = () => {
             Who I Am
           </h1>
           <p className="text-base md:text-lg animated-text overflow-clip leading-relaxed">
-            I'm a front-end developer focused on motion, clarity, and user
+            I&rsquo;m a front-end developer focused on motion, clarity, and user
             experience. <br /> I craft fluid interfaces with precise animation,
             responsive layouts, and minimal design. <br /> My work bridges
             aesthetics and usability to build interfaces that feel alive and
