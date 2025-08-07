@@ -34,7 +34,7 @@ const Mix = () => {
       scrollTrigger: {
         trigger: "#About",
         start: "-40% bottom",
-        end: "0% bottom",
+        end: "-20% bottom",
         scrub: 1,
       },
 
