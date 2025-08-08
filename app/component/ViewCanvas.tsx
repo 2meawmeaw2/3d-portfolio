@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useState, Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Float, AdaptiveDpr } from "@react-three/drei";
+import { Float, AdaptiveDpr, Environment } from "@react-three/drei";
+import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import { Robot } from "@/public/robot";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -189,11 +190,20 @@ export function Scene(): React.JSX.Element {
           camera={{ fov: 75 }}
           performance={{ min: 0.1, max: 1, debounce: 200 }}
           dpr={[1, 2]}
-          gl={{ antialias: true }}
+          gl={{
+            antialias: true,
+            toneMapping: ACESFilmicToneMapping,
+            outputColorSpace: SRGBColorSpace,
+          }}
         >
+          {/* Global high-quality lighting */}
+          <ambientLight intensity={0.2} />
+          <hemisphereLight args={[0xffffff, 0x1a1a1a, 0.35]} />
+          <directionalLight position={[3, 5, 2]} intensity={2.2} />
+          <directionalLight position={[-4, 2, -3]} intensity={0.6} />
+          <Environment preset="studio" />
+
           <group ref={groupRef} scale={0.03}>
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[2, 2, 2]} intensity={1.5} />
             <AdaptiveDpr />
             <Float
               speed={1}
