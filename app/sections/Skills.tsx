@@ -10,6 +10,12 @@ import gsap from "gsap";
 
 gsap.registerPlugin(useGSAP);
 
+declare global {
+  interface Window {
+    __skillsEscHandler?: (e: KeyboardEvent) => void;
+  }
+}
+
 interface Skill {
   name: string;
   icon: ReactNode;
@@ -218,7 +224,7 @@ const Skillsp = () => {
       };
       window.addEventListener("keydown", onKey);
       // store handler for cleanup on close
-      (window as any).__skillsEscHandler = onKey;
+      window.__skillsEscHandler = onKey;
     } else {
       document.body.style.overflow = ""; // Restore body scroll
       gsap.to(".skills-set", {
@@ -226,12 +232,10 @@ const Skillsp = () => {
         duration: 2,
         ease: "power2.inOut",
       });
-      const prev = (window as any).__skillsEscHandler as
-        | ((e: KeyboardEvent) => void)
-        | undefined;
+      const prev = window.__skillsEscHandler;
       if (prev) {
         window.removeEventListener("keydown", prev);
-        (window as any).__skillsEscHandler = undefined;
+        window.__skillsEscHandler = undefined;
       }
     }
   };

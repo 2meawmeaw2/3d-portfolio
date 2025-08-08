@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState, Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Float, AdaptiveDpr, Environment } from "@react-three/drei";
+import { Float, AdaptiveDpr } from "@react-three/drei";
 import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import { Robot } from "@/public/robot";
 import gsap from "gsap";
@@ -9,6 +9,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import LoaderScreen from "../component2D/Loader";
 import type { Group } from "three";
+import type * as THREE from "three";
+import { useToggleStore } from "../zustand";
 interface PositionProxy {
   opacity: number;
   xPercent: number;
@@ -20,7 +22,7 @@ interface RotationProxy {
   y: number;
   z: number;
 }
-type RotationTuple = [number, number, number];
+// Removed unused RotationTuple type
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -29,8 +31,9 @@ export function Scene(): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number | null>(null); // initial is safe for SSR
   const groupRef = useRef<Group>(null);
+  const { isOpen } = useToggleStore();
 
-  const gsapScope = useRef(null);
+  // Removed unused gsapScope ref
   const setWillChange = (
     element: HTMLElement | null,
     properties: string
@@ -196,12 +199,8 @@ export function Scene(): React.JSX.Element {
             outputColorSpace: SRGBColorSpace,
           }}
         >
-          {/* Global high-quality lighting */}
-          <ambientLight intensity={0.2} />
-          <hemisphereLight args={[0xffffff, 0x1a1a1a, 0.35]} />
-          <directionalLight position={[3, 5, 2]} intensity={2.2} />
-          <directionalLight position={[-4, 2, -3]} intensity={0.6} />
-          <Environment preset="studio" />
+          {/* Lights only appear when state opens (mirrors hero light behavior) */}
+          {isOpen && <RobotLights />}
 
           <group ref={groupRef} scale={0.03}>
             <AdaptiveDpr />
@@ -219,6 +218,79 @@ export function Scene(): React.JSX.Element {
         </Canvas>
       </div>
       <LoaderScreen />
+    </>
+  );
+}
+
+function RobotLights(): React.JSX.Element {
+  const ambientRef = useRef<THREE.AmbientLight>(null);
+  const hemiRef = useRef<THREE.HemisphereLight>(null);
+  const dir1Ref = useRef<THREE.DirectionalLight>(null);
+  const dir2Ref = useRef<THREE.DirectionalLight>(null);
+  const dir3Ref = useRef<THREE.DirectionalLight>(null);
+  const dir4Ref = useRef<THREE.DirectionalLight>(null);
+  const dir5Ref = useRef<THREE.DirectionalLight>(null);
+  const dir6Ref = useRef<THREE.DirectionalLight>(null);
+
+  useEffect(() => {
+    const targets = {
+      ambient: 0.2,
+      hemi: 0.35,
+      dir1: 2.2,
+      dir2: 0.6,
+      dir3: 5,
+      dir4: 2,
+      dir5: 1,
+      dir6: 1,
+    };
+
+    [
+      ambientRef,
+      hemiRef,
+      dir1Ref,
+      dir2Ref,
+      dir3Ref,
+      dir4Ref,
+      dir5Ref,
+      dir6Ref,
+    ].forEach((ref) => {
+      if (ref.current) ref.current.intensity = 0;
+    });
+
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    tl.delay(1.25)
+      .to(
+        ambientRef.current || {},
+        { intensity: targets.ambient, duration: 1.5 },
+        0
+      )
+      .to(hemiRef.current || {}, { intensity: targets.hemi, duration: 1.5 }, 0)
+      .to(dir1Ref.current || {}, { intensity: targets.dir1, duration: 1.5 }, 0)
+      .to(
+        dir2Ref.current || {},
+        { intensity: targets.dir2, duration: 1.2 },
+        0.1
+      )
+      .to(dir3Ref.current || {}, { intensity: targets.dir3, duration: 1.5 }, 0)
+      .to(dir4Ref.current || {}, { intensity: targets.dir4, duration: 1.5 }, 0)
+      .to(dir5Ref.current || {}, { intensity: targets.dir5, duration: 1.5 }, 0)
+      .to(dir6Ref.current || {}, { intensity: targets.dir6, duration: 1.5 }, 0);
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  return (
+    <>
+      <ambientLight ref={ambientRef} />
+      <hemisphereLight ref={hemiRef} args={[0xffffff, 0x1a1a1a]} />
+      <directionalLight ref={dir1Ref} position={[3, 5, 2]} />
+      <directionalLight ref={dir2Ref} position={[-4, 2, -3]} />
+      <directionalLight ref={dir3Ref} position={[2, 0, 1]} intensity={5} />
+      <directionalLight ref={dir4Ref} position={[-2, 0, 1]} intensity={2} />
+      <directionalLight ref={dir5Ref} position={[0, -1, 1]} intensity={1} />
+      <directionalLight ref={dir6Ref} position={[0, 5, 1]} intensity={1} />
     </>
   );
 }
