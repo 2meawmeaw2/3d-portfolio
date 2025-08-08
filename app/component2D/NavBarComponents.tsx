@@ -91,7 +91,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        width: visible ? "40%" : "100%",
+        width: visible ? "min(80%, 1100px)" : "100%",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -100,10 +100,10 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       style={{
-        minWidth: "800px",
+        minWidth: "auto",
       }}
       className={cn(
-        "absolute top-10 h-[4rem] left-1/2 -translate-x-[50%] z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full  px-4 py-2 lg:flex bg-neutral-950/80",
+        "absolute top-4 h-[4rem] left-1/2 -translate-x-[50%] z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full  px-4 py-2 lg:flex bg-neutral-950/70",
         visible && " bg-neutral-950/80",
         className
       )}
@@ -137,7 +137,12 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
               });
             } else {
               onItemClick?.();
-              window.location.hash = item.link;
+              const target = document.querySelector(item.link);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              } else {
+                window.location.hash = item.link;
+              }
             }
           }}
           className="relative px-4 py-2  nav-bar-glow"
@@ -245,7 +250,13 @@ export const NavbarLogo = () => {
   return (
     <a
       href="#Mix"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-md font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-md font-normal text-white"
+      onClick={(e) => {
+        e.preventDefault();
+        const top = document.querySelector("#Mix");
+        top?.scrollIntoView({ behavior: "smooth" });
+      }}
+      aria-label="Go to top"
     >
       <Image
         src="/meaw2.jpg"

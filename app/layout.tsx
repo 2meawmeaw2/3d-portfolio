@@ -13,8 +13,9 @@ import { Scene } from "./component/ViewCanvas";
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
 export const metadata: Metadata = {
-  title: "Code Translator",
-  description: "Web developer portfolio",
+  title: "Taha – Web Developer Portfolio",
+  description:
+    "Interactive portfolio showcasing projects, skills, and contact information.",
 };
 
 export default function RootLayout({

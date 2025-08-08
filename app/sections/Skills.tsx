@@ -26,7 +26,7 @@ const Skillsp = () => {
           src="/tools/html.svg"
           alt="HTML/CSS"
           fill
-          className="w-12 h-12 p-1 bg-white  hover:scale-105 transition-all duration-200 ease-in-out"
+          className="w-12 h-12 p-1 rounded-2xl bg-white  hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
       progress: 90,
@@ -213,6 +213,12 @@ const Skillsp = () => {
         duration: 2,
         ease: "power2.inOut",
       });
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") slideSet(false);
+      };
+      window.addEventListener("keydown", onKey);
+      // store handler for cleanup on close
+      (window as any).__skillsEscHandler = onKey;
     } else {
       document.body.style.overflow = ""; // Restore body scroll
       gsap.to(".skills-set", {
@@ -220,6 +226,13 @@ const Skillsp = () => {
         duration: 2,
         ease: "power2.inOut",
       });
+      const prev = (window as any).__skillsEscHandler as
+        | ((e: KeyboardEvent) => void)
+        | undefined;
+      if (prev) {
+        window.removeEventListener("keydown", prev);
+        (window as any).__skillsEscHandler = undefined;
+      }
     }
   };
 
@@ -301,7 +314,8 @@ const Skillsp = () => {
             <div className="sticky top-4 z-30 mb-10">
               <button
                 onClick={() => slideSet(false)}
-                className="px-6 py-3 rounded-xl bg-white text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform"
+                className="px-6 py-3 rounded-xl bg-white text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                aria-label="Close skills overlay"
               >
                 <MoveLeft />
               </button>

@@ -108,42 +108,65 @@ export function Contact() {
             >
               Send me a message
             </h3>
-            <form className="space-y-4 sm:space-y-6 flex flex-col">
+            <form
+              className="space-y-4 sm:space-y-6 flex flex-col"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("Contact");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               <div className="space-y-2">
-                <label className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                <label
+                  htmlFor="name"
+                  className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+                >
                   Name
                 </label>
                 <Input
+                  id="name"
                   type="text"
                   placeholder="Your name"
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                <label
+                  htmlFor="email"
+                  className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+                >
                   Email
                 </label>
                 <Input
+                  id="email"
                   type="email"
                   placeholder="your.email@example.com"
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                <label
+                  htmlFor="subject"
+                  className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+                >
                   Subject
                 </label>
                 <Input
+                  id="subject"
                   type="text"
                   placeholder="What's this about?"
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                <label
+                  htmlFor="message"
+                  className="text-white/80 text-sm font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]"
+                >
                   Message
                 </label>
                 <textarea
+                  id="message"
                   placeholder="Tell me about your project..."
                   rows={4}
                   className="w-full text-sm sm:text-base bg-white/10 border rounded-lg p-3 text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20 resize-none"

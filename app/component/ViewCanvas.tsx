@@ -1,12 +1,13 @@
 "use client";
 import React, { useRef, useState, Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
+import { Float, AdaptiveDpr } from "@react-three/drei";
 import { Robot } from "@/public/robot";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import LoaderScreen from "../component2D/Loader";
+import type { Group } from "three";
 interface PositionProxy {
   opacity: number;
   xPercent: number;
@@ -23,10 +24,10 @@ type RotationTuple = [number, number, number];
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export function Scene(): React.JSX.Element {
-  const [rotation, setRotation] = useState<RotationTuple>([0, 0, 0]);
   const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number | null>(null); // initial is safe for SSR
+  const groupRef = useRef<Group>(null);
 
   const gsapScope = useRef(null);
   const setWillChange = (
@@ -45,9 +46,11 @@ export function Scene(): React.JSX.Element {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Add this separate useEffect to log when width changes
+  // Detect mobile once on resize changes
   useEffect(() => {
-    console.log("meaw", width);
+    if (typeof window !== "undefined") {
+      setIsMobileDevice(window.matchMedia("(max-width: 768px)").matches);
+    }
   }, [width]);
   useGSAP(() => {
     requestAnimationFrame(() => {
@@ -65,7 +68,13 @@ export function Scene(): React.JSX.Element {
             yPercent: positionProxy.yPercent,
           });
         }
-        setRotation([rotationProxy.x, rotationProxy.y, rotationProxy.z]);
+        if (groupRef.current) {
+          groupRef.current.rotation.set(
+            rotationProxy.x,
+            rotationProxy.y,
+            rotationProxy.z
+          );
+        }
       };
 
       const allTimelines = [
@@ -179,16 +188,13 @@ export function Scene(): React.JSX.Element {
           style={{ willChange: "auto", pointerEvents: "none" }}
           camera={{ fov: 75 }}
           performance={{ min: 0.1, max: 1, debounce: 200 }}
-          dpr={1}
-          gl={{ preserveDrawingBuffer: true }}
-          shadows
+          dpr={[1, 2]}
+          gl={{ antialias: true }}
         >
-          <group scale={0.03} rotation={rotation}>
-            <ambientLight intensity={0.4} />
-
-            <directionalLight position={[1, 0, 1]} intensity={2} />
-            <directionalLight position={[-1, 0, 1]} intensity={2} />
-            <directionalLight position={[-2, 0, -4]} intensity={2.5} />
+          <group ref={groupRef} scale={0.03}>
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[2, 2, 2]} intensity={1.5} />
+            <AdaptiveDpr />
             <Float
               speed={1}
               rotationIntensity={0.4}
@@ -196,7 +202,7 @@ export function Scene(): React.JSX.Element {
               floatingRange={[-0.5, 0.5]}
             >
               <Suspense>
-                <Robot boxSize={1 > 1280 ? 1.4 : 1} />
+                <Robot />
               </Suspense>
             </Float>
           </group>

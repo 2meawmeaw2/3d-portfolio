@@ -114,11 +114,12 @@ export function Project() {
               className="w-full max-w-[90%] sm:max-w-[400px] md:max-w-[450px]"
             >
               <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem]">
-                <button
-                  type="button"
-                  className="flex w-full h-full  min-h-160 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4"
+                <a
+                  href={proj.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full h-full  min-h-160 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                   aria-label={`View project ${proj.name}`}
-                  onClick={() => window.open(proj.href, "_blank")}
                 >
                   <div className="relative w-full h-full rounded-2xl bg-amber-50 aspect-[4/3] mt-2">
                     <Image
@@ -143,7 +144,7 @@ export function Project() {
                       <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </div>
-                </button>
+                </a>
               </CometCard>
             </motion.div>
           ))}
