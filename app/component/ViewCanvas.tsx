@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useState, Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Float, AdaptiveDpr } from "@react-three/drei";
+import { Float } from "@react-three/drei";
+import { EffectComposer, SMAA } from "@react-three/postprocessing";
 import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
 import { Robot } from "@/public/robot";
 import gsap from "gsap";
@@ -192,18 +193,18 @@ export function Scene(): React.JSX.Element {
           style={{ willChange: "auto", pointerEvents: "none" }}
           camera={{ fov: 75 }}
           performance={{ min: 0.1, max: 1, debounce: 200 }}
-          dpr={[1, 2]}
+          dpr={[1.5, 2.5]}
           gl={{
             antialias: true,
             toneMapping: ACESFilmicToneMapping,
             outputColorSpace: SRGBColorSpace,
+            powerPreference: "high-performance",
           }}
         >
           {/* Lights only appear when state opens (mirrors hero light behavior) */}
           {isOpen && <RobotLights />}
 
           <group ref={groupRef} scale={0.03}>
-            <AdaptiveDpr />
             <Float
               speed={1}
               rotationIntensity={0.4}
@@ -215,6 +216,9 @@ export function Scene(): React.JSX.Element {
               </Suspense>
             </Float>
           </group>
+          <EffectComposer multisampling={0}>
+            <SMAA />
+          </EffectComposer>
         </Canvas>
       </div>
       <LoaderScreen />
