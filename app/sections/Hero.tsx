@@ -78,7 +78,7 @@ export default function Hero() {
         <div className="w-[85vw] sm:w-[55vw] h-[24vh] sm:h-[50vh] rounded-[50%] blur-[40vw] sm:blur-[80vw] bg-[#ffffff] absolute -top-[10%] sm:-top-[18%] left-1/2 -translate-x-[50%]" />
         <div className="w-full h-[12%] sm:h-[18%] rounded-[100%] bg-[#ffffff20] blur-[50vw] sm:blur-[80vw] absolute bottom-0 left-0" />
 
-        <div className="container-hero-1 w-full max-w-[1100px] border overflow-clip border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-center mx-auto mt-4 sm:mt-8 gap-6 sm:gap-8 ">
+        <div className="container-hero-1 w-full min-h-80 md:min-h-120 lg:min-h-125 max-w-[1100px] border overflow-clip border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-center mx-auto mt-4 sm:mt-8 gap-6 sm:gap-8 ">
           <div className="text-sm sm:text-base md:text-lg texts hero-text px-5 sm:px-7 py-2 rounded-full border border-white/20 font-bold font-outfit max-w-[14rem] sm:max-w-60 h-10 flex justify-center items-center mx-auto text-center bg-[#232323] mb-2 sm:mb-4">
             ● Available for work
           </div>
