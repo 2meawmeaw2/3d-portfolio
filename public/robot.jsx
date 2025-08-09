@@ -54,8 +54,8 @@ export function Robot({ ...rest }) {
   }, [isOpen, materials, originalMaterialProps]);
 
   function getScale() {
-    const rawScale = (window.innerWidth / 850) * 1.3;
-    return Math.min(2, Math.max(1, rawScale));
+    const rawScale = (window.innerWidth / 850) * 1.5;
+    return Math.min(2, Math.max(1.3, rawScale));
   }
 
   useEffect(() => {
