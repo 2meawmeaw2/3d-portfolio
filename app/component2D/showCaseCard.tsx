@@ -19,7 +19,7 @@ export function CardDemo(Props: CardProps) {
       <CardTitle>Skills and technologies i use </CardTitle>
       <CardDescription slideSet={Props.slideSet}>
         {" "}
-        <Button className="text-center cursor-pointer bg-amber-600">
+        <Button className="text-center cursor-pointer ">
           Check it Out
           <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </Button>
