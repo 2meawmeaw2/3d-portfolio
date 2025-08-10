@@ -10,12 +10,6 @@ import gsap from "gsap";
 
 gsap.registerPlugin(useGSAP);
 
-declare global {
-  interface Window {
-    __skillsEscHandler?: (e: KeyboardEvent) => void;
-  }
-}
-
 interface Skill {
   name: string;
   icon: ReactNode;
@@ -135,7 +129,7 @@ const Skillsp = () => {
       time: "1 year",
     },
     {
-      name: "Tailwind Css",
+      name: "Tailwind ",
       icon: (
         <Image
           src="/tools/tail.svg"
@@ -163,26 +157,26 @@ const Skillsp = () => {
         transition={{ ease: easeInOut }}
         style={{ boxShadow: "0 0 20px #ffffff" }}
         key={index}
-        className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 bg-black/20 text-[1em] work  text-blue border-1  font-bold font-outfit "
+        className="flex items-center  gap-6 w-full max-w-[600px]  rounded-3xl px-4 lg:px-6 py-4 bg-black/20 text-[1em] work  text-blue border-1  font-bold font-outfit "
       >
-        <div className="flex  relative items-center justify-center w-14 h-14  rounded-lg  shadow-inner shadow-gray-600 p-2">
+        <div className="flex  relative items-center justify-center min-w-14 h-14  rounded-lg  shadow-inner shadow-gray-600 p-2">
           {icon}
         </div>
         <div className="flex-1 flex flex-col">
           <div className="flex items-end gap-2 ">
-            <span className="text-2xl font-extrabold tracking-widest text-white">
+            <span className="text-lg text-nowrap font-extrabold tracking-widest text-white">
               {name}
             </span>
-            <span className="text-xs font-semibold text-gray-400 ml-2 mb-1 tracking-widest">
+            <span className="text-xs text-nowrap font-semibold text-gray-400 ml-2 mb-1 tracking-widest">
               {time}
             </span>
             <div className="flex flex-col items-end ml-auto">
               <span
-                className={`text-2xl font-extrabold text-white ${
-                  progress > 80 ? "text-pink-500" : null
+                className={` text-nowrap font-extrabold  ${
+                  progress >= 80 ? "text-pink-500" : "text-white"
                 }`}
               >
-                {progress} <span className="text-xl">%</span>
+                {progress} <span className="">%</span>
               </span>
             </div>
           </div>
@@ -224,7 +218,7 @@ const Skillsp = () => {
       };
       window.addEventListener("keydown", onKey);
       // store handler for cleanup on close
-      window.__skillsEscHandler = onKey;
+      (window as any).__skillsEscHandler = onKey;
     } else {
       document.body.style.overflow = ""; // Restore body scroll
       gsap.to(".skills-set", {
@@ -232,10 +226,12 @@ const Skillsp = () => {
         duration: 2,
         ease: "power2.inOut",
       });
-      const prev = window.__skillsEscHandler;
+      const prev = (window as any).__skillsEscHandler as
+        | ((e: KeyboardEvent) => void)
+        | undefined;
       if (prev) {
         window.removeEventListener("keydown", prev);
-        window.__skillsEscHandler = undefined;
+        (window as any).__skillsEscHandler = undefined;
       }
     }
   };
@@ -314,7 +310,7 @@ const Skillsp = () => {
             />
           </div>
 
-          <div className="relative pt-30 z-20 w-full max-w-[1200px] mx-auto px-6 py-8 min-h-screen">
+          <div className="relative pt-30 z-20 w-full max-w-[1200px] mx-auto px-1 py-8 min-h-screen">
             <div className="sticky top-4 z-30 mb-10">
               <button
                 onClick={() => slideSet(false)}
@@ -327,7 +323,7 @@ const Skillsp = () => {
 
             <motion.div
               transition={{ staggerChildren: 0.1 }}
-              className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 pb-20"
+              className="w-full  grid grid-cols-1 md:grid-cols-2 gap-8 pb-20"
             >
               {/* Static Motion skill card */}
               <motion.div
@@ -337,7 +333,7 @@ const Skillsp = () => {
                 style={{
                   boxShadow: "0 0 20px #ffffff",
                 }}
-                className="flex items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em]  text-blue border-1 font-bold font-outfit"
+                className="flex  items-center gap-6 w-full max-w-[600px] bg-none rounded-3xl px-6 py-4 text-[1em]  text-blue border-1 font-bold font-outfit"
               >
                 <div className="flex items-center justify-center bg-black w-14 h-14 rounded-lg bg-none shadow-inner shadow-gray-600">
                   <svg
@@ -350,15 +346,15 @@ const Skillsp = () => {
                 </div>
                 <div className="flex-1 flex flex-col">
                   <div className="flex items-end gap-2">
-                    <span className="text-2xl font-extrabold tracking-widest text-white">
+                    <span className="text-xl font-extrabold tracking-widest text-white">
                       Motion
                     </span>
-                    <span className="text-xs font-semibold text-gray-400 ml-2 mb-1 tracking-widest">
+                    <span className="text-xs text-nowrap font-semibold text-gray-400 ml-2 mb-1 tracking-widest">
                       2 months
                     </span>
                     <div className="flex flex-col items-end ml-auto">
-                      <span className="text-2xl font-extrabold text-pink-500">
-                        80 <span className="text-xl">%</span>
+                      <span className=" text-nowrap font-extrabold text-pink-500">
+                        80 <span className="">%</span>
                       </span>
                     </div>
                   </div>

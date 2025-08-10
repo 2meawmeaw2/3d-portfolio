@@ -118,10 +118,10 @@ export function Project() {
                   href={proj.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex w-full h-full  min-h-160 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="flex w-full h-full  min-h-100 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                   aria-label={`View project ${proj.name}`}
                 >
-                  <div className="relative w-full h-full rounded-2xl bg-amber-50 aspect-[4/3] mt-2">
+                  <div className="relative w-full h-full rounded-2xl  aspect-[4/3] mt-2">
                     <Image
                       fill
                       className="absolute inset-0 w-full h-full object-cover rounded-2xl"
@@ -139,7 +139,7 @@ export function Project() {
                     <p className="text-slate-500 text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.desc}
                     </p>
-                    <span className="mt-2 inline-flex items-center justify-center tag-shadow px-6 py-2 rounded-full text-neon border font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
+                    <span className="text-[0.9em] font-medium mt-2 inline-flex items-center justify-center tag-shadow px-6 py-2 rounded-full text-neon border  font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
                       Check it Out
                       <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>

@@ -8,8 +8,10 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import Image from "next/image";
-
 import React, { useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+gsap.registerPlugin(useGSAP);
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -271,22 +273,29 @@ export const NavbarLogo = () => {
     </a>
   );
 };
-
-export const NavbarButton = ({}: {
-  as?: React.ElementType;
+export const NavbarButton = ({
+  children,
+  className,
+  variant,
+  setIsMobileMenuOpen,
+  ...props
+}: {
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "dark" | "gradient";
-} & (
-  | React.ComponentPropsWithoutRef<"a">
-  | React.ComponentPropsWithoutRef<"button">
-)) => {
+  setIsMobileMenuOpen: () => void;
+} & React.ComponentPropsWithoutRef<"a">) => {
   return (
     <a
+      onClick={() => setIsMobileMenuOpen()}
+      id="ContactButton"
       href="#Contact"
-      className="px-4 py-2 rounded-md  button bg-white text-black contact-button text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center"
+      className={`px-4 py-2 rounded-md button bg-white text-black contact-button text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center ${
+        className || ""
+      }`}
+      {...props}
     >
-      Contact
+      {children || "Contact"}
     </a>
   );
 };
@@ -308,6 +317,57 @@ const RealNavBar = () => {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useGSAP(
+    () => {
+      if (!isMobileMenuOpen) return;
+      const tl = gsap.timeline();
+
+      tl.from(
+        "#nav-link0",
+        {
+          ease: "power1.out",
+          yPercent: 100,
+          autoAlpha: 0,
+          filter: "blur(100px)",
+        },
+        "0"
+      )
+        .from(
+          "#nav-link1",
+          {
+            ease: "power1.out",
+            yPercent: 100,
+            autoAlpha: 0,
+            filter: "blur(100px)",
+          },
+          "0"
+        )
+        .from(
+          "#nav-link2",
+          {
+            ease: "power1.out",
+            yPercent: 100,
+            autoAlpha: 0,
+            filter: "blur(100px)",
+          },
+          "0"
+        )
+        .from(
+          "#ContactButton",
+          {
+            ease: "power1.out",
+            yPercent: 100,
+            autoAlpha: 0,
+            filter: "blur(60px)",
+            duration: 0.3,
+          },
+          "0"
+        );
+    },
+    { dependencies: [isMobileMenuOpen] }
+  );
+
   return (
     <Navbar>
       {/* Desktop Navigation */}
@@ -315,7 +375,12 @@ const RealNavBar = () => {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="primary">Contact Me</NavbarButton>
+          <NavbarButton
+            setIsMobileMenuOpen={() => setIsMobileMenuOpen(false)}
+            variant="primary"
+          >
+            Contact Me
+          </NavbarButton>
         </div>
       </NavBody>
 
@@ -335,6 +400,7 @@ const RealNavBar = () => {
         >
           {navItems.map((item, idx) => (
             <a
+              id={`nav-link${idx}`}
               key={`mobile-link-${idx}`}
               href={item.link}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -345,7 +411,7 @@ const RealNavBar = () => {
           ))}
           <div className="flex w-full flex-col gap-4">
             <NavbarButton
-              onClick={() => setIsMobileMenuOpen(false)}
+              setIsMobileMenuOpen={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
             >
