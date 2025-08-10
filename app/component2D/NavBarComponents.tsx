@@ -276,13 +276,12 @@ export const NavbarLogo = () => {
 export const NavbarButton = ({
   children,
   className,
-  variant,
+
   setIsMobileMenuOpen,
   ...props
 }: {
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "dark" | "gradient";
   setIsMobileMenuOpen: () => void;
 } & React.ComponentPropsWithoutRef<"a">) => {
   return (
