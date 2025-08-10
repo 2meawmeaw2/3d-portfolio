@@ -17,12 +17,9 @@ export function CardDemo(Props: CardProps) {
         <Skeleton />
       </CardSkeletonContainer>
       <CardTitle>Skills and technologies i use </CardTitle>
-      <CardDescription>
+      <CardDescription slideSet={Props.slideSet}>
         {" "}
-        <Button
-          className="text-center cursor-pointer"
-          onClick={() => Props.slideSet(true)}
-        >
+        <Button className="text-center cursor-pointer bg-amber-600">
           Check it Out
           <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </Button>
@@ -251,9 +248,11 @@ export const CardTitle = ({
 };
 
 export const CardDescription = ({
+  slideSet,
   children,
   className,
 }: {
+  slideSet: (value: boolean) => void;
   children: React.ReactNode;
   className?: string;
 }) => {
@@ -263,6 +262,7 @@ export const CardDescription = ({
         "text-center z-40 hover:cursor-pointer py-2  mt-2 tag-shadow px-7  rounded-full text-neon border-1 font-bold font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-250 ease-in-out",
         className
       )}
+      onClick={() => slideSet(true)}
     >
       {children}
     </p>
