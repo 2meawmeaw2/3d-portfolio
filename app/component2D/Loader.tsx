@@ -83,7 +83,7 @@ export default function LoaderScreen() {
   return (
     <div
       ref={loaderRef}
-      className="loader fixed z-[60] inset-0 bg-black flex flex-col w-screen h-screen justify-center items-center"
+      className="loader fixed z-80 inset-0 bg-black flex flex-col w-screen h-screen justify-center items-center"
     >
       <div
         className={`w-full max-w-md px-10 h-20 flex justify-start items-center border-2 rounded-lg overflow-hidden transition-colors duration-500 ${
