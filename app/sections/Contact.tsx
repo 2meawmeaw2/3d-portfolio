@@ -4,8 +4,52 @@ import { easeInOut, motion } from "framer-motion";
 import { Mail, Instagram, Github, MapPin } from "lucide-react";
 import { FlipWords } from "../component2D/FlipWords";
 import { Input } from "@heroui/input";
+import React, { useState } from "react";
 
 export function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitted(false);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+      if (!res.ok) {
+        console.error("Failed to send", await res.json().catch(() => ({})));
+        return;
+      }
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      console.error("Error submitting form", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section
       id="Contact"
@@ -110,11 +154,7 @@ export function Contact() {
             </h3>
             <form
               className="space-y-4 sm:space-y-6 flex flex-col"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const el = document.getElementById("Contact");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onSubmit={handleSubmit}
             >
               <div className="space-y-2">
                 <label
@@ -127,6 +167,9 @@ export function Contact() {
                   id="name"
                   type="text"
                   placeholder="Your name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
@@ -141,6 +184,9 @@ export function Contact() {
                   id="email"
                   type="email"
                   placeholder="your.email@example.com"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
@@ -155,6 +201,9 @@ export function Contact() {
                   id="subject"
                   type="text"
                   placeholder="What's this about?"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="w-full text-sm sm:text-base bg-white/10 py-2 px-3 rounded-xl text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20"
                 />
               </div>
@@ -169,6 +218,9 @@ export function Contact() {
                   id="message"
                   placeholder="Tell me about your project..."
                   rows={4}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full text-sm sm:text-base bg-white/10 border rounded-lg p-3 text-white placeholder:text-white/50 placeholder:[text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] focus:outline-none focus:border-neon focus:ring-neon/20 resize-none"
                 />
               </div>
@@ -176,10 +228,16 @@ export function Contact() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full bg-gradient-to-r from-neon to-blue-500 text-black font-bold py-3 px-6 rounded-lg hover:shadow-lg hover:shadow-neon/25 [box-shadow:_0px_0px_32px_0px_rgb(0_106_255_/_0.45)] transition-all duration-300 flex items-center justify-center space-x-2"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-neon to-blue-500 text-black font-bold py-3 px-6 rounded-lg hover:shadow-lg hover:shadow-neon/25 disabled:opacity-60 disabled:cursor-not-allowed [box-shadow:_0px_0px_32px_0px_rgb(0_106_255_/_0.45)] transition-all duration-300 flex items-center justify-center space-x-2"
               >
-                <span>Send Message</span>
+                <span>{loading ? "Sending..." : "Send Message"}</span>
               </motion.button>
+              {isSubmitted && (
+                <p className="text-green-400 text-sm">
+                  Your message has been sent!
+                </p>
+              )}
             </form>
           </div>
         </motion.div>
