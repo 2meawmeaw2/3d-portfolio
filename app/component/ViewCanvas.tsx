@@ -191,7 +191,7 @@ export function Scene(): React.JSX.Element {
         <Canvas
           camera={{ fov: 75 }}
           performance={{ min: 0.5, max: 1, debounce: 200 }}
-          dpr={isMobileDevice ? [1, 1.5] : [1.5, 2]}
+          dpr={isMobileDevice ? [0.5, 0.9] : [1.5, 2]}
           gl={{
             antialias: !isMobileDevice, // disable on mobile
             toneMapping: ACESFilmicToneMapping,
