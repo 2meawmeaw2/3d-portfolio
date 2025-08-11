@@ -104,16 +104,16 @@ const About = () => {
   return (
     <section
       id="About"
-      className="h-[140vh] translate-y-[50%] sticky top-0 bg-black z-40 w-full px-4 md:px-10 text-white"
+      className="h-[140vh]  translate-y-[50%] sticky top-0 bg-black z-40 w-full px-4 md:px-10 text-white"
     >
       <div className="w-[40vw] h-[60vh] rounded-[50%] blur-[100vw] bg-[#ffffff] absolute -top-[20%] left-1/2 -translate-x-[50%]" />
       <div className="w-full h-[20%] rounded-[100%] bg-[#ffffff60] blur-[100vw] absolute bottom-0 left-0" />
       <div className="w-full max-w-[1600px] h-full flex flex-col gap-6 md:gap-10 justify-center items-start xl:pl-10 mx-auto">
         <div className="container-about-1 w-full md:w-[50%] max-w-200 max-h-120 h-[40%] overflow-clip rounded-2xl p-6 flex flex-col justify-center">
-          <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight mb-4 animated-text overflow-clip">
+          <h1 className=" text-2xl md:text-4xl font-extrabold tracking-tight leading-tight mb-4 animated-text overflow-clip">
             Who I Am
           </h1>
-          <p className="text-base md:text-lg animated-text overflow-clip leading-relaxed">
+          <p className="text-base md:text-lg animated-text overflow-clip leading-relaxed ">
             I&rsquo;m a front-end developer focused on motion, clarity, and user
             experience. <br /> I craft fluid interfaces with precise animation,
             responsive layouts, and minimal design. <br /> My work bridges

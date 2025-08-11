@@ -189,13 +189,11 @@ export function Scene(): React.JSX.Element {
         style={{ willChange: isMobileDevice ? "transform, opacity" : "auto" }}
       >
         <Canvas
-          className="fixed -bottom-10 z-60 h-[50dvh] w-full pointer-events-none"
-          style={{ willChange: "auto", pointerEvents: "none" }}
           camera={{ fov: 75 }}
-          performance={{ min: 0.1, max: 1, debounce: 200 }}
-          dpr={[1.5, 2.5]}
+          performance={{ min: 0.5, max: 1, debounce: 200 }}
+          dpr={isMobileDevice ? [1, 1.5] : [1.5, 2]}
           gl={{
-            antialias: true,
+            antialias: !isMobileDevice, // disable on mobile
             toneMapping: ACESFilmicToneMapping,
             outputColorSpace: SRGBColorSpace,
             powerPreference: "high-performance",
@@ -206,10 +204,9 @@ export function Scene(): React.JSX.Element {
 
           <group ref={groupRef} scale={0.03}>
             <Float
-              speed={1}
-              rotationIntensity={0.4}
-              floatIntensity={0.6}
-              floatingRange={[-0.5, 0.5]}
+              speed={isMobileDevice ? 0.5 : 1}
+              rotationIntensity={isMobileDevice ? 0.2 : 0.4}
+              floatIntensity={isMobileDevice ? 0.3 : 0.6}
             >
               <Suspense>
                 <Robot />

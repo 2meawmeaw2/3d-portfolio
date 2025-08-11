@@ -135,7 +135,7 @@ export function Project() {
                     />
                   </div>
                   <div className="mt-4 bg-black/60  rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
-                    <h3 className="text-xl font-outfit font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                    <h3 className="text-lg  font-outfit font-light [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.name}
                     </h3>
                     <p className="text-slate-500 font-outfit font-light text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
