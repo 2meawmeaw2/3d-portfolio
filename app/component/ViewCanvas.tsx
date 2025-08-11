@@ -193,6 +193,7 @@ export function Scene(): React.JSX.Element {
           camera={{ fov: 75 }}
           performance={{ min: 0.5, max: 1, debounce: 200 }}
           dpr={Math.min(window.devicePixelRatio, maxDpr)}
+          style={{ pointerEvents: "none" }}
           gl={{
             antialias: true, // disable on mobile
             toneMapping: ACESFilmicToneMapping,
