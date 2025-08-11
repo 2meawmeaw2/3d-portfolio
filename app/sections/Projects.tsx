@@ -4,44 +4,48 @@ import { motion } from "framer-motion";
 import { CometCard } from "../component2D/cardt";
 import LightRays from "../component2D/light";
 import { IconArrowRight } from "@tabler/icons-react";
-import { useState, useEffect } from "react";
-import { client } from "@/sanity/lib/client";
 
 //sanity image
+const projects = [
+  {
+    title: "Fam Rise.com",
+    href: "https://maison-blanche.vercel.app/",
+    name: "Bakery Landing page",
+    desc: "Fake bakery landing page to try some designing",
+    img: "/1.png",
+    imgClass: "object-contain",
+    bg: "bg-[#f2eadf]",
+  },
+  {
+    title: "AI-course.com",
+    href: "https://ai-course-2025.vercel.app/",
+    name: "AI course landing page",
+    desc: "3d landing page with scroll animation",
+    img: "/3d.jpg",
+    imgClass: "object-contain",
+    bg: "bg-[#f2eadf]",
+  },
+  {
+    title: "/steadycore.io",
+    href: "https://calisthenics-zeta.vercel.app/",
+    name: "Calisthenics Landing page",
+    desc: "Fake (maybe) calisthenics startup landing page",
+    img: "/dark.jpg",
+    imgClass: "w-full",
+    bg: "",
+  },
+  {
+    title: "/famerise.com",
+    href: "https://hometaskmanager.vercel.app/",
+    name: "Fame Rise",
+    desc: "beautiful task manager app with points/rewards system (beta)",
+    img: "/2.png",
+    imgClass: "object-contain",
+    bg: "bg-[#242424]",
+  },
+];
 
-type Project = {
-  href: string;
-  img: string;
-  name: string;
-  desc: string;
-};
-type SanityProject = {
-  title: string;
-  description: string;
-  url: string;
-  skills?: string[];
-  img: string;
-};
 export function Project() {
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    const query = `*[_type == "meaw"]`;
-
-    client.fetch<SanityProject[]>(query).then((data) => {
-      const mapped: Project[] = data.map((proj) => ({
-        href: proj.url,
-        img: proj.img,
-        name: proj.title,
-        desc: proj.description,
-      }));
-
-      setProjects(mapped);
-    });
-  }, []);
-
-  console.log("meaw", projects);
-
   return (
     <motion.section
       id="Projects"
