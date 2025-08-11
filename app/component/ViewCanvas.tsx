@@ -179,6 +179,7 @@ export function Scene(): React.JSX.Element {
       }
     });
   }, [width]);
+  const maxDpr = isMobileDevice ? 1.5 : 2;
 
   return (
     <>
@@ -191,7 +192,7 @@ export function Scene(): React.JSX.Element {
         <Canvas
           camera={{ fov: 75 }}
           performance={{ min: 0.5, max: 1, debounce: 200 }}
-          dpr={isMobileDevice ? [0.9, 1.4] : [1.5, 2]}
+          dpr={Math.min(window.devicePixelRatio, maxDpr)}
           gl={{
             antialias: true, // disable on mobile
             toneMapping: ACESFilmicToneMapping,
