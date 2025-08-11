@@ -92,7 +92,12 @@ const Skeleton = () => {
           <Image alt="smt" src="/tools/next.svg" fill />
         </Container>
         <Container className="h-12 w-12 circle-2">
-          <Image alt="smt" src="/tools/threejs-logo.svg" fill className="p-2" />
+          <Image
+            alt="threejs"
+            src="/tools/Threejs-logo.svg"
+            fill
+            className="p-2"
+          />
         </Container>
         <Container className="circle-3">
           <div className="flex items-center justify-center bg-black w-14 h-14  rounded-full bg-none shadow-inner shadow-gray-600">
