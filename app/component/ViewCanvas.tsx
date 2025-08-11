@@ -179,7 +179,12 @@ export function Scene(): React.JSX.Element {
       }
     });
   }, [width]);
-  const maxDpr = isMobileDevice ? 1.5 : 2;
+  const [dpr, setDpr] = useState(1);
+
+  useEffect(() => {
+    const maxDpr = isMobileDevice ? 1.5 : 2;
+    setDpr(Math.min(window.devicePixelRatio, maxDpr));
+  }, []);
 
   return (
     <>
@@ -192,7 +197,7 @@ export function Scene(): React.JSX.Element {
         <Canvas
           camera={{ fov: 75 }}
           performance={{ min: 0.5, max: 1, debounce: 200 }}
-          dpr={Math.min(window.devicePixelRatio, maxDpr)}
+          dpr={dpr}
           style={{ pointerEvents: "none" }}
           gl={{
             antialias: true, // disable on mobile
