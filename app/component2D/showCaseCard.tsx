@@ -1,6 +1,6 @@
 "use client";
 import { animate } from "motion";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,17 @@ export function CardDemo(Props: CardProps) {
     </Card>
   );
 }
+const circleAnimation = {
+  scale: [1, 1.1, 1],
+  translateY: ["0px", "-4px", "0px"],
+};
+
+const animationOptions = {
+  duration: 0.8,
+  repeat: Infinity,
+  repeatDelay: 1,
+  ease: "easeInOut",
+};
 
 const Skeleton = () => {
   useEffect(() => {
@@ -142,69 +153,6 @@ const Skeleton = () => {
           />
         </Container>
       </div>
-
-      <div className="h-40 w-px absolute top-20 m-auto z-40 bg-gradient-to-b from-transparent via-cyan-500 to-transparent animate-move">
-        <div className="w-10 h-32 top-1/2 -translate-y-1/2 absolute -left-10">
-          <Sparkles />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Sparkles = () => {
-  const [sparkleData, setSparkleData] = useState<
-    {
-      top: string;
-      left: string;
-      opacity: number;
-      duration: number;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    const randomMove = () => Math.random() * 2 - 1;
-    const randomOpacity = () => Math.random();
-    const random = () => Math.random();
-
-    const data = [...Array(12)].map(() => ({
-      top: `calc(${random() * 100}% + ${randomMove()}px)`,
-      left: `calc(${random() * 100}% + ${randomMove()}px)`,
-      opacity: randomOpacity(),
-      duration: random() * 2 + 4,
-    }));
-
-    setSparkleData(data);
-  }, []);
-
-  return (
-    <div className="absolute inset-0">
-      {sparkleData.map((s, i) => (
-        <motion.span
-          key={`star-${i}`}
-          animate={{
-            top: s.top,
-            left: s.left,
-            opacity: s.opacity,
-            scale: [1, 1.2, 0],
-          }}
-          transition={{
-            duration: s.duration,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          style={{
-            position: "absolute",
-            top: s.top,
-            left: s.left,
-            width: "2px",
-            height: "2px",
-            borderRadius: "50%",
-            zIndex: 1,
-          }}
-          className="inline-block bg-black dark:bg-white"
-        />
-      ))}
     </div>
   );
 };

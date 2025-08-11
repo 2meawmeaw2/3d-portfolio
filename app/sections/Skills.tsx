@@ -7,6 +7,13 @@ import { MoveLeft } from "lucide-react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+type SkillsEscHandler = (e: KeyboardEvent) => void;
+
+declare global {
+  interface Window {
+    __skillsEscHandler?: SkillsEscHandler;
+  }
+}
 declare global {
   interface Window {
     __skillsEscHandler?: (e: KeyboardEvent) => void;
@@ -208,31 +215,37 @@ const Skillsp = () => {
   });
 
   const slideSet = (show: boolean) => {
-    if (show) {
-      const el = document.getElementById("Skills");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-      document.body.style.overflow = "hidden"; // Block body scroll
+    const el = document.getElementById("Skills");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+
+    const animateSkills = (percent: number) => {
       gsap.to(".skills-set", {
-        yPercent: 0,
+        yPercent: percent,
         duration: 2,
         ease: "power2.inOut",
       });
-      const onKey = (e: KeyboardEvent) => {
+    };
+
+    if (show) {
+      document.body.style.overflow = "hidden";
+
+      animateSkills(0);
+
+      const onKey: SkillsEscHandler = (e) => {
         if (e.key === "Escape") slideSet(false);
       };
-      window.addEventListener("keydown", onKey);
-      // store handler for cleanup on close
-      window.__skillsEscHandler = onKey;
+
+      if (!window.__skillsEscHandler) {
+        window.addEventListener("keydown", onKey);
+        window.__skillsEscHandler = onKey;
+      }
     } else {
-      document.body.style.overflow = ""; // Restore body scroll
-      gsap.to(".skills-set", {
-        yPercent: 100,
-        duration: 2,
-        ease: "power2.inOut",
-      });
-      const prev = window.__skillsEscHandler;
-      if (prev) {
-        window.removeEventListener("keydown", prev);
+      document.body.style.overflow = "";
+
+      animateSkills(100);
+
+      if (window.__skillsEscHandler) {
+        window.removeEventListener("keydown", window.__skillsEscHandler);
         window.__skillsEscHandler = undefined;
       }
     }

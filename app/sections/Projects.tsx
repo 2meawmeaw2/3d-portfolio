@@ -4,46 +4,45 @@ import { motion } from "framer-motion";
 import { CometCard } from "../component2D/cardt";
 import LightRays from "../component2D/light";
 import { IconArrowRight } from "@tabler/icons-react";
-const projects = [
-  {
-    title: "Fam Rise.com",
-    href: "https://maison-blanche.vercel.app/",
-    name: "Bakery Landing page",
-    desc: "Fake bakery landing page to try some designing",
-    img: "/1.png",
-    imgClass: "object-contain",
-    bg: "bg-[#f2eadf]",
-  },
-  {
-    title: "AI-course.com",
-    href: "https://ai-course-2025.vercel.app/",
-    name: "AI course landing page",
-    desc: "3d landing page with scroll animation",
-    img: "/3d.jpg",
-    imgClass: "object-contain",
-    bg: "bg-[#f2eadf]",
-  },
-  {
-    title: "/steadycore.io",
-    href: "https://calisthenics-zeta.vercel.app/",
-    name: "Calisthenics Landing page",
-    desc: "Fake (maybe) calisthenics startup landing page",
-    img: "/dark.jpg",
-    imgClass: "w-full",
-    bg: "",
-  },
-  {
-    title: "/famerise.com",
-    href: "https://hometaskmanager.vercel.app/",
-    name: "Fame Rise",
-    desc: "beautiful task manager app with points/rewards system (beta)",
-    img: "/2.png",
-    imgClass: "object-contain",
-    bg: "bg-[#242424]",
-  },
-];
+import { useState, useEffect } from "react";
+import { client } from "@/sanity/lib/client";
+import imageUrlBuilder from "@sanity/image-url";
+
+//sanity image
+const builder = imageUrlBuilder(client);
+
+function urlFor(source: any) {
+  return builder.image(source);
+}
+
+type Project = {
+  href: string;
+  img: string;
+  name: string;
+  desc: string;
+};
 
 export function Project() {
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const query = `*[_type == "meaw"]`;
+
+    client.fetch(query).then((data: any[]) => {
+      const mapped: Project[] = data.map((proj) => ({
+        href: proj.url,
+        img: proj.img,
+        name: proj.title,
+        desc: proj.description,
+      }));
+
+      setProjects(mapped);
+      console.log("Loaded projects", mapped);
+    });
+  }, []);
+
+  console.log("meaw", projects);
+
   return (
     <motion.section
       id="Projects"
@@ -58,26 +57,26 @@ export function Project() {
           raysOrigin="top-center"
           raysColor="#ffffff"
           raysSpeed={1.2}
-          lightSpread={0.7}
-          rayLength={1}
+          lightSpread={0.2}
+          rayLength={0.1}
           followMouse
           mouseInfluence={0.05}
         />
       </div>
-      <div className="absolute inset-0 w-full h-full bg-black opacity-25" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vh] rounded-full blur-[100vw] bg-white" />
+      <div className="absolute -z-10 inset-0 w-full h-full bg-black opacity-25" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vh] rounded-full blur-[100vw] bg-white/40" />
       <div className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] w-[80vw] h-[40vh] blur-[70vw] bg-white/50" />
 
-      <div className="relative z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
+      <div className="relativ  z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
         <motion.div
-          className="text-center  space-y-4"
+          className="text-center   space-y-4"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
           <motion.h1
-            className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold"
+            className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
@@ -88,7 +87,7 @@ export function Project() {
         </motion.div>
 
         <motion.div
-          className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-8 sm:gap-10 w-full"
+          className="flex flex-col  sm:flex-row sm:flex-wrap items-center justify-center gap-8 sm:gap-10 w-full"
           initial="hidden"
           whileInView="visible"
           variants={{
@@ -104,7 +103,7 @@ export function Project() {
         >
           {projects.map((proj) => (
             <motion.div
-              key={proj.title}
+              key={proj.name}
               variants={{
                 hidden: { opacity: 0, y: 40 },
                 visible: { opacity: 1, y: 0 },
@@ -113,7 +112,7 @@ export function Project() {
               transition={{ type: "spring", stiffness: 120, damping: 14 }}
               className="w-full max-w-[90%] sm:max-w-[400px] md:max-w-[450px]"
             >
-              <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem]">
+              <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem] ">
                 <a
                   href={proj.href}
                   target="_blank"
@@ -133,10 +132,10 @@ export function Project() {
                     />
                   </div>
                   <div className="mt-4 bg-black/60  rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
-                    <h3 className="text-xl font-extrabold [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                    <h3 className="text-xl font-outfit font-medium [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.name}
                     </h3>
-                    <p className="text-slate-500 text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+                    <p className="text-slate-500 font-outfit font-light text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
                       {proj.desc}
                     </p>
                     <span className="text-[0.9em] font-medium mt-2 inline-flex items-center justify-center tag-shadow px-6 py-2 rounded-full text-neon border  font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
