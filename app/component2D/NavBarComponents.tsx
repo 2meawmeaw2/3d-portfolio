@@ -273,10 +273,16 @@ export const NavbarLogo = () => {
     </a>
   );
 };
+const variantClasses = {
+  primary: "bg-white text-black",
+  secondary: "bg-neutral-800 text-white",
+  dark: "bg-black text-white",
+  gradient: "bg-gradient-to-r from-blue-500 to-purple-500 text-white",
+};
 export const NavbarButton = ({
   children,
   className,
-  variant,
+  variant = "primary",
   setIsMobileMenuOpen,
   ...props
 }: {
@@ -290,9 +296,7 @@ export const NavbarButton = ({
       onClick={() => setIsMobileMenuOpen()}
       id="ContactButton"
       href="#Contact"
-      className={`px-4 py-2 rounded-md button bg-white text-black contact-button text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center ${
-        className || ""
-      }`}
+      className={`px-4 py-2 rounded-md button contact-button text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center ${variantClasses[variant]} ${className || ""}`}
       {...props}
     >
       {children || "Contact"}
