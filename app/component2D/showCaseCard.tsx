@@ -1,7 +1,5 @@
 "use client";
 import { animate } from "motion";
-import { motion } from "framer-motion";
-import { useState } from "react";
 import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
@@ -27,17 +25,6 @@ export function CardDemo(Props: CardProps) {
     </Card>
   );
 }
-const circleAnimation = {
-  scale: [1, 1.1, 1],
-  translateY: ["0px", "-4px", "0px"],
-};
-
-const animationOptions = {
-  duration: 0.8,
-  repeat: Infinity,
-  repeatDelay: 1,
-  ease: "easeInOut",
-};
 
 const Skeleton = () => {
   useEffect(() => {

@@ -6,14 +6,8 @@ import LightRays from "../component2D/light";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
-import imageUrlBuilder from "@sanity/image-url";
 
 //sanity image
-const builder = imageUrlBuilder(client);
-
-function urlFor(source: any) {
-  return builder.image(source);
-}
 
 type Project = {
   href: string;
@@ -21,14 +15,20 @@ type Project = {
   name: string;
   desc: string;
 };
-
+type SanityProject = {
+  title: string;
+  description: string;
+  url: string;
+  skills?: string[];
+  img: string;
+};
 export function Project() {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     const query = `*[_type == "meaw"]`;
 
-    client.fetch(query).then((data: any[]) => {
+    client.fetch<SanityProject[]>(query).then((data) => {
       const mapped: Project[] = data.map((proj) => ({
         href: proj.url,
         img: proj.img,
@@ -37,7 +37,6 @@ export function Project() {
       }));
 
       setProjects(mapped);
-      console.log("Loaded projects", mapped);
     });
   }, []);
 
