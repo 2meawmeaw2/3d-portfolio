@@ -67,8 +67,8 @@ export function Project() {
         />
       </div>
       <div className="absolute -z-10 inset-0 w-full h-full bg-black opacity-25" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[40vh] rounded-full blur-[100vw] bg-white/40" />
-      <div className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] w-[80vw] h-[40vh] blur-[70vw] bg-white/50" />
+      <div className="absolute top-0 -translate-y-[50%] left-1/2 -translate-x-1/2 w-[80vw] md:h-[30vh] h-[90vh] rounded-full blur-[100vw] bg-white/60" />
+      <div className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] w-[80vw] md:h-[50vh] h-[90vh] blur-[70vw] bg-white/50" />
 
       <div className="relativ  z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
         <motion.div
