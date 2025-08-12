@@ -53,8 +53,8 @@ const Skillsp = () => {
           className="w-10 h-10 p-[0.5rem] my-1 bg-white rounded-full  scale-99 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 50,
-      time: "2 months",
+      progress: 70,
+      time: "9 months",
     },
     {
       name: "GSAP",
@@ -84,8 +84,8 @@ const Skillsp = () => {
           />
         </svg>
       ),
-      progress: 60,
-      time: "2 months",
+      progress: 80,
+      time: "6 months",
     },
     {
       name: "Three js",
@@ -97,8 +97,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 50,
-      time: "2 months",
+      progress: 90,
+      time: "9 months",
     },
     {
       name: "Typescript",
@@ -149,8 +149,8 @@ const Skillsp = () => {
           className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
         />
       ),
-      progress: 60,
-      time: "6 months",
+      progress: 90,
+      time: "1 year",
     },
   ];
 
@@ -194,9 +194,9 @@ const Skillsp = () => {
           {/* Progress Bar */}
           <div className="mt-2 w-full h-4 bg-gray-200 rounded-full shadow-inner relative shadow-gray-600">
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ delay: 0.8, ease: easeInOut, duration: 1 }}
+              initial={{ width: "0%" }}
+              whileInView={{ width: `${progress}%` }}
+              transition={{ ease: easeInOut, duration: 1 }}
               className="absolute left-0 top-0 h-4 rounded-full"
               style={{
                 background: "linear-gradient(90deg, #0f2239 0%, #155cfb 100%)",
@@ -325,11 +325,11 @@ const Skillsp = () => {
             />
           </div>
 
-          <div className="relative pt-30 z-20 w-full max-w-[1200px] mx-auto px-1 py-8 min-h-screen">
-            <div className="sticky top-4 z-30 mb-10">
+          <div className="relative pt-30 z-90 w-full max-w-[1200px] mx-auto px-1 py-8 min-h-screen">
+            <div className="sticky top-[5rem] z-30 mb-10">
               <button
                 onClick={() => slideSet(false)}
-                className="px-6 py-3 rounded-xl bg-white text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                className="px-6 py-3 rounded-xl bg-white/80 text-black font-bold text-lg shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
                 aria-label="Close skills overlay"
               >
                 <MoveLeft />
@@ -365,7 +365,7 @@ const Skillsp = () => {
                       Motion
                     </span>
                     <span className="text-xs text-nowrap font-semibold text-gray-400 ml-2 mb-1 tracking-widest">
-                      2 months
+                      5 months
                     </span>
                     <div className="flex flex-col items-end ml-auto">
                       <span className=" text-nowrap font-extrabold text-pink-500">
@@ -376,14 +376,10 @@ const Skillsp = () => {
                   {/* Progress Bar */}
                   <div className="mt-2 w-full h-4 bg-gray-200 rounded-full shadow-inner relative shadow-gray-600">
                     <motion.div
+                      initial={{ width: "0%" }}
+                      whileInView={{ width: `80%` }}
+                      transition={{ ease: easeInOut, duration: 1 }}
                       className="absolute left-0 top-0 h-4 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `80%` }}
-                      transition={{
-                        delay: 0.8,
-                        ease: easeInOut,
-                        duration: 1,
-                      }}
                       style={{
                         background:
                           "linear-gradient(90deg, #0f2239 0%, #155cfb 100%)",
