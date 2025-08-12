@@ -252,7 +252,7 @@ const Skillsp = () => {
   };
 
   return (
-    <div className="relative h-[100vh] lg:min-h-300 ">
+    <div className=" relative h-[100vh] lg:min-h-300 ">
       <CardDemo slideSet={slideSet} />
       <div className="absolute inset-0  -z-10 pointer-events-none">
         <LightRays

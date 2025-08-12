@@ -79,11 +79,11 @@ export default function Hero() {
         <div className="w-full h-[12%] sm:h-[18%] rounded-[100%] bg-[#ffffff20] blur-[50vw] sm:blur-[80vw] absolute bottom-0 left-0" />
 
         <div className="container-hero-1 w-full min-h-60 md:min-h-120 lg:min-h-125 max-w-[1100px] border overflow-clip border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-center mx-auto mt-4 sm:mt-8 gap-6 sm:gap-8 ">
-          <div className="text-sm sm:text-base md:text-lg texts hero-text px-5 sm:px-7 py-2 rounded-full border border-white/20 font-medium font-outfit max-w-[14rem] sm:max-w-60 h-10 flex justify-center items-center mx-auto text-center bg-[#232323] mb-2 sm:mb-4">
+          <div className="  text-sm sm:text-base md:text-lg texts hero-text px-5 sm:px-7 py-2 rounded-full border border-white/20 font-medium font-outfit max-w-[14rem] sm:max-w-60 h-10 flex justify-center items-center mx-auto text-center bg-[#232323] mb-2 sm:mb-4">
             ● Available for work
           </div>
 
-          <div className="w-full texts max-w-[900px] mx-auto flex justify-center items-center flex-col text-center gap-3 sm:gap-4 md:gap-6">
+          <div className="w-full  texts max-w-[900px] mx-auto flex justify-center items-center flex-col text-center gap-3 sm:gap-4 md:gap-6">
             <h1 className="w-full font-light md:font-medium hero-text leading-snug text-[clamp(2rem,7vw,4rem)] inline-block transform-gpu -translate-x-[8%] sm:-translate-x-[12%] md:-translate-x-[16%]">
               Turning Visions
             </h1>

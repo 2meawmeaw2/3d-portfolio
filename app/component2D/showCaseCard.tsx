@@ -177,7 +177,7 @@ export const CardTitle = ({
   return (
     <h3
       className={cn(
-        "text-center text-lg font-semibold text-white py-2",
+        "text-center text-lg font-semibold text-white py-2 prose prose-invert",
         className
       )}
     >

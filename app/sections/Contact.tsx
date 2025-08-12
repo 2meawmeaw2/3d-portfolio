@@ -81,15 +81,15 @@ export function Contact() {
           <div className="space-y-4">
             <h1
               style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
-              className="text-white text-3xl sm:text-4xl md:text-5xl font-medium md:font-extrabold"
+              className=" text-white text-3xl sm:text-4xl md:text-5xl font-medium md:font-extrabold"
             >
               Contact Me
             </h1>
             <h2
               style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
-              className="text-xl sm:text-2xl md:text-3xl font-extrabold"
+              className=" text-xl sm:text-2xl md:text-3xl font-extrabold"
             >
-              <span className="pr-2 text-white font-normal md:font-bold">
+              <span className=" pr-2 text-white  font-normal md:font-bold">
                 Let's build
               </span>
               <span className="inline-block w-40 sm:w-56 lg:w-64 align-middle pb-1 font-normal md:font-bold">
@@ -126,9 +126,9 @@ export function Contact() {
           viewport={{ once: true, amount: 0.3 }}
           className="flex-1 flex flex-col justify-center"
         >
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 sm:p-6 md:p-8 border border-white/10 shadow-xl h-full">
+          <div className="bg-white/10  backdrop-blur-lg rounded-2xl p-4 sm:p-6 md:p-8 border border-white/10 shadow-xl h-full">
             <h3
-              className="text-xl sm:text-2xl font-bold text-white mb-6"
+              className="text-xl  sm:text-2xl font-bold text-white mb-6"
               style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
             >
               Send me a message
