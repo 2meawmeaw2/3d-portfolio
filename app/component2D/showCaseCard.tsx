@@ -148,7 +148,6 @@ const Skeleton = () => {
     </div>
   );
 };
-
 export const Card = ({
   className,
   children,
@@ -159,7 +158,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "max-w-sm w-full max-h-150 absolute left-1/2 top-1/2 -translate-y-[50%] -translate-x-[50%] z-60 mx-auto p-8 rounded-xl border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
+        "max-w-sm w-full max-h-150 absolute left-1/2 top-1/2 -translate-y-[50%] -translate-x-[50%] z-60 mx-auto p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
         className
       )}
     >
@@ -178,7 +177,7 @@ export const CardTitle = ({
   return (
     <h3
       className={cn(
-        "text-center text-lg font-semibold text-gray-800 dark:text-white py-2",
+        "text-center text-lg font-semibold text-white py-2",
         className
       )}
     >
@@ -224,7 +223,7 @@ export const CardSkeletonContainer = ({
         "h-[15rem] md:h-[20rem] rounded-xl z-40",
         className,
         showGradient &&
-          "bg-neutral-300 dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
+          " bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
       )}
     >
       {children}

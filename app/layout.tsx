@@ -13,7 +13,7 @@ import { Scene } from "./component/ViewCanvas";
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
 export const metadata: Metadata = {
-  title: "Taha – Web Developer Portfolio",
+  title: "Nour Eddine – Web Developer Portfolio",
   description:
     "Interactive portfolio showcasing projects, skills, and contact information.",
 };
@@ -29,15 +29,18 @@ export default function RootLayout({
         <body
           className={` ${outfit.variable} relative antialiased  overflow-x-clip `}
         >
-          <nav className="sticky  top-0 z-70 ">
-            <RealNavBar />
-          </nav>
-          <main className="relative">
-            {children}
-            <Scene />
-          </main>
+          <main className="relative">{children}</main>
         </body>
       </ReactLenis>
     </html>
   );
 }
+/**
+ *   <nav className="sticky  top-0 z-70 ">
+            <RealNavBar />
+          </nav>
+            <Scene />
+ * 
+ * 
+ * 
+ */
