@@ -29,18 +29,15 @@ export default function RootLayout({
         <body
           className={` ${outfit.variable} relative antialiased  overflow-x-clip `}
         >
-          <main className="relative">{children}</main>
+          <nav className="sticky  top-0 z-70 ">
+            <RealNavBar />
+          </nav>
+          <main className="relative">
+            {children}
+            <Scene />
+          </main>
         </body>
       </ReactLenis>
     </html>
   );
 }
-/**
- *   <nav className="sticky  top-0 z-70 ">
-            <RealNavBar />
-          </nav>
-            <Scene />
- * 
- * 
- * 
- */
