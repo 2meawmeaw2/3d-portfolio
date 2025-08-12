@@ -81,7 +81,7 @@ export function Contact() {
           <div className="space-y-4">
             <h1
               style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
-              className="text-white text-3xl sm:text-4xl md:text-5xl font-extrabold"
+              className="text-white text-3xl sm:text-4xl md:text-5xl font-medium md:font-extrabold"
             >
               Contact Me
             </h1>
@@ -89,12 +89,14 @@ export function Contact() {
               style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
               className="text-xl sm:text-2xl md:text-3xl font-extrabold"
             >
-              <span className="pr-2 text-white">Let's build</span>
-              <span className="inline-block w-40 sm:w-56 lg:w-64 align-middle pb-1">
+              <span className="pr-2 text-white font-normal md:font-bold">
+                Let's build
+              </span>
+              <span className="inline-block w-40 sm:w-56 lg:w-64 align-middle pb-1 font-normal md:font-bold">
                 <FlipWords words={["amazing", "awesome", "incredible"]} />
               </span>
               <br />
-              <span className="text-nowrap text-[0.7em] md:text-[0.5em] text-neon [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
+              <span className="text-nowrap text-[0.7em] md:text-[0.5em] text-neon [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)] font-normal md:font-bold">
                 Web sites together
               </span>
             </h2>
