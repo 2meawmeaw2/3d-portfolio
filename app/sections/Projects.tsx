@@ -4,52 +4,36 @@ import { motion } from "framer-motion";
 import { CometCard } from "../component2D/cardt";
 import LightRays from "../component2D/light";
 import { IconArrowRight } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
+gsap.registerPlugin(ScrollTrigger);
 
-//sanity image
-const projects = [
-  {
-    title: "Fam Rise.com",
-    href: "https://maison-blanche.vercel.app/",
-    name: "Bakery Landing page",
-    desc: "Fake bakery landing page to try some designing",
-    img: "/1.png",
-    imgClass: "object-contain",
-    bg: "bg-[#f2eadf]",
-  },
-  {
-    title: "AI-course.com",
-    href: "https://ai-course-2025.vercel.app/",
-    name: "AI course landing page",
-    desc: "3d landing page with scroll animation",
-    img: "/3d.jpg",
-    imgClass: "object-contain",
-    bg: "bg-[#f2eadf]",
-  },
-  {
-    title: "/steadycore.io",
-    href: "https://calisthenics-zeta.vercel.app/",
-    name: "Calisthenics Landing page",
-    desc: "Fake (maybe) calisthenics startup landing page",
-    img: "/dark.jpg",
-    imgClass: "w-full",
-    bg: "",
-  },
-  {
-    title: "/famerise.com",
-    href: "https://hometaskmanager.vercel.app/",
-    name: "Fame Rise",
-    desc: "beautiful task manager app with points/rewards system (beta)",
-    img: "/2.png",
-    imgClass: "object-contain",
-    bg: "bg-[#242424]",
-  },
-];
+const query = `*[_type == "project"]{
+  title ,description ,url ,
+image
+    }`;
 
+interface Project {
+  title: string;
+  description: string;
+  url: string;
+  image: object;
+}
 export function Project() {
+  const [data, setData] = useState<Project[]>([]);
+  useEffect(() => {
+    client.fetch(query).then(setData).catch(console.error);
+    console.log(data, "awwwww");
+    ScrollTrigger.refresh();
+  }, []);
+  console.log(data, "sdad");
   return (
     <motion.section
       id="Projects"
-      className="bg-black lg:min-h-300 relative z-40 overflow-clip"
+      className="bg-black min-h-[110rem] lg:min-h-300 relative z-40 overflow-clip"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -104,9 +88,9 @@ export function Project() {
           }}
           viewport={{ once: true }}
         >
-          {projects.map((proj) => (
+          {data.map((proj) => (
             <motion.div
-              key={proj.name}
+              key={proj.title}
               variants={{
                 hidden: { opacity: 0, y: 40 },
                 visible: { opacity: 1, y: 0 },
@@ -117,18 +101,18 @@ export function Project() {
             >
               <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem] ">
                 <a
-                  href={proj.href}
+                  href={proj.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full h-full  min-h-100 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-                  aria-label={`View project ${proj.name}`}
+                  aria-label={`View project ${proj.title}`}
                 >
                   <div className="relative w-full h-full rounded-2xl  aspect-[4/3] mt-2">
                     <Image
                       fill
                       className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                      alt={proj.name}
-                      src={proj.img}
+                      alt={proj.title}
+                      src={urlFor(proj.image).url()}
                       style={{
                         boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
                       }}
@@ -136,10 +120,10 @@ export function Project() {
                   </div>
                   <div className="mt-4 bg-black/60  rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
                     <h3 className="text-lg  font-outfit font-light [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
-                      {proj.name}
+                      {proj.title}
                     </h3>
                     <p className="text-slate-500 font-outfit font-light text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
-                      {proj.desc}
+                      {proj.description}
                     </p>
                     <span className="text-[0.9em] font-medium mt-2 inline-flex items-center justify-center tag-shadow px-6 py-2 rounded-full text-neon border  font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
                       Check it Out

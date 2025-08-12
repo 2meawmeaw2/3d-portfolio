@@ -113,7 +113,7 @@ export function Scene(): React.JSX.Element {
         },
         {
           trigger: "#Projects",
-          start: "20% center",
+          start: "0% center",
           end: "80% center",
           steps: [
             {
@@ -129,6 +129,7 @@ export function Scene(): React.JSX.Element {
           trigger: "#Skills",
           start: "10% 80%",
           end: "50% center",
+
           steps: [
             {
               xPercent: -20,
