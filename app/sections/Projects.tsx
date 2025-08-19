@@ -1,141 +1,268 @@
+// "use client";
 "use client";
+
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { CometCard } from "../component2D/cardt";
-import LightRays from "../component2D/light";
-import { IconArrowRight } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
+
 gsap.registerPlugin(ScrollTrigger);
 
-const query = `*[_type == "project"]{
-  title ,description ,url ,
-image
-    }`;
+// Use the actual parameter type that `urlFor` expects (no `any`)
+type ImageSource = Parameters<typeof urlFor>[0];
 
 interface Project {
   title: string;
   description: string;
   url: string;
-  image: object;
+  image: ImageSource;
 }
+
+const query = `*[_type == "project"] | order(_createdAt desc){
+  title,
+  description,
+  url,
+  image
+}`;
+
 export function Project() {
   const [data, setData] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Refs for GSAP targets
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headingRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  const items = useMemo(
+    () =>
+      data.map((p, i) => ({
+        ...p,
+        _id:
+          "project-" +
+          p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") +
+          "-" +
+          i,
+      })),
+    [data]
+  );
+
+  // Fetch data
   useEffect(() => {
-    client.fetch(query).then(setData).catch(console.error);
-    console.log(data, "awwwww");
-    ScrollTrigger.refresh();
+    let mounted = true;
+
+    (async () => {
+      try {
+        const res = await client.fetch<Project[]>(query);
+
+        if (!mounted) return;
+
+        setData(res || []);
+        setLoading(false);
+
+        // Ensure ScrollTrigger positions are up-to-date once content lands
+        try {
+          const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+          ScrollTrigger.refresh();
+        } catch {
+          // gsap not installed — fine
+        }
+      } catch (err) {
+        console.error(err);
+        if (mounted) setLoading(false);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
-  console.log(data, "sdad");
+
+  // Track image loads to refresh ScrollTrigger precisely after images paint
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    let pending = 0;
+    const imgs = Array.from(el.querySelectorAll("img"));
+    if (!imgs.length) return;
+
+    const maybeRefresh = async () => {
+      try {
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        ScrollTrigger.refresh();
+      } catch {}
+    };
+
+    const onLoad = () => {
+      pending -= 1;
+      if (pending <= 0) maybeRefresh();
+    };
+
+    imgs.forEach((img) => {
+      if (img.complete) return;
+      pending += 1;
+      img.addEventListener("load", onLoad);
+      img.addEventListener("error", onLoad);
+    });
+
+    if (pending === 0) maybeRefresh();
+
+    return () => {
+      imgs.forEach((img) => {
+        img.removeEventListener("load", onLoad);
+        img.removeEventListener("error", onLoad);
+      });
+    };
+  }, [data.length]);
+
   return (
-    <motion.section
+    <section
       id="Projects"
-      className="bg-black min-h-[110rem] lg:min-h-300 relative z-40 overflow-clip"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ once: true }}
+      ref={sectionRef}
+      className="relative z-40 bg-black text-white py-20 md:py-28 overflow-clip"
+      aria-label="Selected projects"
     >
-      <div className="absolute inset-0 pointer-events-none">
-        <LightRays
-          raysOrigin="top-center"
-          raysColor="#ffffff"
-          raysSpeed={1.2}
-          lightSpread={0.2}
-          rayLength={0.1}
-          followMouse
-          mouseInfluence={0.05}
+      {/* BACKGROUND LAYERS */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* large vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_center,rgba(24,24,24,0)_0%,rgba(0,0,0,0.6)_60%,rgba(0,0,0,1)_100%)]" />
+        {/* spotlights */}
+        <div
+          className="parallax-y absolute -top-40 left-1/2 -translate-x-1/2 w-[90vw] h-[90vw] max-w-[1200px] max-h-[1200px] rounded-full blur-[120px] opacity-60 bg-[conic-gradient(from_90deg_at_50%_50%,#275DFA33_0%,#B794FF33_30%,transparent_60%)]"
+          data-speed="0.5"
         />
+        <div
+          className="parallax-y absolute -bottom-32 -right-20 w-[70vw] h-[70vw] blur-[140px] rounded-full bg-[#a855f7] opacity-[0.10]"
+          data-speed="0.35"
+        />
+        {/* grain */}
+        <div className="absolute inset-0 mix-blend-soft-light opacity-[0.08] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAL0lEQVR4AWOgGPrnPwMDA0M0GJqY+P//PxgYGEgwwuZg0j9gYFDE4ZkC0z8QTFgA4t4gkq7iPvEAAAAASUVORK5CYII=')]" />
       </div>
-      <div className="absolute -z-10 inset-0 w-full h-full bg-black opacity-25" />
-      <div className="absolute top-0 -translate-y-[50%] left-1/2 -translate-x-1/2 w-[80vw] md:h-[30vh] h-[90vh] rounded-full blur-[100vw] bg-white/60" />
-      <div className="absolute bottom-0 left-1/2 translate-x-[-50%] translate-y-[50%] w-[80vw] md:h-[50vh] h-[90vh] blur-[70vw] bg-white/50" />
 
-      <div className="relativ  z-20 w-full px-4 sm:px-8 md:px-12 py-16 flex flex-col items-center gap-20">
-        <motion.div
-          className="text-center   space-y-4"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-          viewport={{ once: true }}
+      {/* CONTENT */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-4 md:px-10">
+        {/* headline + cta */}
+        <div
+          ref={headingRef}
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8"
         >
-          <motion.h1
-            className="  text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            style={{ textShadow: "0px -1px 10px #FFFFFF80" }}
-          >
-            Featured Projects
-          </motion.h1>
-        </motion.div>
+          <div>
+            <h2 className="work-headline text-[9vw] leading-[0.9] md:text-[4.5vw] font-extrabold tracking-tight">
+              Work that moves people.
+            </h2>
+            <p className="mt-3 md:mt-4 text-white/80 max-w-[65ch]">
+              Hand-tuned micro-interactions, clean systems, and purposeful
+              motion. Here are a few recent favorites.
+            </p>
+          </div>
+        </div>
 
-        <motion.div
-          className="flex flex-col  sm:flex-row sm:flex-wrap items-center justify-center gap-8 sm:gap-10 w-full"
-          initial="hidden"
-          whileInView="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.18,
-                delayChildren: 0.2,
-              },
-            },
-          }}
-          viewport={{ once: true }}
+        {/* cards */}
+        <div
+          ref={gridRef}
+          className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7"
         >
-          {data.map((proj) => (
-            <motion.div
-              key={proj.title}
-              variants={{
-                hidden: { opacity: 0, y: 40 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              whileHover={{ scale: 1.045, y: -8 }}
-              transition={{ type: "spring", stiffness: 120, damping: 14 }}
-              className="w-full max-w-[90%] sm:max-w-[400px] md:max-w-[450px]"
-            >
-              <CometCard className="w-full mx-auto min-h-[20rem] sm:min-h-[24rem] ">
-                <a
-                  href={proj.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-full h-full  min-h-100 flex-col items-stretch justify-center rounded-2xl bg-[#1F2121] p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-                  aria-label={`View project ${proj.title}`}
+          {loading && !items.length
+            ? // minimal skeleton
+              Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={`skeleton-${i}`}
+                  className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md animate-pulse"
                 >
-                  <div className="relative w-full h-full rounded-2xl  aspect-[4/3] mt-2">
+                  <div className="aspect-[4/3] bg-white/5" />
+                  <div className="p-4 md:p-5">
+                    <div className="h-5 w-2/3 bg-white/10 rounded" />
+                    <div className="mt-3 h-4 w-full bg-white/10 rounded" />
+                    <div className="mt-2 h-4 w-5/6 bg-white/10 rounded" />
+                  </div>
+                </div>
+              ))
+            : items.map((p) => (
+                <a
+                  key={p._id}
+                  href={p.url}
+                  target="_blank"
+                  aria-labelledby={`${p._id}-title`}
+                  className="group relative project-card rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md will-change-transform"
+                >
+                  {/* cover */}
+                  <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       fill
-                      className="absolute inset-0 w-full h-full object-cover rounded-2xl"
-                      alt={proj.title}
-                      src={urlFor(proj.image).url()}
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
-                      }}
+                      loading="lazy"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      alt={p.title}
+                      src={urlFor(p.image).url()}
+                      className="object-cover"
                     />
+                    {/* halo */}
+                    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[160%] h-[160%] rounded-[50%] blur-[90px] opacity-35 bg-[radial-gradient(closest-side,rgba(39,93,250,0.35),rgba(167,139,250,0.22),transparent_70%)] pointer-events-none" />
+                    {/* gloss */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-black/0" />
                   </div>
-                  <div className="mt-4 bg-black/60  rounded-xl backdrop-blur-sm shadow-inner text-white font-mono p-6 space-y-2">
-                    <h3 className="prose prose-invert text-lg  font-outfit font-light [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
-                      {proj.title}
+
+                  {/* body */}
+                  <div className="relative p-4 md:p-5">
+                    <h3
+                      id={`${p._id}-title`}
+                      className="text-lg md:text-xl font-semibold tracking-tight"
+                    >
+                      {p.title}
                     </h3>
-                    <p className="prose prose-invert text-slate-500 font-outfit font-light text-sm [text-shadow:_0px_-13px_30px_rgb(0_106_255_/_0.45)]">
-                      {proj.description}
+                    <p className="mt-2 text-sm md:text-base text-white/70 line-clamp-2">
+                      {p.description}
                     </p>
-                    <span className="prose prose-invert text-[0.9em] font-medium mt-2 inline-flex items-center justify-center tag-shadow px-6 py-[0.6rem] rounded-full text-neon border  font-outfit hover:text-white hover:bg-neon gap-1 group transition-all duration-200 ease-in-out">
-                      Check it Out
-                      <IconArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
+
+                    {/* hover footer */}
+                    <div className="mt-4 flex items-center justify-between opacity-90">
+                      <span className="inline-flex items-center gap-1 text-sm md:text-base">
+                        View case study
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          className="transition-transform duration-300 group-hover:translate-x-1"
+                          aria-hidden
+                        >
+                          <path
+                            d="M7 17L17 7"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M9 7h8v8"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </span>
+
+                      <span className="text-[11px] md:text-xs text-white/50 group-hover:text-white/70 transition-colors">
+                        {
+                          new URL(
+                            p.url,
+                            typeof window !== "undefined"
+                              ? window.location.origin
+                              : "https://example.com"
+                          ).hostname
+                        }
+                      </span>
+                    </div>
+
+                    {/* focus ring */}
+                    <span className="absolute inset-0 ring-0 ring-white/0 group-focus-visible:ring-2 group-focus-visible:ring-white/40 rounded-2xl pointer-events-none" />
                   </div>
                 </a>
-              </CometCard>
-            </motion.div>
-          ))}
-        </motion.div>
+              ))}
+        </div>
+
+        {/* footer CTA */}
       </div>
-    </motion.section>
+    </section>
   );
 }

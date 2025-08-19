@@ -6,6 +6,6 @@ type Store = {
 };
 
 export const useToggleStore = create<Store>((set) => ({
-  isOpen: false,
+  isOpen: true,
   setIsOpen: (value) => set({ isOpen: value }),
 }));

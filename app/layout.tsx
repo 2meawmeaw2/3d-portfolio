@@ -9,7 +9,6 @@ const outfit = Outfit({
   variable: "--font-outfit",
 });
 
-import { Scene } from "./component/ViewCanvas";
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
 export const metadata: Metadata = {
@@ -32,10 +31,7 @@ export default function RootLayout({
           <nav className="sticky  top-0 z-70 ">
             <RealNavBar />
           </nav>
-          <main className="relative">
-            {children}
-            <Scene />
-          </main>
+          <main className="relative">{children}</main>
         </body>
       </ReactLenis>
     </html>
