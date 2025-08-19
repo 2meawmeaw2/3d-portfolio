@@ -1,6 +1,6 @@
 "use client";
 import MagneticButton from "../component2D/magButton";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
@@ -8,13 +8,41 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
+/* ----------------------------- tiny helpers ------------------------------ */
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = () => setReduced(m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return reduced;
+}
+
+function useHasFinePointer() {
+  const [fine, setFine] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const m = window.matchMedia("(pointer: fine)");
+    const onChange = () => setFine(m.matches);
+    onChange();
+    m.addEventListener?.("change", onChange);
+    return () => m.removeEventListener?.("change", onChange);
+  }, []);
+  return fine;
+}
+
 /* ------------------------- Small building blocks ------------------------- */
 
-function ScrollCue() {
+function ScrollCue({ enabled = true }: { enabled?: boolean }) {
   const barRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
-    if (!barRef.current) return;
+    if (!enabled || !barRef.current) return;
     const tween = gsap.fromTo(
       barRef.current,
       { y: 0, opacity: 0.2 },
@@ -30,10 +58,12 @@ function ScrollCue() {
     return () => {
       tween.kill();
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
-    <div className="pointer-events-none mt-16 flex flex-col items-center text-xs text-white/50">
+    <div className="pointer-events-none mt-10 sm:mt-16 hidden sm:flex flex-col items-center text-xs text-white/50">
       <div className="h-8 w-[2px] overflow-hidden rounded-full bg-white/15">
         <span
           ref={barRef}
@@ -47,10 +77,11 @@ function ScrollCue() {
 
 /* -------------------- Mouse-follow spotlight & orbs ---------------------- */
 
-function MouseSpotlight() {
+function MouseSpotlight({ enabled = true }: { enabled?: boolean }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!enabled) return;
     const el = ref.current;
     if (!el) return;
 
@@ -74,7 +105,9 @@ function MouseSpotlight() {
 
     document.addEventListener("mousemove", move);
     return () => document.removeEventListener("mousemove", move);
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   type Vars = React.CSSProperties & { ["--mx"]?: string; ["--my"]?: string };
   const varStyle: Vars = { ["--mx"]: "0px", ["--my"]: "0px" };
@@ -93,12 +126,12 @@ function MouseSpotlight() {
   );
 }
 
-function ParallaxOrbs() {
+function ParallaxOrbs({ enabled = true }: { enabled?: boolean }) {
   const orb1Ref = useRef<HTMLDivElement | null>(null);
   const orb2Ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!orb1Ref.current || !orb2Ref.current) return;
+    if (!enabled || !orb1Ref.current || !orb2Ref.current) return;
 
     const q1x = gsap.quickTo(orb1Ref.current, "xPercent", {
       duration: 0.4,
@@ -133,7 +166,9 @@ function ParallaxOrbs() {
 
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>
@@ -157,52 +192,64 @@ function ParallaxOrbs() {
 
 export default function Hero() {
   const scope = useRef<HTMLDivElement | null>(null);
+  const prefersReduced = usePrefersReducedMotion();
+  const hasFinePointer = useHasFinePointer();
 
   useGSAP(
     () => {
       const items = gsap.utils.toArray<HTMLElement>(".reveal");
-      gsap.from(items, {
-        y: 24,
-        autoAlpha: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.12,
-      });
+      if (prefersReduced) {
+        gsap.set(items, { y: 0, autoAlpha: 1 });
+      } else {
+        gsap.from(items, {
+          y: 24,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.12,
+        });
+      }
     },
-    { scope }
+    { scope, dependencies: [prefersReduced] }
   );
 
   return (
     <section
       id="hero"
       aria-label="Intro section"
-      className="relative z-0 min-h-[110svh] w-full overflow-clip bg-black text-white"
+      className="relative z-0 min-h-[100svh] md:min-h-[110svh] w-full overflow-clip bg-black text-white"
       ref={scope}
     >
       {/* background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_20%,rgba(140,160,255,0.18),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_110%,rgba(255,120,80,0.08),transparent_60%)]" />
-        <ParallaxOrbs />
-        <MouseSpotlight />
+        <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_15%,rgba(140,160,255,0.18),transparent_60%)] md:bg-[radial-gradient(60%_60%_at_50%_20%,rgba(140,160,255,0.18),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(90%_90%_at_50%_110%,rgba(255,120,80,0.08),transparent_60%)]" />
+        {/* Disable heavy effects on touch devices / reduced motion */}
+        <div className="hidden md:block">
+          <ParallaxOrbs enabled={hasFinePointer && !prefersReduced} />
+          <MouseSpotlight enabled={hasFinePointer && !prefersReduced} />
+        </div>
       </div>
 
       {/* content */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-4 pb-24 pt-36 sm:px-8 md:pt-40">
-        <div className="w-full max-w-[1100px] overflow-clip rounded-2xl border border-white/20 p-4 sm:p-6 md:p-8 flex flex-col items-center bg-white/5">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-4 pb-20 pt-28 sm:px-6 md:px-8 md:pt-40 md:pb-24">
+        <div className="w-full max-w-[1100px] overflow-clip rounded-xl sm:rounded-2xl border border-white/20 p-4 sm:p-6 md:p-8 flex flex-col items-center bg-white/5">
           {/* top badge */}
           <div className="reveal">
-            <span className="overflow-clip inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur-md">
+            <span className="overflow-clip inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] sm:text-xs text-white/70 backdrop-blur-md">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-              <span>Full-Stack • Frontend-First — 2025</span>
+              <span className="whitespace-nowrap">
+                Full-Stack • Frontend-First — 2025
+              </span>
             </span>
           </div>
 
           {/* big headline */}
           <h1
             className={cn(
-              "reveal mt-6 text-center font-semibold leading-[0.95]",
-              "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+              "reveal mt-5 sm:mt-6 text-center font-semibold leading-[0.98] md:leading-[0.95]",
+              // fluid on tiny screens, then step up
+              "text-[9.5vw] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
             )}
             style={{ textShadow: "0 20px 80px rgba(255,255,255,0.12)" }}
           >
@@ -215,31 +262,30 @@ export default function Hero() {
             <br />
             <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent">
               Full-Stack,{" "}
-              <span className="bg-gradient-to-b mx-3 from-white via-white to-black bg-clip-text text-transparent">
+              <span className="bg-gradient-to-b mx-2 sm:mx-3 from-white via-white to-black bg-clip-text text-transparent">
                 Frontend-Focused
               </span>
             </span>
           </h1>
 
           {/* subcopy */}
-          <p className="reveal mt-6 max-w-2xl text-center text-balance text-sm sm:text-base text-white/70">
+          <p className="reveal mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-sm sm:text-base text-white/70">
             I design and ship production web apps with TypeScript/React on the
             front, reliable APIs on the back, and great DX in between. Clean UI,
             performance, accessibility, and maintainability come standard.
           </p>
 
           {/* single CTA */}
-          <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="reveal mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
             <MagneticButton href="#Projects">
               <span>Explore Projects</span>
               <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
           </div>
 
-          {/* metrics mini-cards */}
-
+          {/* metrics mini-cards / scroll cue */}
           <div className="w-full">
-            <ScrollCue />
+            <ScrollCue enabled={!prefersReduced} />
           </div>
         </div>
       </div>
