@@ -160,7 +160,6 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      // Simple fade + slide up for all .reveal items
       const items = gsap.utils.toArray<HTMLElement>(".reveal");
       gsap.from(items, {
         y: 24,
@@ -195,7 +194,7 @@ export default function Hero() {
           <div className="reveal">
             <span className="overflow-clip inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur-md">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-              <span>Portfolio — 2025 Edition</span>
+              <span>Full-Stack • Frontend-First — 2025</span>
             </span>
           </div>
 
@@ -208,54 +207,36 @@ export default function Hero() {
             style={{ textShadow: "0 20px 80px rgba(255,255,255,0.12)" }}
           >
             <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent">
-              Crafting Playful{" "}
+              Building Modern{" "}
               <span className="bg-gradient-to-b from-white via-white to-black bg-clip-text text-transparent">
-                3D
-              </span>{" "}
-              Web
+                Web Apps
+              </span>
             </span>
             <br />
             <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent">
-              that Feels
+              Full-Stack,{" "}
               <span className="bg-gradient-to-b mx-3 from-white via-white to-black bg-clip-text text-transparent">
-                Alive
+                Frontend-Focused
               </span>
             </span>
           </h1>
 
           {/* subcopy */}
           <p className="reveal mt-6 max-w-2xl text-center text-balance text-sm sm:text-base text-white/70">
-            Interactive experiences blending performant WebGL, motion, and
-            micro-interactions. Built with care, tuned for delight.
+            I design and ship production web apps with TypeScript/React on the
+            front, reliable APIs on the back, and great DX in between. Clean UI,
+            performance, accessibility, and maintainability come standard.
           </p>
 
           {/* single CTA */}
           <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
             <MagneticButton href="#Projects">
-              <span>View Featured Work</span>
+              <span>Explore Projects</span>
               <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
           </div>
 
           {/* metrics mini-cards */}
-          <div className="reveal mt-14 grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
-            {[
-              { k: "Projects", v: "28+" },
-              { k: "Awards", v: "6" },
-              { k: "FPS Target", v: "60" },
-              { k: "Stack", v: "Three • GSAP" },
-            ].map((it) => (
-              <div
-                key={it.k}
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center backdrop-blur-xl"
-              >
-                <div className="text-xs uppercase tracking-widest text-white/60">
-                  {it.k}
-                </div>
-                <div className="mt-1 text-lg font-medium">{it.v}</div>
-              </div>
-            ))}
-          </div>
 
           <div className="w-full">
             <ScrollCue />
