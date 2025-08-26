@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { gsap } from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+// Register GSAP plugins
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 type Skill = {
   name: string;
@@ -18,7 +24,7 @@ const skills: Skill[] = [
         src="/tools/html.svg"
         alt="HTML/CSS"
         fill
-        className="w-12 h-12 p-1 rounded-2xl bg-white hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 rounded-2xl bg-white/10 hover:bg-white/20 hover:scale-105 transition-all duration-300 ease-out"
       />
     ),
     progress: 90,
@@ -30,7 +36,7 @@ const skills: Skill[] = [
         src="/tools/r3f.png"
         alt="r3f"
         fill
-        className="w-10 h-10 p-[0.5rem] my-1 bg-white rounded-full scale-99 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-10 h-10 p-[0.5rem] my-1 bg-white rounded-full scale-99 hover:bg-white hover:scale-105 transition-all duration-300 ease-out"
       />
     ),
     progress: 70,
@@ -39,7 +45,7 @@ const skills: Skill[] = [
     name: "GSAP",
     icon: (
       <svg
-        className="w-12 h-12 hover:scale-125 scale-115 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 hover:scale-125 scale-115 transition-all duration-300 ease-out bg-white/10 rounded-2xl p-2 hover:bg-white/20"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 82 30"
         aria-label="GSAP"
@@ -71,7 +77,7 @@ const skills: Skill[] = [
         src="/tools/Threejs-logo.svg"
         alt="3js"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 90,
@@ -83,7 +89,7 @@ const skills: Skill[] = [
         src="/tools/typescript.svg"
         alt="typrscript"
         fill
-        className="w-12 h-12 p-2 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-2 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 80,
@@ -95,7 +101,7 @@ const skills: Skill[] = [
         src="/tools/j2.svg"
         alt="React"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 80,
@@ -107,7 +113,7 @@ const skills: Skill[] = [
         src="/tools/next.svg"
         alt="Next js"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 80,
@@ -119,7 +125,7 @@ const skills: Skill[] = [
         src="/tools/tail.svg"
         alt="Tailwind Css"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 90,
@@ -130,7 +136,7 @@ const skills: Skill[] = [
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 9"
-        className="fill-yellow-300 w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="fill-yellow-300 w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
         aria-label="Motion"
       >
         <path d="M9.062 0 L4.32 8.992 L0 8.992 L3.703 1.971 C4.277 0.882 5.709 0 6.902 0 Z M19.656 2.248 C19.656 1.006 20.623 0 21.816 0 C23.009 0 23.976 1.006 23.976 2.248 C23.976 3.49 23.009 4.496 21.816 4.496 C20.623 4.496 19.656 3.49 19.656 2.248 Z M9.872 0 L14.192 0 L9.45 8.992 L5.13 8.992 Z M14.974 0 L19.294 0 L15.592 7.021 C15.018 8.11 13.585 8.992 12.392 8.992 L10.232 8.992 Z" />
@@ -145,7 +151,7 @@ const skills: Skill[] = [
         src="/tools/j2.svg"
         alt="React Native"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 70,
@@ -157,126 +163,225 @@ const skills: Skill[] = [
         src="/tools/expo.svg"
         alt="Expo"
         fill
-        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-200 ease-in-out"
+        className="w-12 h-12 p-1 hover:scale-105 transition-all duration-300 ease-out bg-white/10 rounded-2xl hover:bg-white/20"
       />
     ),
     progress: 65,
   },
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: (delayBase = 0) => ({
-    opacity: 1,
-    transition: { staggerChildren: 0.06, delayChildren: delayBase },
-  }),
-};
-
 export default function Skills() {
-  const prefersReduced = useReducedMotion();
+  // Refs for GSAP targets
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headingRef = useRef<HTMLDivElement | null>(null);
+
+  const gridRef = useRef<HTMLUListElement | null>(null);
+  const skillItemsRef = useRef<HTMLLIElement[]>([]);
+  useGSAP(() => {
+    if (!gridRef.current) return;
+
+    const skillItems = skillItemsRef.current;
+
+    // Create animations for each skill item individually
+    skillItems.forEach((item) => {
+      // Find elements within this specific skill card
+      const cardHeadlines = item.querySelectorAll(".skill-headline");
+      const cardDescription = item.querySelectorAll(".skill-description");
+      const progressBar = item.querySelector(".progress-bar-fill");
+      const iconContainer = item.querySelector(".skill-icon-container");
+      const levelLabels = item.querySelectorAll(".skill-level-label");
+
+      if (cardHeadlines.length > 0) {
+        // Split text for each headline in this card
+        const splitCardHeadlines = SplitText.create(cardHeadlines, {
+          type: "chars",
+        });
+        const splitCardDescription = SplitText.create(cardDescription, {
+          type: "chars",
+        });
+        // Animate the headlines for this specific card using its own ref as the trigger
+        gsap.from(splitCardHeadlines.chars, {
+          scrollTrigger: {
+            trigger: item, // Using the card's own ref as trigger
+            start: "top 80%",
+            end: "bottom center",
+
+            toggleActions: "play none none reverse",
+            scrub: true,
+          },
+          color: "#000000",
+          duration: 1,
+          ease: "power2.out",
+          stagger: 0.05, // Slightly faster stagger for individual cards
+        });
+
+        gsap.from(splitCardDescription.chars, {
+          scrollTrigger: {
+            trigger: item, // Using the card's own ref as trigger
+            start: "top 80%",
+            end: "bottom 40%",
+
+            toggleActions: "play none none reverse",
+            scrub: true,
+          },
+          color: "#000000",
+          ease: "power2.out",
+          stagger: { amount: 1 }, // Adjusted duration for a faster stagger
+        });
+      }
+
+      // Animate the progress bar
+      if (progressBar) {
+        gsap.fromTo(
+          progressBar,
+          {
+            width: "0%",
+            background: "linear-gradient(to right, #1a1a1a, #252525)", // Start with a dark gradient
+          },
+          {
+            width: progressBar.getAttribute("data-progress") + "%",
+            background: "linear-gradient(to right, #6366f1, #a5b4fc, #f3f4f6)", // End with an even lighter blue-purple gradient
+            scrollTrigger: {
+              trigger: item,
+              start: "top 80%",
+              end: "bottom center",
+              toggleActions: "play none none reverse",
+              scrub: true,
+            },
+            duration: 1,
+            ease: "power2.out",
+          }
+        );
+      }
+
+      // Animate the icon with a fun bounce/rotate effect
+      if (iconContainer) {
+        gsap.fromTo(
+          iconContainer,
+          {
+            autoAlpha: 0,
+          },
+          {
+            autoAlpha: 1,
+            scrollTrigger: {
+              trigger: item,
+              start: "top 80%",
+              end: "bottom center",
+
+              toggleActions: "play none none reverse",
+              scrub: true,
+            },
+            duration: 1,
+            ease: "power1.out",
+          }
+        );
+      }
+
+      // Animate the level labels (Beginner-Expert)
+      if (levelLabels.length) {
+        // Create a staggered fade-in effect for the labels
+        gsap.fromTo(
+          levelLabels,
+          {
+            y: 20,
+            autoAlpha: 0,
+          },
+          {
+            y: 0,
+            autoAlpha: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+              trigger: item,
+              start: "top 75%",
+              end: "bottom center",
+              toggleActions: "play none none reverse",
+            },
+            duration: 0.8,
+            ease: "power2.out",
+          }
+        );
+      }
+    });
+  });
 
   return (
     <section
       id="Skills"
-      className="relative bg-black text-white py-16 md:py-24 overflow-hidden"
+      ref={sectionRef}
+      className="relative  bg-black text-white py-20 md:py-28 overflow-hidden"
       aria-label="Skills"
     >
-      {/* background accents to match Hero vibe */}
+      {/* Enhanced background accents */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_center,rgba(24,24,24,0)_0%,rgba(0,0,0,0.6)_60%,rgba(0,0,0,1)_100%)]" />
-        <div className="absolute -top-24 -left-16 w-[50vw] h-[50vw] blur-[120px] rounded-full bg-[#3b82f6] opacity-[0.10]" />
-        <div className="absolute -bottom-24 -right-24 w-[60vw] h-[60vw] blur-[140px] rounded-full bg-[#a855f7] opacity-[0.10]" />
-        <div className="absolute inset-0 mix-blend-soft-light opacity-[0.08] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAL0lEQVR4AWOgGPrnPwMDA0M0GJqY+P//PxgYGEgwwuZg0j9gYFDE4ZkC0z8QTFgA4t4gkq7iPvEAAAAASUVORK5CYII=')]" />
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_center,rgba(24,24,24,0)_0%,rgba(0,0,0,0.7)_60%,rgba(0,0,0,1)_100%)]" />
+        <div className="absolute -top-24 -left-16 w-[50vw] h-[50vw] blur-[120px] rounded-full bg-[#3b82f6] opacity-[0.12]" />
+        <div className="absolute -bottom-24 -right-24 w-[60vw] h-[60vw] blur-[140px] rounded-full bg-[#a855f7] opacity-[0.12]" />
+        <div className="absolute inset-0 mix-blend-soft-light opacity-[0.06] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAL0lEQVR4AWOgGPrnPwMDA0M0GJqY+P//PxgYGEgwwuZg0j9gYFDE4ZkC0z8QTFgA4t4gkq7iPvEAAAAASUVORK5CYII=')]" />
       </div>
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 md:px-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
-          className="mb-10 md:mb-14"
-        >
-          <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-white/60">
-            Capabilities
-          </p>
-          <h3 className="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight">
+        {/* Enhanced Header */}
+        <div ref={headingRef} className="mb-16 md:mb-20 text-center">
+          <h3 className="text-4xl md:text-6xl font-extrabold tracking-tight">
             Skills that power the polish.
           </h3>
-        </motion.div>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
+            Technologies and tools I&apos;ve mastered to create exceptional
+            digital experiences
+          </p>
+        </div>
 
-        {/* Grid */}
-        <motion.ul
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          custom={0.1}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+        {/* Enhanced Grid */}
+        <ul
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           {skills.map((skill, i) => (
-            <motion.li
+            <li
               key={skill.name}
-              variants={{
-                hidden: { y: 16, opacity: 0 },
-                show: {
-                  y: 0,
-                  opacity: 1,
-                  transition: { type: "spring", stiffness: 120, damping: 16 },
-                },
+              ref={(el) => {
+                if (el) skillItemsRef.current[i] = el;
               }}
-              whileHover={!prefersReduced ? { y: -6, rotateX: 2 } : undefined}
-              className="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-4 md:p-5"
+              className="group relative rounded-3xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-xl p-6 md:p-7 shadow-2xl hover:shadow-blue-500/20 transition-all duration-500 ease-out transform-gpu"
             >
-              {/* top row */}
-              <div className="flex items-center gap-3">
-                <div className="relative size-12 shrink-0">
-                  {/* icons that use Image with `fill` need a relative wrapper */}
+              {/* Enhanced top row */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="relative size-14 shrink-0 skill-headline skill-icon-container">
                   {skill.icon}
                 </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h4 className="text-base md:text-lg font-semibold">
-                      {skill.name}
-                    </h4>
-                  </div>
-                  <p className="text-xs md:text-sm text-white/60">
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-lg skill-headline md:text-xl font-bold text-white mb-1">
+                    {skill.name}
+                  </h4>
+                  <p className="skill-description text-sm text-white/60 font-medium">
                     Proficiency: {skill.progress}%
                   </p>
                 </div>
               </div>
 
-              {/* progress */}
-              <div className="mt-4">
-                <div
-                  className="h-2 w-full rounded-full bg-white/10 overflow-hidden"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={skill.progress}
-                  aria-label={`${skill.name} proficiency`}
-                >
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.progress}%` }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 110,
-                      damping: 18,
-                      delay: i * 0.03,
+              {/* Enhanced progress bar */}
+              <div className="space-y-3">
+                <div className="flex justify-between items-center overflow-clip text-xs text-white/50">
+                  <span className="skill-level-label ">Beginner</span>
+                  <span className="skill-level-label ">Expert</span>
+                </div>
+                <div className="h-3 w-full rounded-full bg-gray-900/50 overflow-hidden backdrop-blur-sm">
+                  <div
+                    className="progress-bar-fill h-full rounded-full shadow-lg shadow-indigo-900/25"
+                    data-progress={skill.progress}
+                    style={{
+                      width: "0%", // Start at 0% and animate to the final value
                     }}
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500"
                   />
                 </div>
               </div>
 
-              {/* subtle glow on hover */}
-              <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(600px_200px_at_var(--x,50%)_120%,rgba(59,130,246,0.18),transparent_60%)]" />
-            </motion.li>
+              {/* Enhanced hover effects */}
+              <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-all duration-500 group-hover:opacity-100 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-fuchsia-500/10" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </li>
           ))}
-        </motion.ul>
+        </ul>
       </div>
     </section>
   );

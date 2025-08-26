@@ -1,4 +1,3 @@
-// "use client";
 "use client";
 
 import Image from "next/image";
@@ -6,9 +5,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Use the actual parameter type that `urlFor` expects (no `any`)
 type ImageSource = Parameters<typeof urlFor>[0];
@@ -36,6 +37,152 @@ export function Project() {
   const headingRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
 
+  // Store SplitText instances to avoid recreation
+  const splitInstancesRef = useRef<{
+    headline?: SplitText;
+    description?: SplitText;
+    cards?: SplitText;
+  }>({});
+
+  // GSAP animations
+  useGSAP(() => {
+    if (!headingRef.current || !gridRef.current || !sectionRef.current) return;
+
+    // Clean up existing instances
+    Object.values(splitInstancesRef.current).forEach((instance) => {
+      instance?.revert?.();
+    });
+
+    // Create SplitText instances
+    const splitHeadline = SplitText.create(".work-headline", {
+      type: "words",
+      charsClass: "split-char", // Add class for better targeting
+    });
+
+    const splitDescription = SplitText.create(".work-description", {
+      type: "words",
+      charsClass: "split-char",
+    });
+
+    const splitDescriptionFav = SplitText.create(".work-description-fav", {
+      type: "lines",
+    });
+
+    // Store instances for cleanup
+    splitInstancesRef.current = {
+      headline: splitHeadline,
+      description: splitDescription,
+    };
+
+    // Set initial styles to avoid FOUC
+    gsap.set(".work-headline .split-char", {
+      color: "#1a1a1b", // Start with gray color
+    });
+
+    gsap.set(".work-description .split-char", {
+      color: "#1a1a1b",
+    });
+
+    // Optimized heading animation with better performance
+    gsap.to(".work-headline .split-char", {
+      scrollTrigger: {
+        trigger: headingRef.current,
+        start: "top 80%",
+        end: "90% 40%",
+        scrub: 1, // Reduced scrub value for smoother animation
+        invalidateOnRefresh: true,
+      },
+      color: "#ffffff", // Animate to white
+      duration: 0.1,
+      ease: "none", // Use "none" for scrub animations
+      stagger: {
+        amount: 0.5, // Total stagger time
+        from: "start",
+      },
+    });
+
+    gsap.to(".work-description .split-char", {
+      scrollTrigger: {
+        trigger: headingRef.current,
+        start: "30% 70%",
+        end: "80% 50%",
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+      color: "#ffffff",
+      duration: 0.1,
+      ease: "none",
+      stagger: {
+        amount: 0.3,
+        from: "start",
+      },
+    });
+
+    // Card animations - only run when data is loaded
+    if (!loading && data.length > 0) {
+      // Create card text splits
+      const splitCard = SplitText.create(".project-card-texts", {
+        type: "chars",
+        charsClass: "split-char-card",
+      });
+
+      splitInstancesRef.current.cards = splitCard;
+
+      // Set initial states
+      gsap.set(".project-card", {
+        opacity: 0,
+      });
+
+      // Animate cards in
+      gsap.to(".project-card", {
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top center",
+          end: "60% center",
+          scrub: true,
+          toggleActions: "play none none reverse",
+          markers: true, // Remove this in production
+        },
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.2, // Reduced stagger for better effect
+      });
+      gsap.from(splitCard.chars, {
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top center",
+          end: "80% center",
+          scrub: true,
+          toggleActions: "play none none reverse",
+          markers: true, // Remove this in production
+        },
+        color: "black",
+        duration: 1,
+        ease: "power1.inOut",
+        stagger: 0.1,
+      });
+    }
+    gsap.from(splitDescriptionFav.lines, {
+      scrollTrigger: {
+        trigger: headingRef.current,
+        start: "90% 70%",
+      },
+      autoAlpha: 0,
+      y: 20,
+      duration: 1,
+      ease: "power1.inOut",
+      stagger: 0.01,
+    });
+
+    // Cleanup function
+    return () => {
+      Object.values(splitInstancesRef.current).forEach((instance) => {
+        instance?.revert?.();
+      });
+    };
+  }, [loading, data.length]);
+
   const items = useMemo(
     () =>
       data.map((p, i) => ({
@@ -62,13 +209,10 @@ export function Project() {
         setData(res || []);
         setLoading(false);
 
-        // Ensure ScrollTrigger positions are up-to-date once content lands
-        try {
-          const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        // Refresh ScrollTrigger after data loads
+        requestAnimationFrame(() => {
           ScrollTrigger.refresh();
-        } catch {
-          // gsap not installed — fine
-        }
+        });
       } catch (err) {
         console.error(err);
         if (mounted) setLoading(false);
@@ -82,22 +226,24 @@ export function Project() {
 
   // Track image loads to refresh ScrollTrigger precisely after images paint
   useEffect(() => {
+    if (loading || !data.length) return;
+
     const el = gridRef.current;
     if (!el) return;
+
     let pending = 0;
     const imgs = Array.from(el.querySelectorAll("img"));
     if (!imgs.length) return;
 
-    const maybeRefresh = async () => {
-      try {
-        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-        ScrollTrigger.refresh();
-      } catch {}
+    const maybeRefresh = () => {
+      ScrollTrigger.refresh();
     };
 
     const onLoad = () => {
       pending -= 1;
-      if (pending <= 0) maybeRefresh();
+      if (pending <= 0) {
+        requestAnimationFrame(maybeRefresh);
+      }
     };
 
     imgs.forEach((img) => {
@@ -115,7 +261,7 @@ export function Project() {
         img.removeEventListener("error", onLoad);
       });
     };
-  }, [data.length]);
+  }, [data.length, loading]);
 
   return (
     <section
@@ -149,12 +295,15 @@ export function Project() {
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8"
         >
           <div>
-            <h2 className="work-headline text-[9vw] leading-[0.9] md:text-[4.5vw] font-extrabold tracking-tight">
+            <h2 className="work-headline text-[9vw] leading-[0.9] md:text-[4.5vw] font-extrabold tracking-tight will-change-transform">
               Work that moves people.
             </h2>
-            <p className="mt-3 md:mt-4 text-white/80 max-w-[65ch]">
+            <p className="work-description mt-3 md:mt-4 text-white/80 max-w-[65ch] will-change-transform">
               Hand-tuned micro-interactions, clean systems, and purposeful
-              motion. Here are a few recent favorites.
+              motion.
+            </p>
+            <p className="work-description-fav overflow-clip mt-3 md:mt-4 text-white/80 max-w-[65ch] will-change-transform">
+              Here are a few recent favorites :
             </p>
           </div>
         </div>
@@ -185,10 +334,9 @@ export function Project() {
                   href={p.url}
                   target="_blank"
                   aria-labelledby={`${p._id}-title`}
-                  className="group relative project-card rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md will-change-transform"
+                  className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md will-change-transform"
                 >
-                  {/* cover */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="project-card relative aspect-[4/3] overflow-hidden">
                     <Image
                       fill
                       loading="lazy"
@@ -207,18 +355,20 @@ export function Project() {
                   <div className="relative p-4 md:p-5">
                     <h3
                       id={`${p._id}-title`}
-                      className="text-lg md:text-xl font-semibold tracking-tight"
+                      className="text-lg project-card-texts md:text-xl font-semibold tracking-tight"
                     >
                       {p.title}
                     </h3>
-                    <p className="mt-2 text-sm md:text-base text-white/70 line-clamp-2">
+                    <p className="mt-2 text-sm md:text-base project-card-texts text-white/70 line-clamp-2">
                       {p.description}
                     </p>
 
                     {/* hover footer */}
                     <div className="mt-4 flex items-center justify-between opacity-90">
-                      <span className="inline-flex items-center gap-1 text-sm md:text-base">
-                        View case study
+                      <span className="flex items-center gap-1 text-sm md:text-base">
+                        <span className="project-card-texts">
+                          View case study
+                        </span>
                         <svg
                           width="16"
                           height="16"
@@ -242,7 +392,7 @@ export function Project() {
                         </svg>
                       </span>
 
-                      <span className="text-[11px] md:text-xs text-white/50 group-hover:text-white/70 transition-colors">
+                      <span className="project-card-texts text-[11px] md:text-xs text-white/50 group-hover:text-white/70 transition-colors">
                         {
                           new URL(
                             p.url,
@@ -260,8 +410,6 @@ export function Project() {
                 </a>
               ))}
         </div>
-
-        {/* footer CTA */}
       </div>
     </section>
   );

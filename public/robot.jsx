@@ -18,9 +18,9 @@ export function Robot({ ...rest }) {
     gsap.to(groupRef.current.rotation, {
       scrollTrigger: {
         trigger: "#About",
-        start: "20% center",
-        end: "bottom center",
-        scrub: 1.5,
+        start: "40% center",
+        end: "100% center",
+        scrub: 1.1,
       },
       x: Math.PI,
       y: 3 * Math.PI,
