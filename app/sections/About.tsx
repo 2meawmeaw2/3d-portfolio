@@ -13,9 +13,9 @@ const Hero = () => {
   const scene = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery({ maxWidth: 900 });
   useGSAP(() => {
-    const split = SplitText.create(rootRef.current, { type: "chars" });
+    const split = SplitText.create(rootRef.current, { type: "words" });
 
-    gsap.from(split.chars, {
+    gsap.from(split.words, {
       scrollTrigger: {
         trigger: rootRef.current,
         start: "10% center",
@@ -76,7 +76,7 @@ const Hero = () => {
       {/* CONTENT */}
       <div className="relative z-10 h-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-10 flex flex-col justify-center">
         {/* top row badges - improved mobile layout */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 mb-6 sm:mb-6 md:mb-6 lg:mb-10">
+        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 mb-6 sm:mb-6 md:mb-6 lg:mb-10">
           <span
             className="float-card parallax-y text-[9px] sm:text-[10px] md:text-xs lg:text-sm uppercase tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.2em] px-2 sm:px-2.5 md:px-3 py-1 md:py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-md whitespace-nowrap"
             data-speed="0.6"
@@ -97,21 +97,21 @@ const Hero = () => {
           </span>
         </div>
 
-        {/* HERO TEXT + ROBOT SLOT - reorganized for mobile */}
+        {/* HERO TEXT + ROBOT SLOT - improved layout */}
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 items-center relative">
           {/* Text content */}
-          <div className="w-full lg:col-span-7 text-center order-2 lg:order-1">
+          <div className="w-full lg:col-span-7 text-center lg:text-left order-2 lg:order-1">
             <h1 className="hero-headline text-[clamp(2.2rem,9vw,6.5rem)] sm:text-[clamp(2.5rem,8vw,6.5rem)] leading-[0.8] sm:leading-[0.85] md:leading-[0.9] font-extrabold tracking-tight bg-clip-text">
               Interfaces that feel alive.
             </h1>
 
-            <h2 className="hero-sub mt-4 sm:mt-3 md:mt-4 lg:mt-6 text-sm sm:text-base lg:text-xl max-w-none sm:max-w-[60ch] text-white/80 leading-relaxed px-2 sm:px-0">
+            <h2 className="hero-sub mt-4 sm:mt-3 md:mt-4 lg:mt-6 text-sm sm:text-base lg:text-xl max-w-none sm:max-w-[60ch] mx-auto lg:mx-0 text-white/80 leading-relaxed px-2 lg:px-0">
               Motion, clarity and intent—crafted with GSAP, clean systems, and
               micro-interactions that guide without shouting.
             </h2>
 
-            {/* CTA Buttons - improved mobile layout */}
-            <div className="mt-6 sm:mt-6 lg:mt-8 xl:mt-10 flex flex-col lg:flex-row items-stretch lg:items-center justify-center lg:justify-start gap-3 lg:gap-4 px-4 lg:px-0">
+            {/* CTA Buttons - improved layout */}
+            <div className="mt-6 sm:mt-6 lg:mt-8 xl:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 lg:gap-4 px-4 lg:px-0">
               <button className="cta magnetic inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3 lg:py-3.5 rounded-full border border-white/20 bg-white text-black font-semibold shadow-[0_0_0_0_rgba(0,0,0,0)] hover:shadow-[0_20px_60px_-20px_rgba(255,255,255,0.25)] transition-shadow text-lg lg:text-base">
                 <a href="#Projects">View work</a>
                 <svg
@@ -146,7 +146,7 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* 3D Scene - repositioned for mobile */}
+          {/* 3D Scene */}
           <div className="w-full max-w-[320px] sm:max-w-[400px] lg:max-w-none lg:col-span-5 relative z-0 h-[280px] sm:h-[320px] md:h-[400px] lg:h-[56vh] rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md order-1 lg:order-2 mx-auto lg:mx-0">
             <div
               ref={scene}

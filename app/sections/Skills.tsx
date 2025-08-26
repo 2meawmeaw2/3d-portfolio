@@ -180,6 +180,27 @@ export default function Skills() {
   useGSAP(() => {
     if (!gridRef.current) return;
 
+    // Add split text animation for heading
+    if (headingRef.current) {
+      const headingElements = headingRef.current.querySelectorAll("h3, p");
+      const splitHeadings = SplitText.create(headingElements, {
+        type: "words",
+      });
+
+      gsap.from(splitHeadings.words, {
+        scrollTrigger: {
+          trigger: "#Skills",
+          start: "0% 70%",
+          end: "10% center",
+          scrub: true,
+        },
+        color: "#000000",
+        duration: 1,
+        ease: "power1.inOut",
+        stagger: 0.1,
+      });
+    }
+
     const skillItems = skillItemsRef.current;
 
     // Create animations for each skill item individually
@@ -218,15 +239,16 @@ export default function Skills() {
         gsap.from(splitCardDescription.chars, {
           scrollTrigger: {
             trigger: item, // Using the card's own ref as trigger
-            start: "top 80%",
-            end: "bottom 40%",
+            start: "top 75%",
+            end: "80% 60%",
 
             toggleActions: "play none none reverse",
             scrub: true,
           },
+          duration: 1,
           color: "#000000",
           ease: "power2.out",
-          stagger: { amount: 1 }, // Adjusted duration for a faster stagger
+          stagger: 0.05, // Adjusted duration for a faster stagger
         });
       }
 

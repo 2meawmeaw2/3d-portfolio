@@ -55,17 +55,11 @@ export function Project() {
 
     // Create SplitText instances
     const splitHeadline = SplitText.create(".work-headline", {
-      type: "words",
-      charsClass: "split-char", // Add class for better targeting
+      type: "words", // Changed to words to match About section
     });
 
     const splitDescription = SplitText.create(".work-description", {
-      type: "words",
-      charsClass: "split-char",
-    });
-
-    const splitDescriptionFav = SplitText.create(".work-description-fav", {
-      type: "lines",
+      type: "words", // Changed to words to match About section
     });
 
     // Store instances for cleanup
@@ -75,54 +69,39 @@ export function Project() {
     };
 
     // Set initial styles to avoid FOUC
-    gsap.set(".work-headline .split-char", {
-      color: "#1a1a1b", // Start with gray color
-    });
 
-    gsap.set(".work-description .split-char", {
-      color: "#1a1a1b",
-    });
-
-    // Optimized heading animation with better performance
-    gsap.to(".work-headline .split-char", {
+    // Optimized heading animation with better performance - similar to About section
+    gsap.from(splitHeadline.words, {
       scrollTrigger: {
         trigger: headingRef.current,
-        start: "top 80%",
-        end: "90% 40%",
-        scrub: 1, // Reduced scrub value for smoother animation
-        invalidateOnRefresh: true,
+        start: "0% 70%",
+        end: "70% center",
+        scrub: 1.4,
       },
-      color: "#ffffff", // Animate to white
-      duration: 0.1,
-      ease: "none", // Use "none" for scrub animations
-      stagger: {
-        amount: 0.5, // Total stagger time
-        from: "start",
-      },
+      color: "#000000",
+      duration: 1,
+      ease: "power1.inOut",
+      stagger: 0.1,
     });
 
-    gsap.to(".work-description .split-char", {
+    gsap.from(splitDescription.words, {
       scrollTrigger: {
         trigger: headingRef.current,
-        start: "30% 70%",
-        end: "80% 50%",
-        scrub: 1,
-        invalidateOnRefresh: true,
+        start: "0% 60%",
+        end: "80% center",
+        scrub: 1.4,
       },
-      color: "#ffffff",
-      duration: 0.1,
-      ease: "none",
-      stagger: {
-        amount: 0.3,
-        from: "start",
-      },
+      color: "#000000",
+      duration: 1,
+      ease: "power1.inOut",
+      stagger: 0.1,
     });
 
     // Card animations - only run when data is loaded
     if (!loading && data.length > 0) {
       // Create card text splits
       const splitCard = SplitText.create(".project-card-texts", {
-        type: "chars",
+        type: "words",
         charsClass: "split-char-card",
       });
 
@@ -139,7 +118,7 @@ export function Project() {
           trigger: gridRef.current,
           start: "top center",
           end: "60% center",
-          scrub: true,
+          scrub: 1.4,
           toggleActions: "play none none reverse",
           markers: true, // Remove this in production
         },
@@ -148,12 +127,12 @@ export function Project() {
         ease: "power2.out",
         stagger: 0.2, // Reduced stagger for better effect
       });
-      gsap.from(splitCard.chars, {
+      gsap.from(splitCard.words, {
         scrollTrigger: {
           trigger: gridRef.current,
           start: "top center",
           end: "80% center",
-          scrub: true,
+          scrub: 1.4,
           toggleActions: "play none none reverse",
           markers: true, // Remove this in production
         },
@@ -163,17 +142,7 @@ export function Project() {
         stagger: 0.1,
       });
     }
-    gsap.from(splitDescriptionFav.lines, {
-      scrollTrigger: {
-        trigger: headingRef.current,
-        start: "90% 70%",
-      },
-      autoAlpha: 0,
-      y: 20,
-      duration: 1,
-      ease: "power1.inOut",
-      stagger: 0.01,
-    });
+    // Removed duplicate animation for splitDescriptionFav since we now animate it with the others
 
     // Cleanup function
     return () => {
@@ -302,7 +271,7 @@ export function Project() {
               Hand-tuned micro-interactions, clean systems, and purposeful
               motion.
             </p>
-            <p className="work-description-fav overflow-clip mt-3 md:mt-4 text-white/80 max-w-[65ch] will-change-transform">
+            <p className="work-description overflow-clip mt-3 md:mt-4 text-white/80 max-w-[65ch] will-change-transform">
               Here are a few recent favorites :
             </p>
           </div>
