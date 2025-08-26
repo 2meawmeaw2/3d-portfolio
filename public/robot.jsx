@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export function Robot({ ...rest }) {
   const { nodes, materials } = useGLTF("/Untitled.gltf");
   const groupRef = useRef();
-  const { isOpen } = useToggleStore();
 
   useGSAP(() => {
     if (!groupRef.current) return;
@@ -24,7 +23,7 @@ export function Robot({ ...rest }) {
       },
       x: Math.PI,
       y: 3 * Math.PI,
-      ease: "power4.inOut",
+      ease: "power1.inOut",
     });
   });
   return (

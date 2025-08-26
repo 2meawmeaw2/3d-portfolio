@@ -2,12 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import MagneticButton from "../component2D/magButton";
-
-gsap.registerPlugin(useGSAP);
 
 /* ----------------------------- utilities ------------------------------ */
 
@@ -175,23 +172,7 @@ export default function Hero() {
   const hasFinePointer = useMediaQuery("(pointer: fine)");
   const interactive = hasFinePointer && !prefersReduced;
 
-  useGSAP(
-    () => {
-      const items = gsap.utils.toArray<HTMLElement>(".reveal");
-      if (prefersReduced) {
-        gsap.set(items, { y: 0, autoAlpha: 1 });
-        return;
-      }
-      gsap.from(items, {
-        y: 24,
-        autoAlpha: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.12,
-      });
-    },
-    { scope, dependencies: [prefersReduced] }
-  );
+  // Removed reveal animations for performance
 
   return (
     <section
@@ -214,7 +195,7 @@ export default function Hero() {
       <div className="z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-4 sm:px-6 md:px-8">
         <div className="w-full max-w-[1100px] overflow-clip rounded-xl sm:rounded-2xl border border-white/20 p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center bg-white/5">
           {/* top badge */}
-          <div className="reveal flex justify-center">
+          <div className="flex justify-center">
             <span className="overflow-clip inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] sm:text-xs text-white/70 backdrop-blur-md">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
               <span className="whitespace-nowrap">
@@ -226,7 +207,7 @@ export default function Hero() {
           {/* big headline */}
           <h1
             className={cn(
-              "reveal mt-5 sm:mt-6 text-center font-semibold leading-[0.98] md:leading-[0.95] flex flex-col items-center justify-center",
+              "mt-5 sm:mt-6 text-center font-semibold leading-[0.98] md:leading-[0.95] flex flex-col items-center justify-center",
               "text-[9.5vw] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
             )}
             style={{ textShadow: "0 20px 80px rgba(255,255,255,0.12)" }}
@@ -246,14 +227,14 @@ export default function Hero() {
           </h1>
 
           {/* subcopy */}
-          <p className="reveal mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-sm sm:text-base text-white/70 mx-auto">
+          <p className="mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-sm sm:text-base text-white/70 mx-auto">
             I design and ship production web apps with TypeScript/React on the
             front, reliable APIs on the back, and great DX in between. Clean UI,
             performance, accessibility, and maintainability come standard.
           </p>
 
           {/* single CTA */}
-          <div className="reveal mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 w-full">
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 w-full">
             <div className="flex justify-center w-full">
               <MagneticButton href="#Projects">
                 <span>Explore Projects</span>
