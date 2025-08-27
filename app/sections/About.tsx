@@ -5,13 +5,14 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { Scene } from "../component/ViewCanvas";
 import { useGSAP } from "@gsap/react";
-import useMediaQuery from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 gsap.registerPlugin(SplitText);
 
 const Hero = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const scene = useRef<HTMLDivElement>(null);
-  const isMobile = useMediaQuery({ maxWidth: 900 });
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
+
   useGSAP(() => {
     const split = SplitText.create(rootRef.current, { type: "words" });
 
@@ -20,7 +21,7 @@ const Hero = () => {
         trigger: rootRef.current,
         start: "10% center",
         end: "70% center",
-        scrub: true,
+        scrub: !isMobile,
       },
       color: "#000000",
       duration: 1,
@@ -32,10 +33,10 @@ const Hero = () => {
         trigger: rootRef.current,
         start: "40% center",
         end: "100% center",
-        scrub: 1.1,
+        scrub: true,
       },
       xPercent: 50,
-      y: !isMobile
+      y: isMobile
         ? (rootRef.current?.offsetHeight ?? 0) / 1.7
         : (rootRef.current?.offsetHeight ?? 0) / 2,
       yPercent: 50,

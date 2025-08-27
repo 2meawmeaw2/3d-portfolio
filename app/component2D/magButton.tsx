@@ -66,7 +66,7 @@ export default function MagneticButton(props: MagneticButtonProps) {
           onMouseMove={handleMove}
           onMouseLeave={reset}
           className={cn(
-            "group relative inline-flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-medium",
+            "group relative inline-flex items-center gap-2 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-6 sm:py-3 text-sm font-medium",
             "backdrop-blur-xl border border-white/10 bg-white/5 text-white",
             "transition-[transform,background] hover:bg-white/10 active:scale-[0.98]",
             className
@@ -74,7 +74,7 @@ export default function MagneticButton(props: MagneticButtonProps) {
           {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {/* shine */}
-          <span className="pointer-events-none absolute inset-0 rounded-2xl [mask-image:radial-gradient(40%_90%_at_50%_10%,#000_50%,transparent_60%)]">
+          <span className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl [mask-image:radial-gradient(40%_90%_at_50%_10%,#000_50%,transparent_60%)]">
             <span className="absolute inset-0 -translate-y-1/2 animate-[shine_3.2s_linear_infinite] bg-gradient-to-b from-white/30 via-white/5 to-transparent" />
           </span>
           {children}
@@ -89,7 +89,7 @@ export default function MagneticButton(props: MagneticButtonProps) {
           onMouseMove={handleMove}
           onMouseLeave={reset}
           className={cn(
-            "group relative inline-flex items-center gap-2 rounded-2xl px-6 py-3 text-sm font-medium",
+            "group relative inline-flex items-center gap-2 rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-6 sm:py-3 text-sm font-medium",
             "backdrop-blur-xl border border-white/10 bg-white/5 text-white",
             "transition-[transform,background] hover:bg-white/10 active:scale-[0.98]",
             className
@@ -97,7 +97,7 @@ export default function MagneticButton(props: MagneticButtonProps) {
           {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
         >
           {/* shine */}
-          <span className="pointer-events-none absolute inset-0 rounded-2xl [mask-image:radial-gradient(40%_90%_at_50%_10%,#000_50%,transparent_60%)]">
+          <span className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl [mask-image:radial-gradient(40%_90%_at_50%_10%,#000_50%,transparent_60%)]">
             <span className="absolute inset-0 -translate-y-1/2 animate-[shine_3.2s_linear_infinite] bg-gradient-to-b from-white/30 via-white/5 to-transparent" />
           </span>
           {children}

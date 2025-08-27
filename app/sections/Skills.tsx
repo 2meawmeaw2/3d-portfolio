@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-
+import { useMediaQuery } from "react-responsive";
 // Register GSAP plugins
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -174,7 +174,7 @@ export default function Skills() {
   // Refs for GSAP targets
   const sectionRef = useRef<HTMLElement | null>(null);
   const headingRef = useRef<HTMLDivElement | null>(null);
-
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const gridRef = useRef<HTMLUListElement | null>(null);
   const skillItemsRef = useRef<HTMLLIElement[]>([]);
   useGSAP(() => {
@@ -192,7 +192,7 @@ export default function Skills() {
           trigger: "#Skills",
           start: "0% 70%",
           end: "10% center",
-          scrub: true,
+          scrub: !isMobile,
         },
         color: "#000000",
         duration: 1,
@@ -228,7 +228,7 @@ export default function Skills() {
             end: "bottom center",
 
             toggleActions: "play none none reverse",
-            scrub: true,
+            scrub: !isMobile,
           },
           color: "#000000",
           duration: 1,
@@ -238,17 +238,15 @@ export default function Skills() {
 
         gsap.from(splitCardDescription.chars, {
           scrollTrigger: {
-            trigger: item, // Using the card's own ref as trigger
-            start: "top 75%",
-            end: "80% 60%",
-
+            trigger: item,
+            start: "top 80%",
+            end: "bottom center",
             toggleActions: "play none none reverse",
-            scrub: true,
+            scrub: !isMobile,
           },
-          duration: 1,
           color: "#000000",
           ease: "power2.out",
-          stagger: 0.05, // Adjusted duration for a faster stagger
+          stagger: { amount: 0.7 }, // Adjusted duration for a faster stagger
         });
       }
 
@@ -268,7 +266,7 @@ export default function Skills() {
               start: "top 80%",
               end: "bottom center",
               toggleActions: "play none none reverse",
-              scrub: true,
+              scrub: !isMobile,
             },
             duration: 1,
             ease: "power2.out",
@@ -291,7 +289,7 @@ export default function Skills() {
               end: "bottom center",
 
               toggleActions: "play none none reverse",
-              scrub: true,
+              scrub: !isMobile,
             },
             duration: 1,
             ease: "power1.out",

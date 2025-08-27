@@ -178,7 +178,7 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Intro section"
-      className="relative z-0 min-h-[100svh] md:min-h-[110svh] w-full overflow-clip bg-black text-white flex items-center justify-center"
+      className="relative z-0 min-h-[80svh] sm:min-h-[90svh] md:min-h-[100svh] w-full overflow-clip bg-black text-white flex items-center justify-center"
       ref={scope}
     >
       {/* background */}
@@ -192,14 +192,14 @@ export default function Hero() {
       </div>
 
       {/* content */}
-      <div className="z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-4 sm:px-6 md:px-8">
-        <div className="w-full max-w-[1100px] overflow-clip rounded-xl sm:rounded-2xl border border-white/20 p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center bg-white/5">
+      <div className="z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-3 sm:px-6 md:px-8">
+        <div className="w-full max-w-[1100px] overflow-clip rounded-lg sm:rounded-xl md:rounded-2xl border border-white/20 p-3 sm:p-6 md:p-8 flex flex-col items-center justify-center bg-white/5">
           {/* top badge */}
           <div className="flex justify-center">
-            <span className="overflow-clip inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] sm:text-xs text-white/70 backdrop-blur-md">
+            <span className="overflow-clip inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-xs text-white/70 backdrop-blur-md">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
               <span className="whitespace-nowrap">
-                Full-Stack • Frontend-First — 2025
+                Full-Stack • Frontend — 2025
               </span>
             </span>
           </div>
@@ -207,44 +207,47 @@ export default function Hero() {
           {/* big headline */}
           <h1
             className={cn(
-              "mt-5 sm:mt-6 text-center font-semibold leading-[0.98] md:leading-[0.95] flex flex-col items-center justify-center",
-              "text-[9.5vw] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+              "mt-4 sm:mt-6 text-center font-semibold leading-[1.0] sm:leading-[0.98] md:leading-[0.95] flex flex-col items-center justify-center",
+              "text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
             )}
             style={{ textShadow: "0 20px 80px rgba(255,255,255,0.12)" }}
           >
             <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent text-center">
-              Building Modern{" "}
-              <span className="bg-gradient-to-b from-white via-white to-black bg-clip-text text-transparent">
-                Web Apps
-              </span>
+              Building Modern
             </span>
-            <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent text-center">
-              Full-Stack,{" "}
-              <span className="bg-gradient-to-b mx-2 sm:mx-3 from-white via-white to-black bg-clip-text text-transparent">
+            <span className="bg-gradient-to-b from-white via-white to-black bg-clip-text text-transparent text-center">
+              Web Apps
+            </span>
+            <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent text-center mt-1 sm:mt-2">
+              Full-Stack,
+              <span className="bg-gradient-to-b ml-2 sm:mx-3 from-white via-white to-black bg-clip-text text-transparent">
                 Frontend-Focused
               </span>
             </span>
           </h1>
 
           {/* subcopy */}
-          <p className="mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-sm sm:text-base text-white/70 mx-auto">
+          <p className="mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-xs sm:text-sm md:text-base text-white/70 mx-auto px-1 sm:px-0">
             I design and ship production web apps with TypeScript/React on the
             front, reliable APIs on the back, and great DX in between. Clean UI,
             performance, accessibility, and maintainability come standard.
           </p>
 
           {/* single CTA */}
-          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 w-full">
+          <div className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-4 w-full">
             <div className="flex justify-center w-full">
-              <MagneticButton href="#Projects">
-                <span>Explore Projects</span>
-                <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <MagneticButton
+                href="#Projects"
+                className="px-4 py-2.5 sm:px-5 sm:py-3"
+              >
+                <span className="text-sm sm:text-base">Explore Projects</span>
+                <IconArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-0.5" />
               </MagneticButton>
             </div>
           </div>
 
           {/* metrics mini-cards / scroll cue */}
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center mt-2 sm:mt-0">
             <ScrollCue enabled={!prefersReduced} />
           </div>
         </div>

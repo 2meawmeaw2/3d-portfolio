@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-
+import { useMediaQuery } from "react-responsive";
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Use the actual parameter type that `urlFor` expects (no `any`)
@@ -31,7 +31,7 @@ const query = `*[_type == "project"] | order(_createdAt desc){
 export function Project() {
   const [data, setData] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   // Refs for GSAP targets
   const sectionRef = useRef<HTMLElement | null>(null);
   const headingRef = useRef<HTMLDivElement | null>(null);
@@ -55,7 +55,7 @@ export function Project() {
 
     // Create SplitText instances
     const splitHeadline = SplitText.create(".work-headline", {
-      type: "words", // Changed to words to match About section
+      type: "chars", // Changed to words to match About section
     });
 
     const splitDescription = SplitText.create(".work-description", {
@@ -71,12 +71,12 @@ export function Project() {
     // Set initial styles to avoid FOUC
 
     // Optimized heading animation with better performance - similar to About section
-    gsap.from(splitHeadline.words, {
+    gsap.from(splitHeadline.chars, {
       scrollTrigger: {
         trigger: headingRef.current,
         start: "0% 70%",
         end: "70% center",
-        scrub: 1.1,
+        scrub: !isMobile,
       },
       color: "#000000",
       duration: 1,
@@ -89,7 +89,7 @@ export function Project() {
         trigger: headingRef.current,
         start: "0% 60%",
         end: "80% center",
-        scrub: 1.1,
+        scrub: !isMobile,
       },
       color: "#000000",
       duration: 1,
@@ -118,28 +118,26 @@ export function Project() {
           trigger: gridRef.current,
           start: "top center",
           end: "60% center",
-          scrub: 1.1,
+          scrub: !isMobile,
           toggleActions: "play none none reverse",
-          markers: true, // Remove this in production
         },
         opacity: 1,
-        duration: 0.8,
+        duration: 1,
+        stagger: 0.03,
         ease: "power2.out",
-        stagger: 0.2, // Reduced stagger for better effect
       });
       gsap.from(splitCard.words, {
         scrollTrigger: {
           trigger: gridRef.current,
           start: "top center",
-          end: "80% center",
-          scrub: 1.1,
+          end: "60% center",
+          scrub: !isMobile,
           toggleActions: "play none none reverse",
-          markers: true, // Remove this in production
         },
-        color: "black",
+        autoAlpha: 0,
+        stagger: 0.02,
         duration: 1,
         ease: "power1.inOut",
-        stagger: 0.1,
       });
     }
     // Removed duplicate animation for splitDescriptionFav since we now animate it with the others
