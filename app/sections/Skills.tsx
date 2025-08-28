@@ -3,12 +3,11 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useMediaQuery } from "react-responsive";
 // Register GSAP plugins
-gsap.registerPlugin(SplitText, ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
 type Skill = {
   name: string;
@@ -180,24 +179,20 @@ export default function Skills() {
   useGSAP(() => {
     if (!gridRef.current) return;
 
-    // Add split text animation for heading
+    // Simple fade-in for heading
     if (headingRef.current) {
       const headingElements = headingRef.current.querySelectorAll("h3, p");
-      const splitHeadings = SplitText.create(headingElements, {
-        type: "words",
-      });
-
-      gsap.from(splitHeadings.words, {
+      gsap.from(headingElements, {
         scrollTrigger: {
           trigger: "#Skills",
           start: "0% 70%",
           end: "10% center",
-          scrub: !isMobile,
+          toggleActions: "play none none reverse",
         },
-        color: "#000000",
-        duration: 1,
-        ease: "power1.inOut",
-        stagger: 0.1,
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: "power1.out",
+        stagger: 0.05,
       });
     }
 
@@ -213,40 +208,32 @@ export default function Skills() {
       const levelLabels = item.querySelectorAll(".skill-level-label");
 
       if (cardHeadlines.length > 0) {
-        // Split text for each headline in this card
-        const splitCardHeadlines = SplitText.create(cardHeadlines, {
-          type: "chars",
-        });
-        const splitCardDescription = SplitText.create(cardDescription, {
-          type: "chars",
-        });
-        // Animate the headlines for this specific card using its own ref as the trigger
-        gsap.from(splitCardHeadlines.chars, {
-          scrollTrigger: {
-            trigger: item, // Using the card's own ref as trigger
-            start: "top 80%",
-            end: "bottom center",
-
-            toggleActions: "play none none reverse",
-            scrub: !isMobile,
-          },
-          color: "#000000",
-          duration: 1,
-          ease: "power2.out",
-          stagger: 0.05, // Slightly faster stagger for individual cards
-        });
-
-        gsap.from(splitCardDescription.chars, {
+        // Fade-in headlines
+        gsap.from(cardHeadlines, {
           scrollTrigger: {
             trigger: item,
             start: "top 80%",
             end: "bottom center",
             toggleActions: "play none none reverse",
-            scrub: !isMobile,
           },
-          color: "#000000",
-          ease: "power2.out",
-          stagger: { amount: 0.7 }, // Adjusted duration for a faster stagger
+          autoAlpha: 0,
+          duration: 0.5,
+          ease: "power1.out",
+          stagger: 0.05,
+        });
+
+        // Fade-in descriptions
+        gsap.from(cardDescription, {
+          scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+            end: "bottom center",
+            toggleActions: "play none none reverse",
+          },
+          autoAlpha: 0,
+          duration: 0.5,
+          ease: "power1.out",
+          stagger: 0.03,
         });
       }
 
@@ -266,7 +253,6 @@ export default function Skills() {
               start: "top 80%",
               end: "bottom center",
               toggleActions: "play none none reverse",
-              scrub: !isMobile,
             },
             duration: 1,
             ease: "power2.out",
@@ -287,9 +273,7 @@ export default function Skills() {
               trigger: item,
               start: "top 80%",
               end: "bottom center",
-
               toggleActions: "play none none reverse",
-              scrub: !isMobile,
             },
             duration: 1,
             ease: "power1.out",
@@ -303,21 +287,19 @@ export default function Skills() {
         gsap.fromTo(
           levelLabels,
           {
-            y: 20,
             autoAlpha: 0,
           },
           {
-            y: 0,
             autoAlpha: 1,
-            stagger: 0.2,
+            stagger: 0.15,
             scrollTrigger: {
               trigger: item,
               start: "top 75%",
               end: "bottom center",
               toggleActions: "play none none reverse",
             },
-            duration: 0.8,
-            ease: "power2.out",
+            duration: 0.6,
+            ease: "power1.out",
           }
         );
       }

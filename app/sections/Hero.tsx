@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import MagneticButton from "../component2D/magButton";
-
-/* ----------------------------- utilities ------------------------------ */
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
@@ -16,240 +13,132 @@ function useMediaQuery(query: string) {
     const media = window.matchMedia(query);
     const onChange = () => setMatches(media.matches);
     onChange();
-    media.addEventListener?.("change", onChange);
-    return () => media.removeEventListener?.("change", onChange);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, [query]);
 
   return matches;
 }
 
-/* ------------------------- Small building blocks ------------------------- */
-
-function ScrollCue({ enabled = true }: { enabled?: boolean }) {
-  const barRef = useRef<HTMLSpanElement | null>(null);
+function ScrollCueBase({ enabled = true }: { enabled?: boolean }) {
+  const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    let tween: any;
+    let isCancelled = false;
     if (!enabled || !barRef.current) return;
-    const tween = gsap.fromTo(
-      barRef.current,
-      { y: 0, opacity: 0.2 },
-      {
-        y: 22,
-        opacity: 1,
-        duration: 0.9,
-        yoyo: true,
-        repeat: -1,
-        ease: "power1.inOut",
-      }
-    );
+
+    // Lazy-load gsap only when animation is enabled and element is present
+    import("gsap").then((mod) => {
+      if (isCancelled || !barRef.current) return;
+      const gsap = mod.default || mod;
+      tween = gsap.fromTo(
+        barRef.current,
+        { y: 0, opacity: 0.2 },
+        {
+          y: 22,
+          opacity: 1,
+          duration: 0.9,
+          yoyo: true,
+          repeat: -1,
+          ease: "power1.inOut",
+        }
+      );
+    });
+
     return () => {
-      tween?.kill();
+      isCancelled = true;
+      if (tween) tween.kill();
     };
   }, [enabled]);
 
   if (!enabled) return null;
 
   return (
-    <div className="pointer-events-none mt-10 sm:mt-16 flex flex-col items-center justify-center text-xs text-white/50">
+    <div
+      className="pointer-events-none mt-10 sm:mt-16 flex flex-col items-center text-xs text-white/50"
+      aria-hidden
+    >
       <div className="h-8 w-[2px] overflow-hidden rounded-full bg-white/15">
         <span
           ref={barRef}
           className="block h-2 w-[2px] rounded-full bg-white/70"
         />
       </div>
-      <span className="mt-3 tracking-widest text-center">SCROLL</span>
+      <span className="mt-3 tracking-widest">SCROLL</span>
     </div>
   );
 }
 
-function MouseSpotlight({ enabled = true }: { enabled?: boolean }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!enabled) return;
-    const element = ref.current;
-    if (!element) return;
-
-    const setX = gsap.quickSetter(element, "--mx", "px");
-    const setY = gsap.quickSetter(element, "--my", "px");
-
-    const target = { x: 0, y: 0 };
-    const onMove = (e: MouseEvent) => {
-      gsap.to(target, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.3,
-        ease: "power3.out",
-        overwrite: true,
-        onUpdate: () => {
-          setX(target.x);
-          setY(target.y);
-        },
-      });
-    };
-
-    document.addEventListener("mousemove", onMove);
-    return () => document.removeEventListener("mousemove", onMove);
-  }, [enabled]);
-
-  if (!enabled) return null;
-
-  type CSSVars = React.CSSProperties & { ["--mx"]?: string; ["--my"]?: string };
-  const styleVars: CSSVars = { ["--mx"]: "0px", ["--my"]: "0px" };
-
-  return (
-    <div
-      ref={ref}
-      aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-100"
-      style={{
-        ...styleVars,
-        backgroundImage:
-          "radial-gradient(1200px 1200px at var(--mx) var(--my), rgba(100,100,100,0.12), rgba(200,200,200,0.08) 20%, transparent 60%)",
-      }}
-    />
-  );
-}
-
-function ParallaxOrbs({ enabled = true }: { enabled?: boolean }) {
-  const orb1Ref = useRef<HTMLDivElement | null>(null);
-  const orb2Ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!enabled || !orb1Ref.current || !orb2Ref.current) return;
-
-    const createQuick = (el: HTMLElement, prop: "xPercent" | "yPercent") =>
-      gsap.quickTo(el, prop, { duration: 0.4, ease: "power3.out" });
-
-    const q1x = createQuick(orb1Ref.current, "xPercent");
-    const q1y = createQuick(orb1Ref.current, "yPercent");
-    const q2x = createQuick(orb2Ref.current, "xPercent");
-    const q2y = createQuick(orb2Ref.current, "yPercent");
-
-    const mapX = gsap.utils.mapRange(-0.5, 0.5, -8, 8);
-    const mapY = gsap.utils.mapRange(-0.5, 0.5, -6, 6);
-    const mapX2 = gsap.utils.mapRange(-0.5, 0.5, 8, -8);
-    const mapY2 = gsap.utils.mapRange(-0.5, 0.5, 6, -6);
-
-    const onMove = (e: MouseEvent) => {
-      const nx = (e.clientX - window.innerWidth / 2) / window.innerWidth;
-      const ny = (e.clientY - window.innerHeight / 2) / window.innerHeight;
-      q1x(mapX(nx));
-      q1y(mapY(ny));
-      q2x(mapX2(nx));
-      q2y(mapY2(ny));
-    };
-
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [enabled]);
-
-  if (!enabled) return null;
-
-  return (
-    <>
-      <div
-        ref={orb1Ref}
-        className="absolute left-[-10%] top-[-10%] h-[50vmax] w-[50vmax] rounded-full blur-[120px] opacity-30"
-      >
-        <div className="h-full w-full rounded-full opacity-15 bg-[conic-gradient(from_140deg_at_50%_50%,rgba(0,163,255,0.25),rgba(162,89,255,0.22),rgba(0,163,255,0.25))]" />
-      </div>
-      <div
-        ref={orb2Ref}
-        className="absolute right-[-10%] bottom-[-15%] h-[55vmax] w-[55vmax] rounded-full blur-[140px] opacity-20"
-      >
-        <div className="h-full w-full rounded-full bg-[conic-gradient(from_320deg_at_50%_50%,rgba(255,93,93,0.10),rgba(255,210,120,0.14),rgba(255,93,93,0.010))]" />
-      </div>
-    </>
-  );
-}
-
-/* -------------------------------- Hero ----------------------------------- */
+const ScrollCue = memo(ScrollCueBase);
 
 export default function Hero() {
-  const scope = useRef<HTMLDivElement | null>(null);
-  const prefersReduced = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const hasFinePointer = useMediaQuery("(pointer: fine)");
-  const interactive = hasFinePointer && !prefersReduced;
-
-  // Removed reveal animations for performance
+  const prefersReducedMotion = useMediaQuery(
+    "(prefers-reduced-motion: reduce)"
+  );
+  const scrollCueEnabled = useMemo(
+    () => !prefersReducedMotion,
+    [prefersReducedMotion]
+  );
 
   return (
     <section
       id="hero"
       aria-label="Intro section"
-      className="relative z-0 min-h-[80svh] sm:min-h-[90svh] md:min-h-[100svh] w-full overflow-clip bg-black text-white flex items-center justify-center"
-      ref={scope}
+      className="relative min-h-screen w-full bg-black text-white flex items-center justify-center"
     >
-      {/* background */}
+      {/* Background gradients */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_15%,rgba(140,160,255,0.18),transparent_60%)] md:bg-[radial-gradient(60%_60%_at_50%_20%,rgba(140,160,255,0.18),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_15%,rgba(140,160,255,0.18),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(90%_90%_at_50%_110%,rgba(255,120,80,0.08),transparent_60%)]" />
-        <div className="hidden md:block">
-          <ParallaxOrbs enabled={interactive} />
-          <MouseSpotlight enabled={interactive} />
-        </div>
       </div>
 
-      {/* content */}
-      <div className="z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-3 sm:px-6 md:px-8">
-        <div className="w-full max-w-[1100px] overflow-clip rounded-lg sm:rounded-xl md:rounded-2xl border border-white/20 p-3 sm:p-6 md:p-8 flex flex-col items-center justify-center bg-white/5">
-          {/* top badge */}
+      {/* Content */}
+      <div className="z-10 mx-auto flex w-full max-w-7xl flex-col items-center px-4 sm:px-6 md:px-8">
+        <div className="w-full max-w-4xl rounded-2xl border border-white/20 p-6 md:p-8 bg-white/5">
+          {/* Status badge */}
           <div className="flex justify-center">
-            <span className="overflow-clip inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-xs text-white/70 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-              <span className="whitespace-nowrap">
-                Full-Stack • Frontend — 2025
-              </span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-300" />
+              Available for work
             </span>
           </div>
 
-          {/* big headline */}
+          {/* Main headline */}
           <h1
             className={cn(
-              "mt-4 sm:mt-6 text-center font-semibold leading-[1.0] sm:leading-[0.98] md:leading-[0.95] flex flex-col items-center justify-center",
-              "text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+              "mt-6 text-center font-semibold leading-tight",
+              "text-3xl sm:text-5xl md:text-6xl lg:text-7xl"
             )}
-            style={{ textShadow: "0 20px 80px rgba(255,255,255,0.12)" }}
           >
-            <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent text-center">
+            <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent block">
               Building Modern
             </span>
-            <span className="bg-gradient-to-b from-white via-white to-black bg-clip-text text-transparent text-center">
+            <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent block">
               Web Apps
             </span>
-            <span className="bg-gradient-to-b from-white via-white to-black/10 bg-clip-text text-transparent text-center mt-1 sm:mt-2">
-              Full-Stack,
-              <span className="bg-gradient-to-b ml-2 sm:mx-3 from-white via-white to-black bg-clip-text text-transparent">
-                Frontend-Focused
-              </span>
+            <span className="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent block mt-2">
+              Full-Stack, Frontend-Focused
             </span>
           </h1>
 
-          {/* subcopy */}
-          <p className="mt-4 sm:mt-6 max-w-2xl text-center text-pretty text-xs sm:text-sm md:text-base text-white/70 mx-auto px-1 sm:px-0">
+          {/* Description */}
+          <p className="mt-6 max-w-2xl text-center text-sm md:text-base text-white/70 mx-auto">
             I design and ship production web apps with TypeScript/React on the
             front, reliable APIs on the back, and great DX in between. Clean UI,
             performance, accessibility, and maintainability come standard.
           </p>
 
-          {/* single CTA */}
-          <div className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-4 w-full">
-            <div className="flex justify-center w-full">
-              <MagneticButton
-                href="#Projects"
-                className="px-4 py-2.5 sm:px-5 sm:py-3"
-              >
-                <span className="text-sm sm:text-base">Explore Projects</span>
-                <IconArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-0.5" />
-              </MagneticButton>
-            </div>
+          {/* CTA Button */}
+          <div className="mt-8 flex justify-center">
+            <MagneticButton href="#Projects" className="px-5 py-3">
+              <span>Explore Projects</span>
+              <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </MagneticButton>
           </div>
 
-          {/* metrics mini-cards / scroll cue */}
-          <div className="w-full flex justify-center mt-2 sm:mt-0">
-            <ScrollCue enabled={!prefersReduced} />
-          </div>
+          {/* Scroll indicator */}
+          <ScrollCue enabled={scrollCueEnabled} />
         </div>
       </div>
     </section>

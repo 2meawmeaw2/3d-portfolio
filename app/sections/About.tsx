@@ -24,9 +24,8 @@ const Hero = () => {
         scrub: !isMobile,
       },
       color: "#000000",
-      duration: 1,
       ease: "power1.inOut",
-      stagger: 0.1,
+      stagger: { amount: 2 },
     });
     gsap.to(scene.current, {
       scrollTrigger: {
@@ -36,9 +35,9 @@ const Hero = () => {
         scrub: true,
       },
       xPercent: 50,
-      y: isMobile
-        ? (rootRef.current?.offsetHeight ?? 0) / 1.7
-        : (rootRef.current?.offsetHeight ?? 0) / 2,
+      y: !isMobile
+        ? (rootRef.current?.offsetHeight ?? 0) / 2
+        : (rootRef.current?.offsetHeight ?? 0) / 1.5,
       yPercent: 50,
       x: -(rootRef.current?.offsetWidth ?? 0) / 2,
       duration: 1,

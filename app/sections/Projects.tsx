@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import Link from "next/link";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
@@ -19,10 +20,14 @@ interface Project {
   description: string;
   url: string;
   image: ImageSource;
+  subtitle?: string;
+  slug?: { current: string };
 }
 
 const query = `*[_type == "project"] | order(_createdAt desc){
   title,
+  subtitle,
+  slug,
   description,
   url,
   image
@@ -55,7 +60,7 @@ export function Project() {
 
     // Create SplitText instances
     const splitHeadline = SplitText.create(".work-headline", {
-      type: "chars", // Changed to words to match About section
+      type: "words", // Changed to words to match About section
     });
 
     const splitDescription = SplitText.create(".work-description", {
@@ -71,7 +76,7 @@ export function Project() {
     // Set initial styles to avoid FOUC
 
     // Optimized heading animation with better performance - similar to About section
-    gsap.from(splitHeadline.chars, {
+    gsap.from(splitHeadline.words, {
       scrollTrigger: {
         trigger: headingRef.current,
         start: "0% 70%",
@@ -102,7 +107,7 @@ export function Project() {
       // Create card text splits
       const splitCard = SplitText.create(".project-card-texts", {
         type: "words",
-        charsClass: "split-char-card",
+        wordsClass: "split-char-card",
       });
 
       splitInstancesRef.current.cards = splitCard;
@@ -159,6 +164,10 @@ export function Project() {
           p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") +
           "-" +
           i,
+        slug:
+          p.slug?.current ||
+          p.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") ||
+          `project-${i}`,
       })),
     [data]
   );
@@ -262,7 +271,7 @@ export function Project() {
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8"
         >
           <div>
-            <h2 className="work-headline text-[9vw] leading-[0.9] md:text-[4.5vw] font-extrabold tracking-tight will-change-transform">
+            <h2 className="work-headline mb-10 text-[9vw] leading-[0.9] md:text-[4.5vw] font-extrabold tracking-tight will-change-transform">
               Work that moves people.
             </h2>
             <p className="work-description mt-3 md:mt-4 text-white/80 max-w-[65ch] will-change-transform">
@@ -295,11 +304,10 @@ export function Project() {
                   </div>
                 </div>
               ))
-            : items.map((p) => (
-                <a
+            : items.map((p: any) => (
+                <Link
                   key={p._id}
-                  href={p.url}
-                  target="_blank"
+                  href={`/projects/${p.slug}`}
                   aria-labelledby={`${p._id}-title`}
                   className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md will-change-transform"
                 >
@@ -360,21 +368,14 @@ export function Project() {
                       </span>
 
                       <span className="project-card-texts text-[11px] md:text-xs text-white/50 group-hover:text-white/70 transition-colors">
-                        {
-                          new URL(
-                            p.url,
-                            typeof window !== "undefined"
-                              ? window.location.origin
-                              : "https://example.com"
-                          ).hostname
-                        }
+                        Open
                       </span>
                     </div>
 
                     {/* focus ring */}
                     <span className="absolute inset-0 ring-0 ring-white/0 group-focus-visible:ring-2 group-focus-visible:ring-white/40 rounded-2xl pointer-events-none" />
                   </div>
-                </a>
+                </Link>
               ))}
         </div>
       </div>
