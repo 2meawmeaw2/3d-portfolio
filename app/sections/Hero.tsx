@@ -24,7 +24,7 @@ function ScrollCueBase({ enabled = true }: { enabled?: boolean }) {
   const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    let tween: any;
+    let tween: { kill: () => void } | undefined;
     let isCancelled = false;
     if (!enabled || !barRef.current) return;
 

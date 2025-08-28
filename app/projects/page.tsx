@@ -6,12 +6,14 @@ import { useEffect, useMemo, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
+type ImageSource = Parameters<typeof urlFor>[0];
+
 type Project = {
   title: string;
   subtitle?: string;
   slug?: { current: string };
   description?: string;
-  image?: any;
+  image?: ImageSource;
 };
 const query = `*[_type == "project"] | order(_createdAt desc){ title, subtitle, slug, description, image }`;
 

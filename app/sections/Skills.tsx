@@ -5,7 +5,6 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useMediaQuery } from "react-responsive";
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
 
@@ -173,7 +172,6 @@ export default function Skills() {
   // Refs for GSAP targets
   const sectionRef = useRef<HTMLElement | null>(null);
   const headingRef = useRef<HTMLDivElement | null>(null);
-  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
   const gridRef = useRef<HTMLUListElement | null>(null);
   const skillItemsRef = useRef<HTMLLIElement[]>([]);
   useGSAP(() => {

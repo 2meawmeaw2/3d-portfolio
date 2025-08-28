@@ -7,13 +7,15 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+type ImageSource = Parameters<typeof urlFor>[0];
+
 type Project = {
   title: string;
   subtitle?: string;
   description?: string;
-  image?: any;
+  image?: ImageSource;
   slug?: { current: string };
-  gallery?: any[];
+  gallery?: (string | ImageSource)[];
   technologies?: string[];
   url?: string;
 };
@@ -119,7 +121,7 @@ export default async function CaseStudyPage({ params }: Props) {
           </h2>
           {gallery.length > 0 ? (
             <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-4">
-              {gallery.map((img: any, i: number) => (
+              {gallery.map((img, i) => (
                 <div
                   key={i}
                   className="relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-white/5"

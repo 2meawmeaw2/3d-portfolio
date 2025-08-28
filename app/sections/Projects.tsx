@@ -304,7 +304,7 @@ export function Project() {
                   </div>
                 </div>
               ))
-            : items.map((p: any) => (
+            : items.map((p) => (
                 <Link
                   key={p._id}
                   href={`/projects/${p.slug}`}
