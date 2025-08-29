@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import { GallerySection } from "./GallerySection";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -119,36 +120,7 @@ export default async function CaseStudyPage({ params }: Props) {
           <h2 className="text-2xl font-bold flex items-center gap-2">
             ⭐ Project Gallery
           </h2>
-          {gallery.length > 0 ? (
-            <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-4">
-              {gallery.map((img, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-[4/3] rounded-xl overflow-hidden border border-white/10 bg-white/5"
-                >
-                  {typeof img === "string" ? (
-                    <Image
-                      src={img}
-                      alt={`${project.title} ${i + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <Image
-                      src={urlFor(img).url()}
-                      alt={`${project.title} ${i + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-8 text-center text-white/60">
-              No gallery images yet.
-            </div>
-          )}
+          <GallerySection gallery={gallery} projectTitle={project.title} />
         </div>
 
         <aside className="lg:col-span-4 space-y-4">
