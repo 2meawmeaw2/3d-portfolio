@@ -12,7 +12,7 @@ const outfit = Outfit({
 import "./globals.css";
 import RealNavBar from "./component2D/NavBarComponents";
 export const metadata: Metadata = {
-  title: "Nour Eddine – Web Developer Portfolio",
+  title: "Taha – Web Developer Portfolio",
   description:
     "Interactive portfolio showcasing projects, skills, and contact information.",
 };
