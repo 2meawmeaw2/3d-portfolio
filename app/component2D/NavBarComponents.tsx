@@ -268,7 +268,7 @@ export const NavbarLogo = () => {
         className="rounded-full"
       />
       <span className="font-black nav-bar-glow tracking-wider  font-outfit ">
-        Nour Eddine
+        Taha
       </span>
     </a>
   );
